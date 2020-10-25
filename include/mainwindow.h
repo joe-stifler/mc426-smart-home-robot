@@ -17,5 +17,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    uchar *imageData;
+    std::unique_ptr<uchar> imageData2;
+    std::unique_ptr<float> imageDataAux;
+
+    int height, width, nrChannels;
+
+    void plotData();
 };
 #endif // MAINWINDOW_H

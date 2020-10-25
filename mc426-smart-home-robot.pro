@@ -2,7 +2,7 @@ QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++11 -w
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -19,15 +19,22 @@ QMAKE_CXXFLAGS += -w -O3
 
 SOURCES += \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/openglclass.cpp
 
 HEADERS += \
-    include/mainwindow.h
+    include/mainwindow.h \
+    include/openglclass.h \
+    include/stb_image.h
 
 FORMS += \
     forms/mainwindow.ui
 
 INCLUDEPATH += include/
+
+DISTFILES += \
+    shaders/* \
+    images/*
 
 #Output
 UI_DIR      = uic
