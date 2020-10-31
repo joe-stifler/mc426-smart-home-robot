@@ -25,9 +25,11 @@ OpenGLClass::OpenGLClass(QWidget *parent) : QOpenGLWidget (parent) {
     QSurfaceFormat format;
     format.setDepthBufferSize( 4 );
     format.setSamples(4);
-    format.setVersion(4, 5);
+    format.setVersion(3, 3);
     format.setRenderableType(QSurfaceFormat::OpenGL);
     format.setProfile( QSurfaceFormat::CoreProfile );
+
+    QSurfaceFormat::setDefaultFormat(format);
 
     this->setFormat( format );
 
@@ -92,8 +94,8 @@ void OpenGLClass::initializeGL() {
 
     /* Configure the shader program */
     myShader.reset(new QOpenGLShaderProgram);
-    myShader->addShaderFromSourceFile(QOpenGLShader::Vertex, "../shaders/vertex.vert");
-    myShader->addShaderFromSourceFile(QOpenGLShader::Fragment, "../shaders/fragment.frag");
+    myShader->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vertex.vert");
+    myShader->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fragment.frag");
     myShader->link();
     myShader->bind();
 

@@ -1,4 +1,4 @@
-#version 450 core
+#version 330 core
 
 
 in vec2 textCoord;
@@ -15,7 +15,7 @@ vec4 jet(float t) {
 void main(void)
 {
     if (stage == 0) { /* Plots the plot */
-        float r = texture2D(text2d, textCoord).r;
+        float r = texture(text2d, textCoord).r;
 
         color = vec4(r, r, r, 1.0f);
     } else if (stage == 1) { /* Plots the lateral triangles */
