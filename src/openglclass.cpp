@@ -94,8 +94,8 @@ void OpenGLClass::initializeGL() {
 
     /* Configure the shader program */
     myShader.reset(new QOpenGLShaderProgram);
-    myShader->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vertex.vert");
-    myShader->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fragment.frag");
+    myShader->addShaderFromSourceFile(QOpenGLShader::Vertex, "shaders/vertex.vert");
+    myShader->addShaderFromSourceFile(QOpenGLShader::Fragment, "shaders/fragment.frag");
     myShader->link();
     myShader->bind();
 

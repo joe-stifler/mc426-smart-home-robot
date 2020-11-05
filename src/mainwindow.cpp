@@ -20,11 +20,11 @@ MainWindow::~MainWindow()
 {
     delete ui;
 
-    stbi_image_free(imageData);
+    if (imageData) stbi_image_free(imageData);
 }
 
 void MainWindow::plotData() {
-    imageData = stbi_load("../images/floorplan.png", &width, &height, &nrChannels, 0);
+    imageData = stbi_load("images/floorplan.png", &width, &height, &nrChannels, 0);
 
     imageDataAux.reset(new float[width * height]);
     imageData2.reset(new uchar[3 * width * height]);

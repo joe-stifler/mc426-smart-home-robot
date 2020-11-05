@@ -40,12 +40,8 @@ DISTFILES += \
 UI_DIR      = uic
 MOC_DIR     = moc
 OBJECTS_DIR = obj
-DESTDIR     = bin
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-RESOURCES += \
-    resources.qrc

@@ -18,7 +18,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    uchar *imageData;
+    uchar *imageData = nullptr;
     std::unique_ptr<uchar> imageData2;
     std::unique_ptr<float> imageDataAux;
 
