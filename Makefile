@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -w -O3 -g -std=gnu++11 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -Iinclude -I../../../Qt/5.15.0/gcc_64/include -I../../../Qt/5.15.0/gcc_64/include/QtOpenGL -I../../../Qt/5.15.0/gcc_64/include/QtWidgets -I../../../Qt/5.15.0/gcc_64/include/QtGui -I../../../Qt/5.15.0/gcc_64/include/QtCore -Imoc -isystem /usr/include/libdrm -Iuic -I../../../Qt/5.15.0/gcc_64/mkspecs/linux-g++
+INCPATH       = -I. -Iinclude -I../../../Qt/5.15.0/gcc_64/include -I../../../Qt/5.15.0/gcc_64/include/QtWidgets -I../../../Qt/5.15.0/gcc_64/include/QtGui -I../../../Qt/5.15.0/gcc_64/include/QtCore -Imoc -isystem /usr/include/libdrm -Iuic -I../../../Qt/5.15.0/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/joe/Qt/5.15.0/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = mc426-smart-home-robot1.0.0
 DISTDIR = /home/joe/Documents/mc426/mc426-smart-home-robot/obj/mc426-smart-home-robot1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/joe/Qt/5.15.0/gcc_64/lib
-LIBS          = $(SUBLIBS) /home/joe/Qt/5.15.0/gcc_64/lib/libQt5OpenGL.so /home/joe/Qt/5.15.0/gcc_64/lib/libQt5Widgets.so /home/joe/Qt/5.15.0/gcc_64/lib/libQt5Gui.so /home/joe/Qt/5.15.0/gcc_64/lib/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) /home/joe/Qt/5.15.0/gcc_64/lib/libQt5Widgets.so /home/joe/Qt/5.15.0/gcc_64/lib/libQt5Gui.so /home/joe/Qt/5.15.0/gcc_64/lib/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -879,7 +879,7 @@ moc/moc_mainwindow.cpp: include/mainwindow.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
 		moc/moc_predefs.h \
 		../../../Qt/5.15.0/gcc_64/bin/moc
-	/home/joe/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/joe/Documents/mc426/mc426-smart-home-robot/moc/moc_predefs.h -I/home/joe/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/joe/Documents/mc426/mc426-smart-home-robot -I/home/joe/Documents/mc426/mc426-smart-home-robot/include -I/home/joe/Qt/5.15.0/gcc_64/include -I/home/joe/Qt/5.15.0/gcc_64/include/QtOpenGL -I/home/joe/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/joe/Qt/5.15.0/gcc_64/include/QtGui -I/home/joe/Qt/5.15.0/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainwindow.h -o moc/moc_mainwindow.cpp
+	/home/joe/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/joe/Documents/mc426/mc426-smart-home-robot/moc/moc_predefs.h -I/home/joe/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/joe/Documents/mc426/mc426-smart-home-robot -I/home/joe/Documents/mc426/mc426-smart-home-robot/include -I/home/joe/Qt/5.15.0/gcc_64/include -I/home/joe/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/joe/Qt/5.15.0/gcc_64/include/QtGui -I/home/joe/Qt/5.15.0/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainwindow.h -o moc/moc_mainwindow.cpp
 
 moc/moc_openglclass.cpp: include/openglclass.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/QMouseEvent \
@@ -1017,7 +1017,7 @@ moc/moc_openglclass.cpp: include/openglclass.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qopenglversionfunctions.h \
 		moc/moc_predefs.h \
 		../../../Qt/5.15.0/gcc_64/bin/moc
-	/home/joe/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/joe/Documents/mc426/mc426-smart-home-robot/moc/moc_predefs.h -I/home/joe/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/joe/Documents/mc426/mc426-smart-home-robot -I/home/joe/Documents/mc426/mc426-smart-home-robot/include -I/home/joe/Qt/5.15.0/gcc_64/include -I/home/joe/Qt/5.15.0/gcc_64/include/QtOpenGL -I/home/joe/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/joe/Qt/5.15.0/gcc_64/include/QtGui -I/home/joe/Qt/5.15.0/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include include/openglclass.h -o moc/moc_openglclass.cpp
+	/home/joe/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/joe/Documents/mc426/mc426-smart-home-robot/moc/moc_predefs.h -I/home/joe/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/joe/Documents/mc426/mc426-smart-home-robot -I/home/joe/Documents/mc426/mc426-smart-home-robot/include -I/home/joe/Qt/5.15.0/gcc_64/include -I/home/joe/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/joe/Qt/5.15.0/gcc_64/include/QtGui -I/home/joe/Qt/5.15.0/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include include/openglclass.h -o moc/moc_openglclass.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1398,58 +1398,6 @@ obj/mainwindow.o: src/mainwindow.cpp include/mainwindow.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
 		uic/ui_mainwindow.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QMenuBar \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qmenubar.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qmenu.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qaction.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qactiongroup.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QStatusBar \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstatusbar.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
-		include/openglclass.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/QMouseEvent \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/QEvent \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/QKeyEvent \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QOpenGLWidget \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qopenglwidget.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/QSurfaceFormat \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qsurfaceformat.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qopengl.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qt_windows.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qopengles2ext.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qopenglext.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/QOpenGLShaderProgram \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qopenglshaderprogram.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qvector3d.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qvector4d.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qmatrix4x4.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qquaternion.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qgenericmatrix.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/QOpenGLBuffer \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qopenglbuffer.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/QOpenGLVertexArrayObject \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qopenglvertexarrayobject.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/QOpenGLTexture \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qopengltexture.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/QScopedPointer \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/QOpenGLFunctions \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qopenglfunctions.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qopenglcontext.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qopenglversionfunctions.h \
 		include/stb_image.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
