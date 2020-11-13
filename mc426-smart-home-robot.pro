@@ -23,9 +23,9 @@ SOURCES += \
     src/openglclass.cpp
 
 HEADERS += \
+    include/SmartDevice.h \
     include/mainwindow.h \
-    include/openglclass.h \
-    include/stb_image.h
+    include/openglclass.h
 
 FORMS += \
     forms/mainwindow.ui
