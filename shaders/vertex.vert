@@ -18,5 +18,7 @@ void main(void)
         gl_Position = vec4(vertex.xy, 0.05, 1.0);
     } else if (stage == 2) { /* Plots the box and the ticks */
         gl_Position = vec4(vertex.xy, 0.0, 1.0);
+    } else if (stage == 3) { /* Plot Robot */
+        gl_Position = transform * vec4(vertex.xy, 0.1, 1.0);
     }
 }
