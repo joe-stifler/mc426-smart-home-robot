@@ -45,40 +45,56 @@ OpenGLClass::~OpenGLClass() {
 
     if (vbo.get() != nullptr) vbo->destroy();
     if (vao.get() != nullptr) vao->destroy();
+
+    if (vboDevice.get() != nullptr) vboDevice->destroy();
+    if (vaoDevice.get() != nullptr) vaoDevice->destroy();
+
     if (texturePlot != nullptr) texturePlot->destroy();
     if (myShader.get() != nullptr) myShader->deleteLater();
 }
 
-void OpenGLClass::updateTexture(uchar *data) {
+QOpenGLTexture *createTexture(std::string imagePath) {
+    QImage myImage;
+
+    myImage.load(imagePath.c_str());
+
+    if (!myImage.isNull()) {
+
+        QOpenGLTexture *texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
+
+        texture->create();
+
+        texture->setMagnificationFilter(QOpenGLTexture::Linear);
+        texture->setMinificationFilter(QOpenGLTexture::Linear);
+        texture->setWrapMode(QOpenGLTexture::DirectionS, QOpenGLTexture::ClampToEdge);
+        texture->setWrapMode(QOpenGLTexture::DirectionT, QOpenGLTexture::ClampToEdge);
+
+        texture->setData(myImage);
+
+        return texture;
+    }
+
+    return nullptr;
+}
+
+void OpenGLClass::setNewTexture(std::string imagePath) {
     QOpenGLWidget::makeCurrent();
 
-    // Disable byte-alignment restriction
-    this->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    texturePlot->setData(QOpenGLTexture::Red, QOpenGLTexture::UInt8, reinterpret_cast<const void*>(data));
+    if(texturePlot) texturePlot->destroy();
+
+    texturePlot.reset(createTexture(imagePath));
+
     update();
 }
 
-void OpenGLClass::setNewTexture(int _texturePlotWidth, int _texturePlotHeight) {
-    QOpenGLWidget::makeCurrent();
+void OpenGLClass::addSmartDevice(SmartDevice *smartDevice) {
+    if (smartDevice) {
+        textureDevices.push_back(std::make_pair(smartDevice, std::unique_ptr<QOpenGLTexture>()));
 
-    if(texturePlot)
-        texturePlot->destroy();
+        textureDevices[textureDevices.size() - 1].second.reset(createTexture(smartDevice->path));
 
-    /* Configure the texture object */
-    texturePlot = std::unique_ptr<QOpenGLTexture>(new QOpenGLTexture(QOpenGLTexture::Target2D));
-    texturePlot->create();
-
-    texturePlot->setMagnificationFilter(QOpenGLTexture::Linear);
-    texturePlot->setMinificationFilter(QOpenGLTexture::Linear);
-    texturePlot->setWrapMode(QOpenGLTexture::DirectionS, QOpenGLTexture::ClampToEdge);
-    texturePlot->setWrapMode(QOpenGLTexture::DirectionT, QOpenGLTexture::ClampToEdge);
-
-    // Disable byte-alignment restriction
-    this->glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-    texturePlot->setFormat(QOpenGLTexture::R8_UNorm);
-    texturePlot->setSize(static_cast<int>(_texturePlotWidth), static_cast<int>(_texturePlotHeight), 1);
-    texturePlot->allocateStorage(QOpenGLTexture::Red, QOpenGLTexture::UInt8);
+        update();
+    }
 }
 
 void OpenGLClass::initializeGL() {
@@ -102,13 +118,6 @@ void OpenGLClass::initializeGL() {
     QMatrix4x4 projection;
     projection.ortho(0.0f, static_cast<GLfloat>(maximumWidth), 0.0f, static_cast<GLfloat>(maximumHeight), 0.1f, 1.0f);
     myShader->setUniformValue("projection", projection);
-
-    const float margins[4] = {
-        0.04f, /* left */
-        0.04f, /* right */
-        0.06f, /* up */
-        0.04f  /* down */
-    };
 
     std::unique_ptr<point> vertices(new point[nDefaultPts]);
 
@@ -182,6 +191,21 @@ void OpenGLClass::initializeGL() {
 
     myShader->enableAttributeArray("vertex");
     myShader->setAttributeBuffer("vertex", GL_FLOAT, 0, 4, 4 * sizeof(float));
+
+    /* Configures the vertex object array */
+    vaoDevice.reset(new QOpenGLVertexArrayObject());
+    vaoDevice->create();
+    vaoDevice->bind();
+
+    /* Configures the vertex buffer object */
+    vboDevice.reset(new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer));
+    vboDevice->create();
+    vboDevice->setUsagePattern(QOpenGLBuffer::DynamicDraw);
+    vboDevice->bind();
+    vboDevice->allocate(vertices.get(), 6 * static_cast<int>(sizeof(point)));
+
+    myShader->enableAttributeArray("vertex");
+    myShader->setAttributeBuffer("vertex", GL_FLOAT, 0, 4, 4 * sizeof(float));
 }
 
 void OpenGLClass::resizeGL(int width, int height) {
@@ -190,15 +214,83 @@ void OpenGLClass::resizeGL(int width, int height) {
     this->glViewport(0, 0, width, height);
 }
 
+void OpenGLClass::getInverseNormalizedCoordinates(float x, float y, float &x_coord, float &y_coord) {
+    float width = this->width();
+    float height = this->height();
+
+    float percentX = (margins[0]) / 2.0f;
+    float percentY = (margins[2]) / 2.0f;
+
+    float val_x = width * percentX;
+    float val_y = height * percentY;
+
+    x_coord = x * (width * (1.0f - (margins[0] + margins[1]) / 2.0f)) + val_x;
+    y_coord = y * (height * (1.0f - (margins[2] + margins[3]) / 2.0f)) + val_y;
+}
+
 void OpenGLClass::paintGL() {
     QOpenGLWidget::makeCurrent();
 
     this->glClearColor(1.0, 1.0, 1.0, 1.0);
     this->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+//    glDisable(GL_DEPTH_TEST);
+
     vao->bind();
     vbo->bind();
     myShader->bind();
+
+    transform = QMatrix4x4();
+
+    transform.scale(1.0f, 1.0f, 1);
+
+    transform.translate(0.0f, 0.0f, 0);
+
+    myShader->setUniformValue("transform", transform);
+
+    myShader->setUniformValue("stage", 1);
+    this->glDrawArrays(GL_TRIANGLES, 6, nDefaultPts - 10);
+
+    myShader->setUniformValue("stage", 2);
+    this->glDrawArrays(GL_LINE_LOOP, nDefaultPts - 4, 4);
+
+    /* plot the robot */
+    float x_origin = 0.5;
+    float z_origin = 0.5;
+
+    float x, z;
+    getInverseNormalizedCoordinates(x_origin, z_origin, x, z);
+
+    x = 2.0f * x / (float) width() - 1.0f;
+    z = 2.0f * (1.0f - z / (float) height()) - 1.0f;
+
+    vboDevice->bind();
+
+    vaoDevice->bind();
+
+    myShader->setUniformValue("stage", 3);
+
+    for (auto &textureDevice : textureDevices) {
+        if (textureDevice.second) {
+            textureDevice.second->bind();
+
+            SmartDevice *smartDevice = textureDevice.first;
+
+            if (smartDevice) {
+                transform = QMatrix4x4();
+
+                transform.scale(smartDevice->dx, smartDevice->dy, 1);
+
+                transform.translate(smartDevice->x, smartDevice->y, 0);
+
+                myShader->setUniformValue("transform", transform);
+
+                myShader->setUniformValue("stage", 0);
+
+                this->glDrawArrays(GL_TRIANGLES, 0, 6);
+            }
+        }
+    }
 
     if (texturePlot) {
         texturePlot->bind();
@@ -215,10 +307,4 @@ void OpenGLClass::paintGL() {
 
         this->glDrawArrays(GL_TRIANGLES, 0, 6);
     }
-
-    myShader->setUniformValue("stage", 1);
-    this->glDrawArrays(GL_TRIANGLES, 6, nDefaultPts - 10);
-
-    myShader->setUniformValue("stage", 2);
-    this->glDrawArrays(GL_LINE_LOOP, nDefaultPts - 4, 4);
 }
