@@ -36,6 +36,11 @@ José Ribeiro Neto
 * RA: 176665
 * Email: <j176665@dac.unicamp.br>
 
+Wallace da Cruz Pereira	
+
+* RA: 188601
+* Email: <w188601@dac.unicamp.br>
+
 # <a name="project-architecture"></a>Project Architecture
 
 ### C4 Diagram - Level 1: Context
@@ -45,8 +50,8 @@ In the context diagram of our application, shown in the [Figure 1](#fig1) below,
 <a name="fig1"></a>
 <p align="center">
   <img src="readme-images/diagram-context.png">
-  <center>Figure 1 - Context Diagram</center>
 </p>
+<center>Figure 1 - Context Diagram</center>
 
 
 ### C4 Diagram - Level 2: Containers
@@ -56,8 +61,8 @@ At first, we have a mobile application and a desktop application that make calls
 <a name="fig2"></a>
 <p align="center">
   <img src="readme-images/diagram-containers.png">
-  <center>Figure 2 - Container Diagram</center>
 </p>
+<center>Figure 2 - Container Diagram</center>
 
 ### C4 Diagram - Level 3: Components
 
@@ -105,8 +110,8 @@ At first, we have a mobile application and a desktop application that make calls
 <a name="fig3"></a>
 <p align="center">
     <img src="readme-images/diagram-components-desktop.png">
-    <center>Figure 3 - Desktop Component Diagram</center>
 </p>
+<center>Figure 3 - Desktop Component Diagram</center>
 
 #### <a name="smart-house-mobile"></a>Smart House Mobile Application
 Since we don't know if we will have available time to implement everything, we choose to not implement the mobile application. So, we will not provide its component diagram.
@@ -157,8 +162,8 @@ External Software System Elements:
 <a name="fig4"></a>
 <p align="center">
   <img src="readme-images/diagram-components-api.png">
-  <center>Figure 4 - API Component Diagram</center>
 </p>
+<center>Figure 4 - API Component Diagram</center>
 
 # <a name="architectural-styles"></a>Architectural Styles Adopted
 
@@ -222,6 +227,6 @@ python3 api-application/test.py
 <a name="fig5"></a>
 <p align="center">
   <img src="readme-images/smart_home.png">
-  <center>Figure 5 - Desktop Application Screenshot: Main Window</center>
 </p>
+<center>Figure 5 - Desktop Application Screenshot: Main Window</center>
 
