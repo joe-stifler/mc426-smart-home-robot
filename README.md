@@ -11,6 +11,12 @@ We will design software that updates in real time the status of the users smart 
     * [Smart House System API](#smart-house-api)
 * [Architectural Styles Adopted](#architectural-styles)
 * [Project Patterns Adopted](#project-patterns)
+* [Installation](#install)
+    * [API Application](#install-api-app)
+    * [Desktop Application](#install-desktop-app)
+* [Usage](#usage)
+    * [API Application](#usage-api-app)
+    * [Desktop Application](#usage-desktop-app)
 * [Screenshot of the Desktop Application](#desktop-screenshot)
 
 
@@ -39,7 +45,7 @@ In the context diagram of our application, shown in the [Figure 1](#fig1) below,
 <a name="fig1"></a>
 <p align="center">
   <img src="readme-images/diagram-context.png">
-  Figure 1 - Context Diagram
+  <center>Figure 1 - Context Diagram</center>
 </p>
 
 
@@ -50,7 +56,7 @@ At first, we have a mobile application and a desktop application that make calls
 <a name="fig2"></a>
 <p align="center">
   <img src="readme-images/diagram-containers.png">
-  Figure 2 - Container Diagram
+  <center>Figure 2 - Container Diagram</center>
 </p>
 
 ### C4 Diagram - Level 3: Components
@@ -58,7 +64,7 @@ At first, we have a mobile application and a desktop application that make calls
 #### <a name="smart-house-desktop"></a>Smart House Desktop Application
 [Figure 3](#fig3) shows the level 3 - component diagram of the Desktop application. In this diagram, an user access the Desktop interface through a Main Window GUI. The components of such desktop application are:
 
-* **Window:** controls all the actions in the systems, such as sign in, sign out, sensor access information, plotting, etc
+* **Main Window:** controls all the actions in the systems, such as sign in, sign out, sensor access information, plotting, etc
 
     * **Plot:** Handles 
 
@@ -99,7 +105,7 @@ At first, we have a mobile application and a desktop application that make calls
 <a name="fig3"></a>
 <p align="center">
     <img src="readme-images/diagram-components-desktop.png">
-    Figure 3 - Desktop Component Diagram
+    <center>Figure 3 - Desktop Component Diagram</center>
 </p>
 
 #### <a name="smart-house-mobile"></a>Smart House Mobile Application
@@ -151,7 +157,7 @@ External Software System Elements:
 <a name="fig4"></a>
 <p align="center">
   <img src="readme-images/diagram-components-api.png">
-  Figure 4 - API Component Diagram
+  <center>Figure 4 - API Component Diagram</center>
 </p>
 
 # <a name="architectural-styles"></a>Architectural Styles Adopted
@@ -177,11 +183,45 @@ External Software System Elements:
 
         * We are going to use Singleton in the "Sensor API Access Point" component.
 
+# <a name="install"></a> Installation
+
+## <a name="install-api-app"></a> API Application
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+
+```bash
+pip install jwt
+pip install flask
+pip install functools
+```
+
+## <a name="install-desktop-app"></a> Desktop Application
+
+
+
+# <a name="usage"></a> Usage
+
+## <a name="usage-api-app"></a> API Application
+Run the following code to start the Serving Flask app:
+
+```bash
+python3 api-application/routes.py
+```
+
+Run the following code to test the Serving Flask app:
+
+```bash
+python3 api-application/test.py
+```
+
+## <a name="usage-desktop-app"></a> Desktop Application
+
+
 # <a name="desktop-screenshot"></a>Desktop Application Screenshot
 
 <a name="fig5"></a>
 <p align="center">
   <img src="readme-images/smart_home.png">
-  Figure 5 - Desktop Application Screenshot: Main Window
+  <center>Figure 5 - Desktop Application Screenshot: Main Window</center>
 </p>
 
