@@ -3,19 +3,32 @@ import datetime
 from functools import wraps
 from flask import  Flask, request
 
-app = Flask("Teste")
+app = Flask("RESTAPISmartHouse")
 
 app.config['SECRET_KEY'] = "hunter_x_hunter_2020"
 
+def getBody():
+    body = request.get_json()
+
+    if not body:
+        body = dict(request.form)
+
+    return body
+
+    
 
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        body = request.get_json()
-        token = body.get('token')
+        body = getBody()
 
-        if not token:
+        if not body:
+            return generateResponse(403, "Body is missing!")
+
+        if 'token' not in body:
             return generateResponse(403, "Token is missing!")
+
+        token = body.get('token')
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
@@ -30,24 +43,36 @@ def token_required(f):
 @app.route("/auth/logout", methods=["GET"])
 @token_required
 def authLogout():
-    return generateResponse(401, "Could not verify user authentication!", auth)
+    return generateResponse(200, "Successfully logout!")
 
 
 @app.route("/auth/login", methods=["GET"])
 def userSignIn():
-    body = request.get_json()
+    body = getBody()
+
+    if not body:
+        return generateResponse(403, "Body is missing!")
+
+    if ("email" not in body):
+        return generateResponse(400, "The `email` field is mandatory")
+
+    if ("password" not in body):
+        return generateResponse(400, "The `password` field is mandatory")
 
     if body['password'] == "password123":
         token = jwt.encode({'user' : body['email'], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
     
-        return generateResponse(200, "User authenticated!", token)
+        return generateResponse(200, "User authenticated!", token.decode("utf-8"))
     else:
         return generateResponse(401, "Could not verify user authentication!")
 
 
 @app.route("/auth/register", methods=["POST"])
 def userSignUp():
-    body = request.get_json()
+    body = getBody()
+
+    if not body:
+        return generateResponse(403, "Body is missing!")
 
     if ("name" not in body):
         return generateResponse(400, "The `name` field is mandatory")
@@ -63,7 +88,10 @@ def userSignUp():
 
 @app.route("/auth/reset", methods=["PUT"])
 def userPasswordReset():
-    body = request.get_json()
+    body = getBody()
+
+    if not body:
+        return generateResponse(403, "Body is missing!")
 
     if ("email" not in body):
         return generateResponse(400, "The `email` field is mandatory")
@@ -74,41 +102,58 @@ def userPasswordReset():
 @app.route("/sensors/available-sensors", methods=["GET"])
 @token_required
 def sensorAvailable():
-    body = request.get_json()
+    body = getBody()
 
-    return  generateResponse(200, "Returning all sensors!")
+    if not body:
+        return generateResponse(403, "Body is missing!")
+
+    sensors = "luz1" + "&" + "luz2" + "&" + "energia"
+
+    return  generateResponse(200, "Returning all sensors!", sensors)
 
 
-@app.route("/sensors/sensor-status", methods=["GET"])
+@app.route("/sensors/get-sensor-status", methods=["GET"])
 @token_required
 def sensorGetStatus():
-    body = request.get_json()
+    body = getBody()
 
-    if ("token" not in body):
-        return generateResponse(400, "The `token` field is mandatory")
+    if not body:
+        return generateResponse(403, "Body is missing!")
 
-    return  generateResponse(200, "Returning sensor status!")
+    if ("name" not in body):
+        return generateResponse(400, "The `name` field is mandatory")
+
+    status = "123"
+
+    return  generateResponse(200, "Returning sensor status!", status)
 
 
 @app.route("/sensors/set-sensor-status", methods=["PUT"])
 @token_required
 def sensorSetStatus():
-    body = request.get_json()
+    body = getBody()
 
-    if ("token" not in body):
-        return generateResponse(400, "The `token` field is mandatory")
+    if not body:
+        return generateResponse(403, "Body is missing!")
 
-    return  generateResponse(200, "Returning sensor status!")
+    if ("name" not in body):
+        return generateResponse(400, "The `name` field is mandatory")
+
+    if ("status" not in body):
+        return generateResponse(400, "The `status` field is mandatory")
+
+    status = "123"
+
+    return  generateResponse(200, "New value setted for the sensor!", status)
 
 
 def generateResponse(status, message, content = False):
     response = {}
-    response["status"] = status
-    response["message"] = message
+    response["status"] = str(status)
+    response["message"] = str(message)
 
-    response["content"] = {}
-
-    if (content): response["content"] = content
+    if (content):
+        response["content"] = str(content)
 
     return response
 
