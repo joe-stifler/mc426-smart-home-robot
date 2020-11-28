@@ -18,14 +18,17 @@ QMAKE_CXXFLAGS += -w -O3
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/apiaccesspoint.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
     src/openglclass.cpp
 
 HEADERS += \
+    include/HTTPRequest.h \
     include/SmartDevice.h \
     include/mainwindow.h \
-    include/openglclass.h
+    include/openglclass.h \
+    include/apiaccesspoint.h
 
 FORMS += \
     forms/mainwindow.ui
