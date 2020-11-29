@@ -1226,6 +1226,7 @@ moc/moc_getsensorsdialog.cpp: include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
 		include/apiaccesspoint.h \
 		include/HTTPRequest.h \
+		include/SmartDevice.h \
 		moc/moc_predefs.h \
 		../../../Qt/5.15.0/gcc_64/bin/moc
 	/home/joe/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/joe/Documents/mc426-smart-home-robot/desktop-application/moc/moc_predefs.h -I/home/joe/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/joe/Documents/mc426-smart-home-robot/desktop-application -I/home/joe/Documents/mc426-smart-home-robot/desktop-application/include -I/home/joe/Qt/5.15.0/gcc_64/include -I/home/joe/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/joe/Qt/5.15.0/gcc_64/include/QtGui -I/home/joe/Qt/5.15.0/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include include/getsensorsdialog.h -o moc/moc_getsensorsdialog.cpp
@@ -1520,6 +1521,7 @@ obj/getsensorsdialog.o: src/getsensorsdialog.cpp include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
 		include/apiaccesspoint.h \
 		include/HTTPRequest.h \
+		include/SmartDevice.h \
 		uic/ui_getsensorsdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/getsensorsdialog.o src/getsensorsdialog.cpp
 
