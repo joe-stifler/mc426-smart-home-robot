@@ -14,6 +14,11 @@
 #include <SmartDevice.h>
 #include <openglclass.h>
 
+#include <QFileDialog>
+
+#include <apiaccesspoint.h>
+#include <getsensorsdialog.h>
+
 class RobotThread : public QThread
 {
     Q_OBJECT

@@ -1,8 +1,6 @@
+#include <QMessageBox>
 #include <mainwindow.h>
 #include "ui_mainwindow.h"
-
-#include <QFileDialog>
-#include <apiaccesspoint.h>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
     setlocale(LC_ALL, "C");
@@ -15,22 +13,21 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     plotData("images/floorplan.png");
 
-    addDevice(-5, -5, SmartDeviceType::SmartLamp);
+    addDevice(0, 0, SmartDeviceType::SmartLamp);
 
-    addDevice(5, 5, SmartDeviceType::SmartLamp);
+    addDevice(0.5, 0.5, SmartDeviceType::SmartLamp);
 
-    addDevice(0, 0, SmartDeviceType::SmartRobot);
 
 //    robotThread.reset(new RobotThread(smartDevices[smartDevices.size() - 1].get(), ui->openGLWidget));
 
 //    robotThread->start();
 
-//    int status;
-//    std::string requestMessage;
+    int status;
+    std::string requestMessage;
 
-//    std::string name = "joe";
-//    std::string email = "joe@joe.com";
-//    std::string password = "password123";
+    std::string name = "joe";
+    std::string email = "joe@joe.com";
+    std::string password = "password123";
 
 //    std::cout << "SIGN-UP" << std::endl;
 //    APIAccessPoint::instance().signUp(name, email, password, requestMessage, status);
@@ -40,12 +37,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 //    std::cout << std::endl;
 
 
-//    std::cout << "SIGN-IN" << std::endl;
-//    APIAccessPoint::instance().signIn(email, password, requestMessage, status);
+    std::cout << "SIGN-IN" << std::endl;
+    APIAccessPoint::instance().signIn(email, password, requestMessage, status);
 
-//    std::cout << "Status: " << status << std::endl;
-//    std::cout << "request message: " << requestMessage << std::endl;
-//    std::cout << std::endl;
+    std::cout << "Status: " << status << std::endl;
+    std::cout << "request message: " << requestMessage << std::endl;
+    std::cout << std::endl;
 
 
 //    std::cout << "RESET" << std::endl;
@@ -55,16 +52,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 //    std::cout << "request message: " << requestMessage << std::endl;
 //    std::cout << std::endl;
 
-//    std::cout << "SENSOR AVAILABLE" << std::endl;
-//    auto sensors = APIAccessPoint::instance().sensorAvailable(requestMessage, status);
 
-//    std::cout << "Status: " << status << std::endl;
-//    std::cout << "request message: " << requestMessage << std::endl;
-
-//    for (auto &s : sensors) {
-//        std::cout << s << std::endl;
-//    }
-//    std::cout << std::endl;
 
 //    std::cout << "GET SENSOR STATUS" << std::endl;
 //    auto value = APIAccessPoint::instance().getSensorStatus("luz1", requestMessage, status);
@@ -95,7 +83,15 @@ MainWindow::~MainWindow() {
 
 void MainWindow::signIn()
 {
+    std::unique_ptr<GetSensorsDialog> dialog(new GetSensorsDialog());
 
+    if (!dialog->exec()) {
+        std::cout << "Here"<< std::endl;
+        fflush(stdout);
+//        QMessageBox msgBox;
+//        msgBox.setText("Convertion completed\n");
+//        msgBox.exec();
+    }
 }
 
 void MainWindow::signOut()
