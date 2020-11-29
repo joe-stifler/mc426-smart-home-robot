@@ -44,6 +44,9 @@ public:
 
     void addSmartDevice(SmartDevice *smartDevice);
 
+signals:
+    void ClickPlot(float x, float y);
+
 protected:
 
     void paintGL() override;

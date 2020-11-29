@@ -940,6 +940,23 @@ moc/moc_mainwindow.cpp: include/mainwindow.h \
 		include/HTTPRequest.h \
 		include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QDialog \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QCheckBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcheckbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QComboBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcombobox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
 		moc/moc_predefs.h \
 		../../../Qt/5.15.0/gcc_64/bin/moc
 	/home/joe/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/joe/Documents/mc426-smart-home-robot/desktop-application/moc/moc_predefs.h -I/home/joe/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/joe/Documents/mc426-smart-home-robot/desktop-application -I/home/joe/Documents/mc426-smart-home-robot/desktop-application/include -I/home/joe/Qt/5.15.0/gcc_64/include -I/home/joe/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/joe/Qt/5.15.0/gcc_64/include/QtGui -I/home/joe/Qt/5.15.0/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include include/mainwindow.h -o moc/moc_mainwindow.cpp
@@ -1188,6 +1205,27 @@ moc/moc_getsensorsdialog.cpp: include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QCheckBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcheckbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QComboBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcombobox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
+		include/apiaccesspoint.h \
+		include/HTTPRequest.h \
 		moc/moc_predefs.h \
 		../../../Qt/5.15.0/gcc_64/bin/moc
 	/home/joe/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/joe/Documents/mc426-smart-home-robot/desktop-application/moc/moc_predefs.h -I/home/joe/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/joe/Documents/mc426-smart-home-robot/desktop-application -I/home/joe/Documents/mc426-smart-home-robot/desktop-application/include -I/home/joe/Qt/5.15.0/gcc_64/include -I/home/joe/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/joe/Qt/5.15.0/gcc_64/include/QtGui -I/home/joe/Qt/5.15.0/gcc_64/include/QtCore -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include include/getsensorsdialog.h -o moc/moc_getsensorsdialog.cpp
@@ -1461,6 +1499,27 @@ obj/getsensorsdialog.o: src/getsensorsdialog.cpp include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QCheckBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcheckbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QComboBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcombobox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
+		include/apiaccesspoint.h \
+		include/HTTPRequest.h \
 		uic/ui_getsensorsdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/getsensorsdialog.o src/getsensorsdialog.cpp
 
@@ -1623,6 +1682,23 @@ obj/main.o: src/main.cpp include/mainwindow.h \
 		include/HTTPRequest.h \
 		include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QDialog \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QCheckBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcheckbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QComboBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcombobox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
@@ -1791,27 +1867,24 @@ obj/mainwindow.o: src/mainwindow.cpp ../../../Qt/5.15.0/gcc_64/include/QtWidgets
 		include/HTTPRequest.h \
 		include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QDialog \
-		uic/ui_mainwindow.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QAction \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qaction.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qactiongroup.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QMenu \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qmenu.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QMenuBar \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qmenubar.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QStatusBar \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstatusbar.h
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QCheckBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcheckbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QComboBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcombobox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
+		uic/ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainwindow.o src/mainwindow.cpp
 
 obj/openglclass.o: src/openglclass.cpp include/openglclass.h \

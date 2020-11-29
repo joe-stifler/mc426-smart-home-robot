@@ -13,9 +13,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     plotData("images/floorplan.png");
 
-    addDevice(0, 0, SmartDeviceType::SmartLamp);
+    connect(ui->openGLWidget, SIGNAL(ClickPlot(float, float)), this, SLOT(addSmartDevice(float, float)));
 
-    addDevice(0.5, 0.5, SmartDeviceType::SmartLamp);
+//    addDevice(0, 0, SmartDeviceType::SmartLamp);
+
+//    addDevice(0.5, 0.5, SmartDeviceType::SmartLamp);
 
 
 //    robotThread.reset(new RobotThread(smartDevices[smartDevices.size() - 1].get(), ui->openGLWidget));
@@ -37,13 +39,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 //    std::cout << std::endl;
 
 
-    std::cout << "SIGN-IN" << std::endl;
     APIAccessPoint::instance().signIn(email, password, requestMessage, status);
-
-    std::cout << "Status: " << status << std::endl;
-    std::cout << "request message: " << requestMessage << std::endl;
-    std::cout << std::endl;
-
 
 //    std::cout << "RESET" << std::endl;
 //    APIAccessPoint::instance().passwordReset(email, requestMessage, status);
@@ -83,15 +79,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::signIn()
 {
-    std::unique_ptr<GetSensorsDialog> dialog(new GetSensorsDialog());
 
-    if (!dialog->exec()) {
-        std::cout << "Here"<< std::endl;
-        fflush(stdout);
-//        QMessageBox msgBox;
-//        msgBox.setText("Convertion completed\n");
-//        msgBox.exec();
-    }
 }
 
 void MainWindow::signOut()
@@ -129,10 +117,16 @@ void MainWindow::plotData(std::string flooplanFile) {
     ui->openGLWidget->setNewTexture(flooplanFile);
 }
 
-void MainWindow::addDevice(float x, float y, SmartDeviceType deviceType) {
-    smartDevices.push_back(std::unique_ptr<SmartDevice>());
+void MainWindow::addSmartDevice(float x, float y) {
+    std::unique_ptr<GetSensorsDialog> dialog(new GetSensorsDialog());
 
-    smartDevices[smartDevices.size() - 1].reset(SmartDeviceFactory::instance().getSmartDevice(x, y, deviceType));
+    if (dialog->exec()) {
+        for (auto &smartDevice : dialog->selectedSensors) {
+            smartDevices.push_back(std::unique_ptr<SmartDevice>());
 
-    ui->openGLWidget->addSmartDevice(smartDevices[smartDevices.size() - 1].get());
+            smartDevices[smartDevices.size() - 1].reset(SmartDeviceFactory::instance().getSmartDevice(x, y, smartDevice));
+
+            ui->openGLWidget->addSmartDevice(smartDevices[smartDevices.size() - 1].get());
+        }
+    }
 }

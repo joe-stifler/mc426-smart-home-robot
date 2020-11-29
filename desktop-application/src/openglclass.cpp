@@ -255,7 +255,7 @@ void OpenGLClass::mousePressEvent(QMouseEvent *event)
 
     if (x >= 0.0f && x <= 1.0f && y >= 0.0f && y <= 1.0f) {
         if (event->buttons() == Qt::LeftButton) {
-
+            emit ClickPlot(x, y);
         } else if (event->buttons() == Qt::RightButton) {
             for (auto &textureDevice : textureDevices) {
                 if (textureDevice.second) {

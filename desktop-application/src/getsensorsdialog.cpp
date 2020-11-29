@@ -6,7 +6,9 @@ QComboBox *getComboBoxSensor() {
 
     comboBox->addItem("Luz");
     comboBox->addItem("Energia");
-    comboBox->addItem("Agua");
+    comboBox->addItem("Ar Condicionado");
+    comboBox->addItem("Camera");
+    comboBox->addItem("Presença");
     comboBox->addItem("Temperatura");
 
     return comboBox;
@@ -21,11 +23,7 @@ GetSensorsDialog::GetSensorsDialog(QWidget *parent) :
     int status;
     std::string requestMessage;
 
-    std::cout << "SENSOR AVAILABLE" << std::endl;
     auto sensors = APIAccessPoint::instance().sensorAvailable(requestMessage, status);
-
-    std::cout << "Status: " << status << std::endl;
-    std::cout << "request message: " << requestMessage << std::endl;
 
     for (auto &s : sensors) {
         QComboBox *comboBox = getComboBoxSensor();
@@ -41,16 +39,44 @@ GetSensorsDialog::GetSensorsDialog(QWidget *parent) :
 GetSensorsDialog::~GetSensorsDialog()
 {
     delete ui;
+
+    for (auto &p : sensorsWidgets) {
+        delete p.first;
+        delete p.second;
+    }
 }
 
 void GetSensorsDialog::on_pushButton_2_clicked()
 {
-    printf("Clicked Ok");
-    fflush(stdout);
+    for (auto &p : sensorsWidgets) {
+        if (p.first->isChecked()) {
+            switch (p.second->currentIndex()) {
+                case 0:
+                    selectedSensors.push_back(SmartLamp);
+                    break;
+                case 1:
+                    selectedSensors.push_back(SmartEnergy);
+                    break;
+                case 2:
+                    selectedSensors.push_back(SmartAir);
+                    break;
+                case 3:
+                    selectedSensors.push_back(SmartCamera);
+                    break;
+                case 4:
+                    selectedSensors.push_back(SmartPresence);
+                    break;
+                case 5:
+                    selectedSensors.push_back(SmartTemperature);
+                    break;
+            }
+        }
+    }
+
+    done(1);
 }
 
 void GetSensorsDialog::on_pushButton_clicked()
 {
-    printf("Clicked Cancel");
-    fflush(stdout);
+    done(0);
 }
