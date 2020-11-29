@@ -89,8 +89,6 @@ void APIAccessPoint::signIn(std::string email, std::string password, std::string
             if (statusRequest == 200) {
                 if (body.find("content") != body.end()) {
                     token = body["content"];
-
-                    std::cout << "My token: " << token << std::endl;
                 }
             }
         }

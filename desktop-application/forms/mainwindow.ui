@@ -160,8 +160,8 @@
    <slot>signUp()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>417</x>
-     <y>308</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>417</x>

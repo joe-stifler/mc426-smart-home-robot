@@ -18,6 +18,7 @@ We will design software that updates in real time the status of the users smart 
     * [API Application](#usage-api-app)
     * [Desktop Application](#usage-desktop-app)
 * [Screenshot of the Desktop Application](#desktop-screenshot)
+* [Demo Video Desktop Application](#demo-vide-desktop)
 
 
 # <a name="team-members"></a>Team Members
@@ -226,7 +227,12 @@ python3 api-application/test.py
 
 <a name="fig5"></a>
 <p align="center">
-  <img src="readme-images/smart_home.png">
+  <img src="readme-images/screenshot-desktop-program.png">
 </p>
 <center>Figure 5 - Desktop Application Screenshot: Main Window</center>
 
+# <a name="demo-vide-desktop"></a>Demo Video Desktop Application
+
+<a name="video1"></a>
+[![Watch the video](readme-images/demo-desktop-application.png)](readme-images/demo-desktop-application.mp4)
+<center>Video 1 - Demo Desktop Application</center>

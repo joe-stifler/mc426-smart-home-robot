@@ -4,8 +4,12 @@
 #include <string>
 
 enum SmartDeviceType : char {
-    SmartRobot,
-    SmartLamp
+    SmartLamp,
+    SmartEnergy,
+    SmartAir,
+    SmartCamera,
+    SmartPresence,
+    SmartTemperature
 };
 
 struct SmartDevice {
@@ -45,11 +49,23 @@ public:
 
     SmartDevice *getSmartDevice(float x, float y, SmartDeviceType deviceType) {
         switch(deviceType) {
-            case SmartDeviceType::SmartRobot:
-                return new SmartDevice(x, y, 0.07, 0.12, "icons/smart_robot.png");
-
             case SmartDeviceType::SmartLamp:
-                return new SmartDevice(x, y, 0.1, 0.15, "icons/smart_lamp.png");
+                return new SmartDevice(x, y, 0.07, 0.1, "icons/light.png");
+
+            case SmartDeviceType::SmartEnergy:
+                return new SmartDevice(x, y, 0.07, 0.1, "icons/energy.png");
+
+            case SmartDeviceType::SmartAir:
+                return new SmartDevice(x, y, 0.07, 0.1, "icons/air.png");
+
+            case SmartDeviceType::SmartCamera:
+                return new SmartDevice(x, y, 0.07, 0.1, "icons/camera.png");
+
+            case SmartDeviceType::SmartPresence:
+                return new SmartDevice(x, y, 0.07, 0.1, "icons/presence.png");
+
+            case SmartDeviceType::SmartTemperature:
+                return new SmartDevice(x, y, 0.07, 0.1, "icons/temperature.png");
         }
 
         return new SmartDevice(x, y, 0, 0, "");

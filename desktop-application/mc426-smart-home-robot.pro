@@ -19,6 +19,7 @@ QMAKE_CXXFLAGS += -w -O3
 
 SOURCES += \
     src/apiaccesspoint.cpp \
+    src/getsensorsdialog.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
     src/openglclass.cpp
@@ -28,10 +29,12 @@ HEADERS += \
     include/SmartDevice.h \
     include/mainwindow.h \
     include/openglclass.h \
-    include/apiaccesspoint.h
+    include/apiaccesspoint.h \
+    include/getsensorsdialog.h
 
 FORMS += \
-    forms/mainwindow.ui
+    forms/mainwindow.ui \
+    forms/getsensorsdialog.ui
 
 INCLUDEPATH += include/
 

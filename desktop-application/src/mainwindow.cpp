@@ -1,8 +1,6 @@
+#include <QMessageBox>
 #include <mainwindow.h>
 #include "ui_mainwindow.h"
-
-#include <QFileDialog>
-#include <apiaccesspoint.h>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
     setlocale(LC_ALL, "C");
@@ -15,22 +13,23 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     plotData("images/floorplan.png");
 
-    addDevice(-5, -5, SmartDeviceType::SmartLamp);
+    connect(ui->openGLWidget, SIGNAL(ClickPlot(float, float)), this, SLOT(addSmartDevice(float, float)));
 
-    addDevice(5, 5, SmartDeviceType::SmartLamp);
+//    addDevice(0, 0, SmartDeviceType::SmartLamp);
 
-    addDevice(0, 0, SmartDeviceType::SmartRobot);
+//    addDevice(0.5, 0.5, SmartDeviceType::SmartLamp);
+
 
 //    robotThread.reset(new RobotThread(smartDevices[smartDevices.size() - 1].get(), ui->openGLWidget));
 
 //    robotThread->start();
 
-//    int status;
-//    std::string requestMessage;
+    int status;
+    std::string requestMessage;
 
-//    std::string name = "joe";
-//    std::string email = "joe@joe.com";
-//    std::string password = "password123";
+    std::string name = "joe";
+    std::string email = "joe@joe.com";
+    std::string password = "password123";
 
 //    std::cout << "SIGN-UP" << std::endl;
 //    APIAccessPoint::instance().signUp(name, email, password, requestMessage, status);
@@ -40,13 +39,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 //    std::cout << std::endl;
 
 
-//    std::cout << "SIGN-IN" << std::endl;
-//    APIAccessPoint::instance().signIn(email, password, requestMessage, status);
-
-//    std::cout << "Status: " << status << std::endl;
-//    std::cout << "request message: " << requestMessage << std::endl;
-//    std::cout << std::endl;
-
+    APIAccessPoint::instance().signIn(email, password, requestMessage, status);
 
 //    std::cout << "RESET" << std::endl;
 //    APIAccessPoint::instance().passwordReset(email, requestMessage, status);
@@ -55,16 +48,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 //    std::cout << "request message: " << requestMessage << std::endl;
 //    std::cout << std::endl;
 
-//    std::cout << "SENSOR AVAILABLE" << std::endl;
-//    auto sensors = APIAccessPoint::instance().sensorAvailable(requestMessage, status);
 
-//    std::cout << "Status: " << status << std::endl;
-//    std::cout << "request message: " << requestMessage << std::endl;
-
-//    for (auto &s : sensors) {
-//        std::cout << s << std::endl;
-//    }
-//    std::cout << std::endl;
 
 //    std::cout << "GET SENSOR STATUS" << std::endl;
 //    auto value = APIAccessPoint::instance().getSensorStatus("luz1", requestMessage, status);
@@ -133,10 +117,16 @@ void MainWindow::plotData(std::string flooplanFile) {
     ui->openGLWidget->setNewTexture(flooplanFile);
 }
 
-void MainWindow::addDevice(float x, float y, SmartDeviceType deviceType) {
-    smartDevices.push_back(std::unique_ptr<SmartDevice>());
+void MainWindow::addSmartDevice(float x, float y) {
+    std::unique_ptr<GetSensorsDialog> dialog(new GetSensorsDialog());
 
-    smartDevices[smartDevices.size() - 1].reset(SmartDeviceFactory::instance().getSmartDevice(x, y, deviceType));
+    if (dialog->exec()) {
+        for (auto &smartDevice : dialog->selectedSensors) {
+            smartDevices.push_back(std::unique_ptr<SmartDevice>());
 
-    ui->openGLWidget->addSmartDevice(smartDevices[smartDevices.size() - 1].get());
+            smartDevices[smartDevices.size() - 1].reset(SmartDeviceFactory::instance().getSmartDevice(x, y, smartDevice));
+
+            ui->openGLWidget->addSmartDevice(smartDevices[smartDevices.size() - 1].get());
+        }
+    }
 }
