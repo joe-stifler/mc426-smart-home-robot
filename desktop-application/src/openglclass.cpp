@@ -214,6 +214,21 @@ void OpenGLClass::resizeGL(int width, int height) {
     this->glViewport(0, 0, width, height);
 }
 
+void OpenGLClass::getNormalizedCoordinates(float x, float y, float &x_coord, float &y_coord) {
+    float width = this->width();
+    float height = this->height();
+
+    float percentX = (margins[0]) / 2.0f;
+    float percentY = (margins[2]) / 2.0f;
+
+    float val_x = width * percentX;
+    float val_y = height * percentY;
+
+    fflush(stdout);
+    x_coord = (x - val_x) / (width * (1.0f - (margins[0] + margins[1]) / 2.0f));
+    y_coord = (y - val_y) / (height * (1.0f - (margins[2] + margins[3]) / 2.0f));
+}
+
 void OpenGLClass::getInverseNormalizedCoordinates(float x, float y, float &x_coord, float &y_coord) {
     float width = this->width();
     float height = this->height();
@@ -226,6 +241,74 @@ void OpenGLClass::getInverseNormalizedCoordinates(float x, float y, float &x_coo
 
     x_coord = x * (width * (1.0f - (margins[0] + margins[1]) / 2.0f)) + val_x;
     y_coord = y * (height * (1.0f - (margins[2] + margins[3]) / 2.0f)) + val_y;
+}
+
+void OpenGLClass::mousePressEvent(QMouseEvent *event)
+{
+    QOpenGLWidget::makeCurrent();
+
+    float x, y;
+
+    pickedDevice = nullptr;
+
+    getNormalizedCoordinates(event->x(), event->y(), x, y);
+
+    if (x >= 0.0f && x <= 1.0f && y >= 0.0f && y <= 1.0f) {
+        if (event->buttons() == Qt::LeftButton) {
+            emit ClickPlot(x, y);
+        } else if (event->buttons() == Qt::RightButton) {
+            for (auto &textureDevice : textureDevices) {
+                if (textureDevice.second) {
+                    auto smartDevice = textureDevice.first;
+
+                    if (std::fabs(x - smartDevice->x) < smartDevice->dx && std::fabs(y - smartDevice->y) < smartDevice->dy) {
+                        pickedDevice = smartDevice;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void OpenGLClass::mouseReleaseEvent(QMouseEvent *event)
+{
+    QOpenGLWidget::makeCurrent();
+
+    float x_coord, y_coord;
+
+    getNormalizedCoordinates(event->x(), event->y(), x_coord, y_coord);
+
+    if (x_coord >= 0.0f && x_coord <= 1.0f && y_coord >= 0.0f && y_coord <= 1.0f) {
+        if (event->button() == Qt::LeftButton) {
+
+        } else if (event->button() == Qt::RightButton) {
+            if (pickedDevice) {
+                pickedDevice->x = x_coord;
+                pickedDevice->y = y_coord;
+                update();
+            }
+        }
+    }
+
+    pickedDevice = nullptr;
+}
+
+void OpenGLClass::mouseMoveEvent(QMouseEvent *event)
+{
+    QOpenGLWidget::makeCurrent();
+
+    float x_coord, y_coord;
+
+    getNormalizedCoordinates(event->x(), event->y(), x_coord, y_coord);
+
+    if (x_coord >= 0.0f && x_coord <= 1.0f && y_coord >= 0.0f && y_coord <= 1.0f) {
+        if (pickedDevice) {
+            pickedDevice->x = x_coord;
+            pickedDevice->y = y_coord;
+            update();
+        }
+    }
 }
 
 void OpenGLClass::paintGL() {
@@ -277,11 +360,34 @@ void OpenGLClass::paintGL() {
             SmartDevice *smartDevice = textureDevice.first;
 
             if (smartDevice) {
+                float dx = smartDevice->dx;
+                float dy = smartDevice->dy;
+                point vertices[6];
+
+                float x, y;
+                getInverseNormalizedCoordinates(smartDevice->x, smartDevice->y, x, y);
+
+                x = 2.0f * x / (float) width() - 1.0f;
+                y = 2.0f * (1.0f - y / (float) height()) - 1.0f;
+
+                /* Up central triangle */
+                vertices[0] = {x - dx, y + dy, 0.0f, 0.0f};
+                vertices[1] = {x + dx, y + dy, 1.0f, 0.0f};
+                vertices[2] = {x + dx, y - dy, 1.0f, 1.0f};
+
+                /* Down central triangle */
+                vertices[3] = {x + dx, y - dy, 1.0f, 1.0f};
+                vertices[4] = {x - dx, y - dy, 0.0f, 1.0f};
+                vertices[5] = {x - dx, y + dy, 0.0f, 0.0f};
+
+                // Update content of VBO memory
+                vboDevice->write(0, &vertices[0], 6 * sizeof(point));
+
                 transform = QMatrix4x4();
 
-                transform.scale(smartDevice->dx, smartDevice->dy, 1);
+                transform.scale(1.0f, 1.0f, 1);
 
-                transform.translate(smartDevice->x, smartDevice->y, 0);
+                transform.translate(0.0f, 0.0f, 0);
 
                 myShader->setUniformValue("transform", transform);
 
@@ -291,6 +397,9 @@ void OpenGLClass::paintGL() {
             }
         }
     }
+
+    vao->bind();
+    vbo->bind();
 
     if (texturePlot) {
         texturePlot->bind();

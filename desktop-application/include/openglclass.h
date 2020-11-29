@@ -44,6 +44,9 @@ public:
 
     void addSmartDevice(SmartDevice *smartDevice);
 
+signals:
+    void ClickPlot(float x, float y);
+
 protected:
 
     void paintGL() override;
@@ -62,6 +65,8 @@ private:
         0.04f  /* down */
     };
 
+    SmartDevice *pickedDevice = nullptr;
+
     QMatrix4x4 transform;
     std::unique_ptr<QTimer> timer;
     std::unique_ptr<QOpenGLBuffer> vbo;
@@ -73,9 +78,18 @@ private:
     std::unique_ptr<QOpenGLVertexArrayObject> vaoDevice;
     std::vector<std::pair<SmartDevice *, std::unique_ptr<QOpenGLTexture>>> textureDevices;
 
+    void getNormalizedCoordinates(float x, float y, float &x_coord, float &y_coord);
     void getInverseNormalizedCoordinates(float x, float y, float &x_coord, float &y_coord);
 
     void RenderRobot(GLfloat x, GLfloat y, GLfloat scale, QVector3D color, int orientation);
+
+protected:
+    // Declare that we are overriding QWidget's events for mouse press and release
+    void mousePressEvent(QMouseEvent *event) override;
+
+    void mouseReleaseEvent(QMouseEvent *event) override;
+
+    void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif // OPENGLCLASS_H

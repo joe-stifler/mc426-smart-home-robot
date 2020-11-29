@@ -14,6 +14,11 @@
 #include <SmartDevice.h>
 #include <openglclass.h>
 
+#include <QFileDialog>
+
+#include <apiaccesspoint.h>
+#include <getsensorsdialog.h>
+
 class RobotThread : public QThread
 {
     Q_OBJECT
@@ -110,6 +115,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void signIn();
+    void signOut();
+    void signUp();
+    void resetPassword();
+    void closeWindow();
+    void openFloorplanButton();
+    void addSmartDevice(float x, float y);
+
 private:
     Ui::MainWindow *ui;
 
@@ -117,9 +131,7 @@ private:
 
     int height, width, nrChannels;
 
-    void plotData();
-
-    void addDevice(float x, float y, SmartDeviceType deviceType);
+    void plotData(std::string flooplanFile);
 
     std::unique_ptr<RobotThread> robotThread;
 };
