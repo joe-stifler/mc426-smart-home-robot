@@ -1,6 +1,7 @@
 #include <mainwindow.h>
 #include "ui_mainwindow.h"
 
+#include <QFileDialog>
 #include <apiaccesspoint.h>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -12,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     showMaximized();
 
-    plotData();
+    plotData("images/floorplan.png");
 
     addDevice(-5, -5, SmartDeviceType::SmartLamp);
 
@@ -24,62 +25,62 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
 //    robotThread->start();
 
-    int status;
-    std::string requestMessage;
+//    int status;
+//    std::string requestMessage;
 
-    std::string name = "joe";
-    std::string email = "joe@joe.com";
-    std::string password = "password123";
+//    std::string name = "joe";
+//    std::string email = "joe@joe.com";
+//    std::string password = "password123";
 
-    std::cout << "SIGN-UP" << std::endl;
-    APIAccessPoint::instance().signUp(name, email, password, requestMessage, status);
+//    std::cout << "SIGN-UP" << std::endl;
+//    APIAccessPoint::instance().signUp(name, email, password, requestMessage, status);
 
-    std::cout << "Status: " << status << std::endl;
-    std::cout << "request message: " << requestMessage << std::endl;
-    std::cout << std::endl;
-
-
-    std::cout << "SIGN-IN" << std::endl;
-    APIAccessPoint::instance().signIn(email, password, requestMessage, status);
-
-    std::cout << "Status: " << status << std::endl;
-    std::cout << "request message: " << requestMessage << std::endl;
-    std::cout << std::endl;
+//    std::cout << "Status: " << status << std::endl;
+//    std::cout << "request message: " << requestMessage << std::endl;
+//    std::cout << std::endl;
 
 
-    std::cout << "RESET" << std::endl;
-    APIAccessPoint::instance().passwordReset(email, requestMessage, status);
+//    std::cout << "SIGN-IN" << std::endl;
+//    APIAccessPoint::instance().signIn(email, password, requestMessage, status);
 
-    std::cout << "Status: " << status << std::endl;
-    std::cout << "request message: " << requestMessage << std::endl;
-    std::cout << std::endl;
+//    std::cout << "Status: " << status << std::endl;
+//    std::cout << "request message: " << requestMessage << std::endl;
+//    std::cout << std::endl;
 
-    std::cout << "SENSOR AVAILABLE" << std::endl;
-    auto sensors = APIAccessPoint::instance().sensorAvailable(requestMessage, status);
 
-    std::cout << "Status: " << status << std::endl;
-    std::cout << "request message: " << requestMessage << std::endl;
+//    std::cout << "RESET" << std::endl;
+//    APIAccessPoint::instance().passwordReset(email, requestMessage, status);
 
-    for (auto &s : sensors) {
-        std::cout << s << std::endl;
-    }
-    std::cout << std::endl;
+//    std::cout << "Status: " << status << std::endl;
+//    std::cout << "request message: " << requestMessage << std::endl;
+//    std::cout << std::endl;
 
-    std::cout << "GET SENSOR STATUS" << std::endl;
-    auto value = APIAccessPoint::instance().getSensorStatus("luz1", requestMessage, status);
+//    std::cout << "SENSOR AVAILABLE" << std::endl;
+//    auto sensors = APIAccessPoint::instance().sensorAvailable(requestMessage, status);
 
-    std::cout << "Status: " << status << std::endl;
-    std::cout << "request message: " << requestMessage << std::endl;
+//    std::cout << "Status: " << status << std::endl;
+//    std::cout << "request message: " << requestMessage << std::endl;
 
-    std::cout << "Value: " << value << std::endl;
-    std::cout << std::endl;
+//    for (auto &s : sensors) {
+//        std::cout << s << std::endl;
+//    }
+//    std::cout << std::endl;
 
-    std::cout << "SET SENSOR STATUS" << std::endl;
-    APIAccessPoint::instance().setSensorStatus("luz1", std::to_string(-4230), requestMessage, status);
+//    std::cout << "GET SENSOR STATUS" << std::endl;
+//    auto value = APIAccessPoint::instance().getSensorStatus("luz1", requestMessage, status);
 
-    std::cout << "Status: " << status << std::endl;
-    std::cout << "request message: " << requestMessage << std::endl;
-    std::cout << std::endl;
+//    std::cout << "Status: " << status << std::endl;
+//    std::cout << "request message: " << requestMessage << std::endl;
+
+//    std::cout << "Value: " << value << std::endl;
+//    std::cout << std::endl;
+
+//    std::cout << "SET SENSOR STATUS" << std::endl;
+//    APIAccessPoint::instance().setSensorStatus("luz1", std::to_string(-4230), requestMessage, status);
+
+//    std::cout << "Status: " << status << std::endl;
+//    std::cout << "request message: " << requestMessage << std::endl;
+//    std::cout << std::endl;
 }
 
 MainWindow::~MainWindow() {
@@ -89,11 +90,47 @@ MainWindow::~MainWindow() {
 
 //    while (robotThread->finished);
 
-//    robotThread->terminate();
+    //    robotThread->terminate();
 }
 
-void MainWindow::plotData() {
-    ui->openGLWidget->setNewTexture("images/floorplan.png");
+void MainWindow::signIn()
+{
+
+}
+
+void MainWindow::signOut()
+{
+
+}
+
+void MainWindow::signUp()
+{
+
+}
+
+void MainWindow::resetPassword()
+{
+
+}
+
+void MainWindow::closeWindow()
+{
+    QApplication::quit();
+}
+
+void MainWindow::openFloorplanButton()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Choose floorplan image"), "",
+        tr("Floorplan Image (*.png);;All Files (*)")
+    );
+
+    if (fileName.toStdString() != "")
+        plotData(fileName.toStdString());
+}
+
+void MainWindow::plotData(std::string flooplanFile) {
+    ui->openGLWidget->setNewTexture(flooplanFile);
 }
 
 void MainWindow::addDevice(float x, float y, SmartDeviceType deviceType) {

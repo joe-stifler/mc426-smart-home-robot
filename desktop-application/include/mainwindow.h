@@ -110,6 +110,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void signIn();
+    void signOut();
+    void signUp();
+    void resetPassword();
+    void closeWindow();
+    void openFloorplanButton();
+
 private:
     Ui::MainWindow *ui;
 
@@ -117,7 +125,7 @@ private:
 
     int height, width, nrChannels;
 
-    void plotData();
+    void plotData(std::string flooplanFile);
 
     void addDevice(float x, float y, SmartDeviceType deviceType);
 
