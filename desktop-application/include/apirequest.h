@@ -12,8 +12,10 @@
 class APIRequest {
 private:
     std::string apiServerIP;
-
+    std::vector<std::string> headers;
     std::map<std::string, std::string> getBody(std::string bodyStr);
+
+    std::map<std::string, std::string> makeRequest(std::string requestType, const std::string &method, const std::map<std::string, std::string> &parameters);
 
 public:
     APIRequest();

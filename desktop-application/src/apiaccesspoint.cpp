@@ -6,120 +6,75 @@ APIAccessPoint::APIAccessPoint() {
 
 APIAccessPoint::~APIAccessPoint() {}
 
-void APIAccessPoint::logOut(std::string &requestMessage, int &statusRequest)
-{
+bool APIAccessPoint::checkBody(std::string &requestMessage, int &statusRequest, std::map<std::string, std::string> &body) {
+    if (body.find("message") != body.end()) requestMessage = body["message"];
+    else requestMessage = "ERROR: No message sent";
 
+    if (body.find("status") != body.end()) {
+        statusRequest = atoi(body["status"].c_str());
+
+        if (statusRequest == 200) {
+            return true;
+        }
+    } else statusRequest = -1;
+
+    return false;
+}
+
+void APIAccessPoint::logOut(std::string &requestMessage, int &statusRequest) {
     std::map<std::string, std::string> parameters = {{"token", token}};
 
     auto body = apiRequest.get("auth/logout", parameters);
 
-    if (body.find("message") != body.end()) requestMessage = body["message"];
-    else requestMessage = "ERROR: No message sent";
-
-    if (body.find("status") != body.end()) {
-        statusRequest = atoi(body["status"].c_str());
-
-        if (statusRequest == 200) {
-            if (body.find("content") != body.end()) { token = ""; }
-        }
-    } else statusRequest = -1;
+    if (checkBody(requestMessage, statusRequest, body))
+        if (body.find("content") != body.end()) token = "";
 }
 
-void APIAccessPoint::signIn(std::string email, std::string password, std::string &requestMessage, int &statusRequest)
-{
+void APIAccessPoint::signIn(std::string email, std::string password, std::string &requestMessage, int &statusRequest) {
     std::map<std::string, std::string> parameters = {{"email", email}, {"password", password}};
 
     auto body = apiRequest.get("auth/login", parameters);
 
-    if (body.find("message") != body.end()) requestMessage = body["message"];
-    else requestMessage = "ERROR: No message sent";
-
-    if (body.find("status") != body.end()) {
-        statusRequest = atoi(body["status"].c_str());
-
-        if (statusRequest == 200) {
-            if (body.find("content") != body.end()) {
-                token = body["content"];
-
-            }
-        }
-    } else statusRequest = -1;
+    if (checkBody(requestMessage, statusRequest, body))
+        if (body.find("content") != body.end()) token = body["content"];
 }
 
-void APIAccessPoint::signUp(std::string name, std::string email, std::string password, std::string &requestMessage, int &statusRequest)
-{
+void APIAccessPoint::signUp(std::string name, std::string email, std::string password, std::string &requestMessage, int &statusRequest) {
     std::map<std::string, std::string> parameters = {{"name", name}, {"email", email}, {"password", password}};
 
     auto body = apiRequest.post("auth/register", parameters);
 
-    if (body.find("message") != body.end()) requestMessage = body["message"];
-    else requestMessage = "ERROR: No message sent";
-
-    if (body.find("status") != body.end()) {
-        statusRequest = atoi(body["status"].c_str());
-    } else statusRequest = -1;
+    checkBody(requestMessage, statusRequest, body);
 }
 
-void APIAccessPoint::passwordReset(std::string email, std::string &requestMessage, int &statusRequest)
-{
+void APIAccessPoint::passwordReset(std::string email, std::string &requestMessage, int &statusRequest) {
     std::map<std::string, std::string> parameters = {{"email", email}};
 
     auto body = apiRequest.put("auth/reset", parameters);
 
-    if (body.find("message") != body.end()) requestMessage = body["message"];
-    else requestMessage = "ERROR: No message sent";
-
-    if (body.find("status") != body.end()) {
-        statusRequest = atoi(body["status"].c_str());
-    } else statusRequest = -1;
+    checkBody(requestMessage, statusRequest, body);
 }
 
-std::vector<std::string> APIAccessPoint::sensorAvailable(std::string &requestMessage, int &statusRequest)
-{
-    std::vector<std::string> sensors;
-
+std::vector<std::string> APIAccessPoint::sensorAvailable(std::string &requestMessage, int &statusRequest) {
     std::map<std::string, std::string> parameters = {{"token", token}};
 
     auto body = apiRequest.get("sensors/available-sensors", parameters);
 
-    if (body.find("message") != body.end()) requestMessage = body["message"];
-    else requestMessage = "ERROR: No message sent";
+    if (checkBody(requestMessage, statusRequest, body))
+        if (body.find("content") != body.end()) return util::split(body["content"], "&");
 
-    if (body.find("status") != body.end()) {
-        statusRequest = atoi(body["status"].c_str());
-
-        if (statusRequest == 200) {
-            if (body.find("content") != body.end()) {
-                sensors = util::split(body["content"], "&");
-            }
-        }
-    } else statusRequest = -1;
-
-    return sensors;
+    return std::vector<std::string>();
 }
 
-std::string APIAccessPoint::getSensorStatus(std::string sensorName, std::string &requestMessage, int &statusRequest)
-{
-    std::string value;
-
+std::string APIAccessPoint::getSensorStatus(std::string sensorName, std::string &requestMessage, int &statusRequest) {
     std::map<std::string, std::string> parameters = {{"token", token}, {"name", sensorName}};
 
     auto body = apiRequest.get("sensors/get-sensor-status", parameters);
 
-    if (body.find("message") != body.end()) requestMessage = body["message"];
-    else requestMessage = "ERROR: No message sent";
+    if (checkBody(requestMessage, statusRequest, body))
+        if (body.find("content") != body.end()) return body["content"];
 
-    if (body.find("status") != body.end()) {
-        statusRequest = atoi(body["status"].c_str());
-
-        if (statusRequest == 200) {
-            if (body.find("content") != body.end()) {
-                value = body["content"];
-            }
-        }
-    } else statusRequest = -1;
-
-    return value;
+    return std::string();
 }
 
 void APIAccessPoint::setSensorStatus(std::string sensorName, std::string newStatus, std::string &requestMessage, int &statusRequest)
@@ -128,10 +83,5 @@ void APIAccessPoint::setSensorStatus(std::string sensorName, std::string newStat
 
     auto body = apiRequest.put("sensors/set-sensor-status", parameters);
 
-    if (body.find("message") != body.end()) requestMessage = body["message"];
-    else requestMessage = "ERROR: No message sent";
-
-    if (body.find("status") != body.end()) {
-        statusRequest = atoi(body["status"].c_str());
-    } else statusRequest = -1;
+    checkBody(requestMessage, statusRequest, body);
 }

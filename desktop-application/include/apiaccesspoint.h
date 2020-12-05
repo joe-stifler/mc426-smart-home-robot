@@ -16,6 +16,8 @@ private:
 
     ~APIAccessPoint();
 
+    bool checkBody(std::string &requestMessage, int &statusRequest, std::map<std::string, std::string> &body);
+
 public:
     APIAccessPoint(APIAccessPoint&&) = delete;
     APIAccessPoint(const APIAccessPoint&) = delete;
