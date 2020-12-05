@@ -5,18 +5,16 @@
 #include <string>
 #include <iostream>
 
-#include <HTTPRequest.h>
+#include <apirequest.h>
 
 class APIAccessPoint {
 private:
     std::string token = "";
-    std::string apiServerIP = "http://127.0.0.1:5000/";
+    APIRequest apiRequest;
 
-    APIAccessPoint() {
+    APIAccessPoint();
 
-    }
-
-    ~APIAccessPoint() {}
+    ~APIAccessPoint();
 
 public:
     APIAccessPoint(APIAccessPoint&&) = delete;

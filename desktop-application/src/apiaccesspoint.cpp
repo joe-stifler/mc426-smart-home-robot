@@ -1,254 +1,137 @@
 #include "apiaccesspoint.h"
 
-std::vector<std::string> split(std::string s, std::string delimiter) {
-    size_t pos_start = 0, pos_end, delim_len = delimiter.length();
-    std::string token;
-    std::vector<std::string> res;
-
-    while ((pos_end = s.find (delimiter, pos_start)) != std::string::npos) {
-        token = s.substr (pos_start, pos_end - pos_start);
-        pos_start = pos_end + delim_len;
-        res.push_back (token);
-    }
-
-    res.push_back (s.substr (pos_start));
-    return res;
+APIAccessPoint::APIAccessPoint() {
+    apiRequest = APIRequest("http://127.0.0.1", "5000");
 }
 
-std::map<std::string, std::string> getBody(std::string bodyStr) {
-    std::map<std::string, std::string> resultDict;
-
-    if (bodyStr.size() > 2) {
-        auto body = split(bodyStr, ",");
-
-        for (auto &s : body) {
-            auto pairs = split(s, ":");
-
-            if (pairs.size() == 2) {
-                resultDict[pairs[0].substr(1, pairs[0].size() - 2)] = pairs[1].substr(1, pairs[1].size() - 2);
-            }
-        }
-    }
-
-    return resultDict;
-}
+APIAccessPoint::~APIAccessPoint() {}
 
 void APIAccessPoint::logOut(std::string &requestMessage, int &statusRequest)
 {
-    statusRequest = -1;
-    requestMessage = "ERROR";
 
-    try {
-        // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
-        http::Request request(apiServerIP + "auth/logout");
+    std::map<std::string, std::string> parameters = {{"token", token}};
 
-        std::vector<std::string> headers = {"Content-Type: application/x-www-form-urlencoded"};
-        std::map<std::string, std::string> parameters = {{"token", token}};
+    auto body = apiRequest.get("auth/logout", parameters);
 
-        // send a get request
-        const http::Response response = request.send("GET", parameters, headers);
+    if (body.find("message") != body.end()) requestMessage = body["message"];
+    else requestMessage = "ERROR: No message sent";
 
-        auto body = getBody(std::string(response.body.begin() + 1, response.body.end() - 2));
+    if (body.find("status") != body.end()) {
+        statusRequest = atoi(body["status"].c_str());
 
-        if (body.find("message") != body.end()) requestMessage = body["message"];
-
-        if (body.find("status") != body.end()) {
-            statusRequest = atoi(body["status"].c_str());
-
-            if (statusRequest == 200) {
-                if (body.find("content") != body.end()) { token = ""; }
-            }
+        if (statusRequest == 200) {
+            if (body.find("content") != body.end()) { token = ""; }
         }
-    } catch (const std::exception& e) {
-        std::cerr << "Request failed, error: " << e.what() << '\n';
-    }
+    } else statusRequest = -1;
 }
 
 void APIAccessPoint::signIn(std::string email, std::string password, std::string &requestMessage, int &statusRequest)
 {
-    statusRequest = -1;
-    requestMessage = "ERROR";
+    std::map<std::string, std::string> parameters = {{"email", email}, {"password", password}};
 
-    try {
-        // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
-        http::Request request(apiServerIP + "auth/login");
+    auto body = apiRequest.get("auth/login", parameters);
 
-        std::vector<std::string> headers = {"Content-Type: application/x-www-form-urlencoded"};
-        std::map<std::string, std::string> parameters = {{"email", email}, {"password", password}};
+    if (body.find("message") != body.end()) requestMessage = body["message"];
+    else requestMessage = "ERROR: No message sent";
 
-        // send a get request
-        const http::Response response = request.send("GET", parameters, headers);
+    if (body.find("status") != body.end()) {
+        statusRequest = atoi(body["status"].c_str());
 
-        auto body = getBody(std::string(response.body.begin() + 1, response.body.end() - 2));
+        if (statusRequest == 200) {
+            if (body.find("content") != body.end()) {
+                token = body["content"];
 
-        if (body.find("message") != body.end()) requestMessage = body["message"];
-
-        if (body.find("status") != body.end()) {
-            statusRequest = atoi(body["status"].c_str());
-
-            if (statusRequest == 200) {
-                if (body.find("content") != body.end()) {
-                    token = body["content"];
-                }
             }
         }
-    } catch (const std::exception& e) {
-        std::cerr << "Request failed, error: " << e.what() << '\n';
-    }
+    } else statusRequest = -1;
 }
 
 void APIAccessPoint::signUp(std::string name, std::string email, std::string password, std::string &requestMessage, int &statusRequest)
 {
-    statusRequest = -1;
-    requestMessage = "ERROR";
+    std::map<std::string, std::string> parameters = {{"name", name}, {"email", email}, {"password", password}};
 
-    try {
-        // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
-        http::Request request(apiServerIP + "auth/register");
+    auto body = apiRequest.post("auth/register", parameters);
 
-        std::vector<std::string> headers = {"Content-Type: application/x-www-form-urlencoded"};
-        std::map<std::string, std::string> parameters = {{"name", name}, {"email", email}, {"password", password}};
+    if (body.find("message") != body.end()) requestMessage = body["message"];
+    else requestMessage = "ERROR: No message sent";
 
-        // send a get request
-        const http::Response response = request.send("POST", parameters, headers);
-
-        auto body = getBody(std::string(response.body.begin() + 1, response.body.end() - 2));
-
-        if (body.find("message") != body.end()) requestMessage = body["message"];
-
-        if (body.find("status") != body.end()) {
-            statusRequest = atoi(body["status"].c_str());
-        }
-    } catch (const std::exception& e) {
-        std::cerr << "Request failed, error: " << e.what() << '\n';
-    }
+    if (body.find("status") != body.end()) {
+        statusRequest = atoi(body["status"].c_str());
+    } else statusRequest = -1;
 }
 
 void APIAccessPoint::passwordReset(std::string email, std::string &requestMessage, int &statusRequest)
 {
-    statusRequest = -1;
-    requestMessage = "ERROR";
+    std::map<std::string, std::string> parameters = {{"email", email}};
 
-    try {
-        // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
-        http::Request request(apiServerIP + "auth/reset");
+    auto body = apiRequest.put("auth/reset", parameters);
 
-        std::vector<std::string> headers = {"Content-Type: application/x-www-form-urlencoded"};
-        std::map<std::string, std::string> parameters = {{"email", email}};
+    if (body.find("message") != body.end()) requestMessage = body["message"];
+    else requestMessage = "ERROR: No message sent";
 
-        // send a get request
-        const http::Response response = request.send("PUT", parameters, headers);
-
-        auto body = getBody(std::string(response.body.begin() + 1, response.body.end() - 2));
-
-        if (body.find("message") != body.end()) requestMessage = body["message"];
-
-        if (body.find("status") != body.end()) {
-            statusRequest = atoi(body["status"].c_str());
-        }
-    } catch (const std::exception& e) {
-        std::cerr << "Request failed, error: " << e.what() << '\n';
-    }
+    if (body.find("status") != body.end()) {
+        statusRequest = atoi(body["status"].c_str());
+    } else statusRequest = -1;
 }
 
 std::vector<std::string> APIAccessPoint::sensorAvailable(std::string &requestMessage, int &statusRequest)
 {
-    statusRequest = -1;
-    requestMessage = "ERROR";
     std::vector<std::string> sensors;
 
-    try {
-        // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
-        http::Request request(apiServerIP + "sensors/available-sensors");
+    std::map<std::string, std::string> parameters = {{"token", token}};
 
-        std::vector<std::string> headers = {"Content-Type: application/x-www-form-urlencoded"};
+    auto body = apiRequest.get("sensors/available-sensors", parameters);
 
-        // send a get request
-        std::map<std::string, std::string> parameters = {{"token", token}};
+    if (body.find("message") != body.end()) requestMessage = body["message"];
+    else requestMessage = "ERROR: No message sent";
 
-        const http::Response response = request.send("GET", parameters, headers);
+    if (body.find("status") != body.end()) {
+        statusRequest = atoi(body["status"].c_str());
 
-        auto body = getBody(std::string(response.body.begin() + 1, response.body.end() - 2));
-
-        if (body.find("message") != body.end()) requestMessage = body["message"];
-
-        if (body.find("status") != body.end()) {
-            statusRequest = atoi(body["status"].c_str());
-
-            if (statusRequest == 200) {
-                if (body.find("content") != body.end()) {
-                    sensors = split(body["content"], "&");
-                }
+        if (statusRequest == 200) {
+            if (body.find("content") != body.end()) {
+                sensors = util::split(body["content"], "&");
             }
         }
-    } catch (const std::exception& e) {
-        std::cerr << "Request failed, error: " << e.what() << '\n';
-    }
+    } else statusRequest = -1;
 
     return sensors;
 }
 
 std::string APIAccessPoint::getSensorStatus(std::string sensorName, std::string &requestMessage, int &statusRequest)
 {
-    statusRequest = -1;
     std::string value;
-    requestMessage = "ERROR";
 
-    try {
-        // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
-        http::Request request(apiServerIP + "sensors/get-sensor-status");
+    std::map<std::string, std::string> parameters = {{"token", token}, {"name", sensorName}};
 
-        std::vector<std::string> headers = {"Content-Type: application/x-www-form-urlencoded"};
+    auto body = apiRequest.get("sensors/get-sensor-status", parameters);
 
-        // send a get request
-        std::map<std::string, std::string> parameters = {{"token", token}, {"name", sensorName}};
+    if (body.find("message") != body.end()) requestMessage = body["message"];
+    else requestMessage = "ERROR: No message sent";
 
-        const http::Response response = request.send("GET", parameters, headers);
+    if (body.find("status") != body.end()) {
+        statusRequest = atoi(body["status"].c_str());
 
-        auto body = getBody(std::string(response.body.begin() + 1, response.body.end() - 2));
-
-        if (body.find("message") != body.end()) requestMessage = body["message"];
-
-        if (body.find("status") != body.end()) {
-            statusRequest = atoi(body["status"].c_str());
-
-            if (statusRequest == 200) {
-                if (body.find("content") != body.end()) {
-                    value = body["content"];
-                }
+        if (statusRequest == 200) {
+            if (body.find("content") != body.end()) {
+                value = body["content"];
             }
         }
-    } catch (const std::exception& e) {
-        std::cerr << "Request failed, error: " << e.what() << '\n';
-    }
+    } else statusRequest = -1;
 
     return value;
 }
 
 void APIAccessPoint::setSensorStatus(std::string sensorName, std::string newStatus, std::string &requestMessage, int &statusRequest)
 {
-    statusRequest = -1;
-    requestMessage = "ERROR";
+    std::map<std::string, std::string> parameters = {{"token", token}, {"name", sensorName}, {"status", newStatus}};
 
-    try {
-        // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
-        http::Request request(apiServerIP + "sensors/set-sensor-status");
+    auto body = apiRequest.put("sensors/set-sensor-status", parameters);
 
-        std::vector<std::string> headers = {"Content-Type: application/x-www-form-urlencoded"};
+    if (body.find("message") != body.end()) requestMessage = body["message"];
+    else requestMessage = "ERROR: No message sent";
 
-        // send a get request
-        std::map<std::string, std::string> parameters = {{"token", token}, {"name", sensorName}, {"status", newStatus}};
-
-        const http::Response response = request.send("PUT", parameters, headers);
-
-        auto body = getBody(std::string(response.body.begin() + 1, response.body.end() - 2));
-
-        if (body.find("message") != body.end()) requestMessage = body["message"];
-
-        if (body.find("status") != body.end()) {
-            statusRequest = atoi(body["status"].c_str());
-        }
-    } catch (const std::exception& e) {
-        std::cerr << "Request failed, error: " << e.what() << '\n';
-    }
+    if (body.find("status") != body.end()) {
+        statusRequest = atoi(body["status"].c_str());
+    } else statusRequest = -1;
 }
