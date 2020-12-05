@@ -317,8 +317,6 @@ void OpenGLClass::paintGL() {
     this->glClearColor(1.0, 1.0, 1.0, 1.0);
     this->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//    glDisable(GL_DEPTH_TEST);
-
     vao->bind();
     vbo->bind();
     myShader->bind();
