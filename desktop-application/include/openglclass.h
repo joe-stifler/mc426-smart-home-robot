@@ -79,9 +79,8 @@ private:
     std::vector<std::pair<SmartDevice *, std::unique_ptr<QOpenGLTexture>>> textureDevices;
 
     void getNormalizedCoordinates(float x, float y, float &x_coord, float &y_coord);
-    void getInverseNormalizedCoordinates(float x, float y, float &x_coord, float &y_coord);
 
-    void RenderRobot(GLfloat x, GLfloat y, GLfloat scale, QVector3D color, int orientation);
+    void getInverseNormalizedCoordinates(float x, float y, float &x_coord, float &y_coord);
 
 protected:
     // Declare that we are overriding QWidget's events for mouse press and release

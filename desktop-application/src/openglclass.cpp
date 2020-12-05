@@ -91,7 +91,7 @@ void OpenGLClass::addSmartDevice(SmartDevice *smartDevice) {
     if (smartDevice) {
         textureDevices.push_back(std::make_pair(smartDevice, std::unique_ptr<QOpenGLTexture>()));
 
-        textureDevices[textureDevices.size() - 1].second.reset(createTexture(smartDevice->path));
+        textureDevices[textureDevices.size() - 1].second.reset(createTexture(smartDevice->getPath()));
 
         update();
     }
@@ -261,7 +261,7 @@ void OpenGLClass::mousePressEvent(QMouseEvent *event)
                 if (textureDevice.second) {
                     auto smartDevice = textureDevice.first;
 
-                    if (std::fabs(x - smartDevice->x) < smartDevice->dx && std::fabs(y - smartDevice->y) < smartDevice->dy) {
+                    if (std::fabs(x - smartDevice->getX()) < smartDevice->getDx() && std::fabs(y - smartDevice->getY()) < smartDevice->getDy()) {
                         pickedDevice = smartDevice;
                         break;
                     }
@@ -284,8 +284,8 @@ void OpenGLClass::mouseReleaseEvent(QMouseEvent *event)
 
         } else if (event->button() == Qt::RightButton) {
             if (pickedDevice) {
-                pickedDevice->x = x_coord;
-                pickedDevice->y = y_coord;
+                pickedDevice->setX(x_coord);
+                pickedDevice->setY(y_coord);
                 update();
             }
         }
@@ -304,8 +304,8 @@ void OpenGLClass::mouseMoveEvent(QMouseEvent *event)
 
     if (x_coord >= 0.0f && x_coord <= 1.0f && y_coord >= 0.0f && y_coord <= 1.0f) {
         if (pickedDevice) {
-            pickedDevice->x = x_coord;
-            pickedDevice->y = y_coord;
+            pickedDevice->setX(x_coord);
+            pickedDevice->setY(y_coord);
             update();
         }
     }
@@ -358,12 +358,12 @@ void OpenGLClass::paintGL() {
             SmartDevice *smartDevice = textureDevice.first;
 
             if (smartDevice) {
-                float dx = smartDevice->dx;
-                float dy = smartDevice->dy;
+                float dx = smartDevice->getDx();
+                float dy = smartDevice->getDy();
                 point vertices[6];
 
                 float x, y;
-                getInverseNormalizedCoordinates(smartDevice->x, smartDevice->y, x, y);
+                getInverseNormalizedCoordinates(smartDevice->getX(), smartDevice->getY(), x, y);
 
                 x = 2.0f * x / (float) width() - 1.0f;
                 y = 2.0f * (1.0f - y / (float) height()) - 1.0f;
