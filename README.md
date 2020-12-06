@@ -199,6 +199,7 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 pip install jwt
 pip install flask
 pip install functools
+pip install pymongo
 ```
 
 ## <a name="install-desktop-app"></a> Desktop Application
