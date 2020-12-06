@@ -202,19 +202,22 @@ pip install functools
 ```
 
 ## <a name="install-desktop-app"></a> Desktop Application
+```
+Install Qt Creator 4.13.2 based on Qt 5.15.1. This IDE will be used to compile the desktop application. In order to open the project in Qt Creator, use the .pro file inside desktop-application directory. Also, you should have installed the following programs: 'make', 'g++', 'gcc'. Also, you should have the OpenGL library in your system. At least the OpenGL 3.3 is required.
+```
 
-
+To easy things, we created a Virtual Box image (.ova) with everything already setted. The link of the image is [here](https://drive.google.com/file/d/1ohsmoMO1jW2il7xQ5FZFSRW38ljwhsVI/view?usp=sharing).
 
 # <a name="usage"></a> Usage
 
 ## <a name="usage-api-app"></a> API Application
-Run the following code to start the Serving Flask app:
+Run the following code to start the Flask Server app:
 
 ```bash
 python3 api-application/routes.py
 ```
 
-Run the following code to test the Serving Flask app:
+Run the following code to test the Flask Server app:
 
 ```bash
 python3 api-application/test.py
@@ -222,6 +225,9 @@ python3 api-application/test.py
 
 ## <a name="usage-desktop-app"></a> Desktop Application
 
+```
+After compiling, you can run your program directly from Qt Creator using the 'Ctrl + R' or you can go to a linux terminal, inside desktop-application directory, and type: $ ./mc426-smart-home-robot 
+```
 
 # <a name="desktop-screenshot"></a>Desktop Application Screenshot
 
