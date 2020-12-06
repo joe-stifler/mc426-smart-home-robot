@@ -12,13 +12,14 @@ enum SmartDeviceType : char {
     SmartTemperature
 };
 
-struct SmartDevice {
+class SmartDevice {
     float x;
     float y;
     float dx;
     float dy;
     std::string path;
 
+public:
     SmartDevice() {}
 
     SmartDevice(float _x, float _y, float _dx, float _dy, std::string _path) {
@@ -28,6 +29,20 @@ struct SmartDevice {
         dy = _dy;
         path = _path;
     }
+
+    float getX() {return x;}
+
+    float getY() {return y;}
+
+    float getDx() {return dx;}
+
+    float getDy() {return dy;}
+
+    std::string getPath() {return path;}
+
+    void setX(float _x) {x = _x;}
+
+    void setY(float _y) {y = _y;}
 };
 
 class SmartDeviceFactory {

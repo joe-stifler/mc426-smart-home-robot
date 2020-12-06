@@ -15,15 +15,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     connect(ui->openGLWidget, SIGNAL(ClickPlot(float, float)), this, SLOT(addSmartDevice(float, float)));
 
-//    addDevice(0, 0, SmartDeviceType::SmartLamp);
-
-//    addDevice(0.5, 0.5, SmartDeviceType::SmartLamp);
-
-
-//    robotThread.reset(new RobotThread(smartDevices[smartDevices.size() - 1].get(), ui->openGLWidget));
-
-//    robotThread->start();
-
     int status;
     std::string requestMessage;
 
@@ -31,50 +22,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     std::string email = "joe@joe.com";
     std::string password = "password123";
 
-//    std::cout << "SIGN-UP" << std::endl;
-//    APIAccessPoint::instance().signUp(name, email, password, requestMessage, status);
-
-//    std::cout << "Status: " << status << std::endl;
-//    std::cout << "request message: " << requestMessage << std::endl;
-//    std::cout << std::endl;
-
-
     APIAccessPoint::instance().signIn(email, password, requestMessage, status);
-
-//    std::cout << "RESET" << std::endl;
-//    APIAccessPoint::instance().passwordReset(email, requestMessage, status);
-
-//    std::cout << "Status: " << status << std::endl;
-//    std::cout << "request message: " << requestMessage << std::endl;
-//    std::cout << std::endl;
-
-
-
-//    std::cout << "GET SENSOR STATUS" << std::endl;
-//    auto value = APIAccessPoint::instance().getSensorStatus("luz1", requestMessage, status);
-
-//    std::cout << "Status: " << status << std::endl;
-//    std::cout << "request message: " << requestMessage << std::endl;
-
-//    std::cout << "Value: " << value << std::endl;
-//    std::cout << std::endl;
-
-//    std::cout << "SET SENSOR STATUS" << std::endl;
-//    APIAccessPoint::instance().setSensorStatus("luz1", std::to_string(-4230), requestMessage, status);
-
-//    std::cout << "Status: " << status << std::endl;
-//    std::cout << "request message: " << requestMessage << std::endl;
-//    std::cout << std::endl;
 }
 
 MainWindow::~MainWindow() {
     delete ui;
-
-//    robotThread->stop();
-
-//    while (robotThread->finished);
-
-    //    robotThread->terminate();
 }
 
 void MainWindow::signIn()

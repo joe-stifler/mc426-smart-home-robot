@@ -53,6 +53,7 @@ OBJECTS_DIR   = obj/
 ####### Files
 
 SOURCES       = src/apiaccesspoint.cpp \
+		src/apirequest.cpp \
 		src/getsensorsdialog.cpp \
 		src/main.cpp \
 		src/mainwindow.cpp \
@@ -60,6 +61,7 @@ SOURCES       = src/apiaccesspoint.cpp \
 		moc/moc_openglclass.cpp \
 		moc/moc_getsensorsdialog.cpp
 OBJECTS       = obj/apiaccesspoint.o \
+		obj/apirequest.o \
 		obj/getsensorsdialog.o \
 		obj/main.o \
 		obj/mainwindow.o \
@@ -283,10 +285,13 @@ DIST          = shaders/* \
 		../../../Qt/5.15.0/gcc_64/mkspecs/features/lex.prf \
 		mc426-smart-home-robot.pro include/HTTPRequest.h \
 		include/SmartDevice.h \
+		include/Util.h \
 		include/mainwindow.h \
 		include/openglclass.h \
 		include/apiaccesspoint.h \
-		include/getsensorsdialog.h src/apiaccesspoint.cpp \
+		include/getsensorsdialog.h \
+		include/apirequest.h src/apiaccesspoint.cpp \
+		src/apirequest.cpp \
 		src/getsensorsdialog.cpp \
 		src/main.cpp \
 		src/mainwindow.cpp \
@@ -744,8 +749,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.15.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents include/HTTPRequest.h include/SmartDevice.h include/mainwindow.h include/openglclass.h include/apiaccesspoint.h include/getsensorsdialog.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/apiaccesspoint.cpp src/getsensorsdialog.cpp src/main.cpp src/mainwindow.cpp src/openglclass.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents include/HTTPRequest.h include/SmartDevice.h include/Util.h include/mainwindow.h include/openglclass.h include/apiaccesspoint.h include/getsensorsdialog.h include/apirequest.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/apiaccesspoint.cpp src/apirequest.cpp src/getsensorsdialog.cpp src/main.cpp src/mainwindow.cpp src/openglclass.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents forms/mainwindow.ui forms/getsensorsdialog.ui $(DISTDIR)/
 
 
@@ -937,6 +942,8 @@ moc/moc_mainwindow.cpp: include/mainwindow.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		include/apiaccesspoint.h \
+		include/apirequest.h \
+		include/Util.h \
 		include/HTTPRequest.h \
 		include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QDialog \
@@ -1225,6 +1232,8 @@ moc/moc_getsensorsdialog.cpp: include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
 		include/apiaccesspoint.h \
+		include/apirequest.h \
+		include/Util.h \
 		include/HTTPRequest.h \
 		include/SmartDevice.h \
 		moc/moc_predefs.h \
@@ -1392,8 +1401,15 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 ####### Compile
 
 obj/apiaccesspoint.o: src/apiaccesspoint.cpp include/apiaccesspoint.h \
+		include/apirequest.h \
+		include/Util.h \
 		include/HTTPRequest.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/apiaccesspoint.o src/apiaccesspoint.cpp
+
+obj/apirequest.o: src/apirequest.cpp include/apirequest.h \
+		include/Util.h \
+		include/HTTPRequest.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/apirequest.o src/apirequest.cpp
 
 obj/getsensorsdialog.o: src/getsensorsdialog.cpp include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QDialog \
@@ -1520,6 +1536,8 @@ obj/getsensorsdialog.o: src/getsensorsdialog.cpp include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
 		include/apiaccesspoint.h \
+		include/apirequest.h \
+		include/Util.h \
 		include/HTTPRequest.h \
 		include/SmartDevice.h \
 		uic/ui_getsensorsdialog.h
@@ -1681,6 +1699,8 @@ obj/main.o: src/main.cpp include/mainwindow.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		include/apiaccesspoint.h \
+		include/apirequest.h \
+		include/Util.h \
 		include/HTTPRequest.h \
 		include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QDialog \
@@ -1866,6 +1886,8 @@ obj/mainwindow.o: src/mainwindow.cpp ../../../Qt/5.15.0/gcc_64/include/QtWidgets
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
 		include/apiaccesspoint.h \
+		include/apirequest.h \
+		include/Util.h \
 		include/HTTPRequest.h \
 		include/getsensorsdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QDialog \
