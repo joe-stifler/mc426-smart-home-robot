@@ -9,6 +9,8 @@ class SecurityController(object):
     def sign_in(self): pass
 
     def sign_up(self, name, email, password):
+        if not any(c.isdigit() for c in password): return False
+
         if len(name) < SecurityController.MIN_NAME_SIZE: return False
         if len(name) > SecurityController.MAX_NAME_SIZE: return False
 
