@@ -14,6 +14,7 @@ class SignUpTestCase(unittest.TestCase):
         # password contem digitos: sim
         # numero de caracters no nome: 1 <= t <= 20
         # numero de caracters no password: 8 <= t <= 15
+        # usuario ja existe: nao
         #####################
         # resultado: valido
 
@@ -29,6 +30,7 @@ class SignUpTestCase(unittest.TestCase):
         # password contem digitos: sim
         # numero de caracters no nome: 1 <= t <= 20
         # numero de caracters no password: 8 <= t <= 15
+        # usuario ja existe: nao
         #####################
         # resultado: invalido
 
@@ -44,6 +46,7 @@ class SignUpTestCase(unittest.TestCase):
         # password contem digitos: nao (culpado da invalidez)
         # numero de caracters no nome: 1 <= t <= 20
         # numero de caracters no password: 8 <= t <= 15
+        # usuario ja existe: nao
         #####################
         # resultado: invalido
 
@@ -59,6 +62,7 @@ class SignUpTestCase(unittest.TestCase):
         # password contem digitos: sim
         # numero de caracters no nome: t = 0 (culpado da invalidez)
         # numero de caracters no password: 8 <= t <= 15
+        # usuario ja existe: nao
         #####################
         # resultado: invalido
         
@@ -74,6 +78,7 @@ class SignUpTestCase(unittest.TestCase):
         # password contem digitos: sim
         # numero de caracters no nome: t = 21 (culpado da invalidez)
         # numero de caracters no password: 8 <= t <= 15
+        # usuario ja existe: nao
         #####################
         # resultado: invalido
         
@@ -89,6 +94,7 @@ class SignUpTestCase(unittest.TestCase):
         # password contem digitos: sim
         # numero de caracters no nome: 1 <= t <= 20
         # numero de caracters no password: t < 8 (culpado da invalidez)
+        # usuario ja existe: nao
         #####################
         # resultado: invalido
 
@@ -104,12 +110,31 @@ class SignUpTestCase(unittest.TestCase):
         # password contem digitos: sim
         # numero de caracters no nome: 1 <= t <= 20
         # numero de caracters no password: t > 15 (culpado da invalidez)
+        # usuario ja existe: nao
         #####################
         # resultado: invalido
 
         name = "joe"
         email = "joe@gmail.com"
         password = "abc123abc123abc1"
+
+        self.assertFalse(self.controller.sign_up(name, email, password))
+
+    def test_sign_up_7(self):
+        #####################
+        # password contem letras: sim
+        # password contem digitos: sim
+        # numero de caracters no nome: 1 <= t <= 20
+        # numero de caracters no password: 8 <= t <= 15
+        # usuario ja existe: sim (culpado da invalidez)
+        #####################
+        # resultado: invalido
+
+        name = "joe"
+        email = "joe@gmail.com"
+        password = "abc123abc"
+
+        self.controller.sign_up(name, email, password)
 
         self.assertFalse(self.controller.sign_up(name, email, password))
 
