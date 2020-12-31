@@ -42,6 +42,9 @@ class SignInTestCase(unittest.TestCase):
         email = "joe@gmail"
         password = "abc123abc"
 
+        # guarantee that the user does not exists
+        self.controller.remove_user(email)
+
         self.assertFalse(self.controller.sign_in(email, password))
          
 

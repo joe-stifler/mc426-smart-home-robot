@@ -10,7 +10,11 @@ class SecurityController(object):
     def __init__(self):
         self.mydb = Database()
 
-    def sign_in(self): pass
+    def sign_in(self, email, password):
+        user = None
+
+        return False
+
 
     def reset_pass(self, email):
         # Verifies if a user with the same email already exists
