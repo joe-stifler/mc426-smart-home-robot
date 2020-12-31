@@ -8,20 +8,20 @@ class SignUpTestCase(unittest.TestCase):
     def setUp(self):
         self.controller = SecurityController()
 
-    # def test_sign_up_1(self):
-    #     #####################
-    #     # password contem letras: sim
-    #     # password contem digitos: sim
-    #     # numero de caracters no nome: 1 <= t <= 20
-    #     # numero de caracters no password: 8 <= t <= 15
-    #     #####################
-    #     # resultado: valido
+    def test_sign_up_1(self):
+        #####################
+        # password contem letras: sim
+        # password contem digitos: sim
+        # numero de caracters no nome: 1 <= t <= 20
+        # numero de caracters no password: 8 <= t <= 15
+        #####################
+        # resultado: valido
 
-    #     name = "joe"
-    #     email = "joe@gmail.com"
-    #     password = "abc123abc"
+        name = "joe"
+        email = "joe@gmail.com"
+        password = "abc123abc"
 
-    #     self.assertTrue(self.controller.sign_up(name, email, password))
+        self.assertTrue(self.controller.sign_up(name, email, password))
 
     def test_sign_up_2(self):
         #####################
