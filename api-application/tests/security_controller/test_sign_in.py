@@ -15,8 +15,12 @@ class SignInTestCase(unittest.TestCase):
         #####################
         # resultado: valido
 
+        name = "joe"
         email = "joe@gmail.com"
         password = "abc123abc"
+        
+        # guarantee that the user exists
+        self.controller.sign_up(name, email, password)
 
         self.assertTrue(self.controller.sign_in(email, password))
 
@@ -27,8 +31,12 @@ class SignInTestCase(unittest.TestCase):
         #####################
         # resultado: invalido
 
+        name = "joe"
         email = "joe@gmail.com"
         password = "abc123cab"
+
+        # guarantee that the user exists
+        self.controller.sign_up(name, email, password)
 
         self.assertFalse(self.controller.sign_in(email, password))
        

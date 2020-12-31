@@ -13,8 +13,17 @@ class SecurityController(object):
     def sign_in(self, email, password):
         user = None
 
-        return False
+        # Verifies if a user with the same email already exists
+        cursor = self.mydb.find(email)
 
+        for document in cursor:
+            user = document
+
+            break
+
+        if user and user['password'] == password: return True
+
+        return False
 
     def reset_pass(self, email):
         # Verifies if a user with the same email already exists
