@@ -14,7 +14,12 @@ class PassResetTestCase(unittest.TestCase):
         #####################
         # resultado: valido
 
+        name = "joe"
         email = "joe@gmail.com"
+        password = "abc123abc"
+
+        # guarantee that the user exists
+        self.controller.sign_up(name, email, password)
 
         self.assertTrue(self.controller.reset_pass(email))
 
@@ -25,6 +30,9 @@ class PassResetTestCase(unittest.TestCase):
         # resultado: invalido
 
         email = "joe@gmail"
+
+        # guarantee that the user does not exists
+        self.controller.remove_user(email)
 
         self.assertFalse(self.controller.reset_pass(email))
 

@@ -12,6 +12,17 @@ class SecurityController(object):
 
     def sign_in(self): pass
 
+    def reset_pass(self, email):
+        # Verifies if a user with the same email already exists
+        cursor = self.mydb.find(email)
+
+        for document in cursor:
+            # Here we send a reset email password to the client
+
+            return True
+
+        return False
+
     def remove_user(self, email):
         self.mydb.update({}, email)
 
@@ -28,7 +39,7 @@ class SecurityController(object):
         # Verifies if a user with the same email already exists
         cursor = self.mydb.find(email)
 
-        for document in cursor: return False   
+        for document in cursor: return False
 
         data = {"name": name, "email": email, "password": password} 
 
