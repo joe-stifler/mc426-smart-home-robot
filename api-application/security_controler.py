@@ -59,3 +59,7 @@ class SecurityController(object):
         self.mydb.insert(data)
 
         return True
+
+    def valid_token(self, token):
+
+        return False
