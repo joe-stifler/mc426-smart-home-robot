@@ -25,7 +25,7 @@ class SignUpTestCase(unittest.TestCase):
 
     def test_sign_up_2(self):
         #####################
-        # password contem letras: nao
+        # password contem letras: nao (culpado da invalidez)
         # password contem digitos: sim
         # numero de caracters no nome: 1 <= t <= 20
         # numero de caracters no password: 8 <= t <= 15
@@ -41,7 +41,7 @@ class SignUpTestCase(unittest.TestCase):
     def test_sign_up_3(self):
         #####################
         # password contem letras: sim
-        # password contem digitos: nao
+        # password contem digitos: nao (culpado da invalidez)
         # numero de caracters no nome: 1 <= t <= 20
         # numero de caracters no password: 8 <= t <= 15
         #####################
@@ -57,7 +57,7 @@ class SignUpTestCase(unittest.TestCase):
         #####################
         # password contem letras: sim
         # password contem digitos: sim
-        # numero de caracters no nome: t = 0
+        # numero de caracters no nome: t = 0 (culpado da invalidez)
         # numero de caracters no password: 8 <= t <= 15
         #####################
         # resultado: invalido
@@ -72,7 +72,7 @@ class SignUpTestCase(unittest.TestCase):
         #####################
         # password contem letras: sim
         # password contem digitos: sim
-        # numero de caracters no nome: t = 21
+        # numero de caracters no nome: t = 21 (culpado da invalidez)
         # numero de caracters no password: 8 <= t <= 15
         #####################
         # resultado: invalido
@@ -88,7 +88,7 @@ class SignUpTestCase(unittest.TestCase):
         # password contem letras: sim
         # password contem digitos: sim
         # numero de caracters no nome: 1 <= t <= 20
-        # numero de caracters no password: t < 8
+        # numero de caracters no password: t < 8 (culpado da invalidez)
         #####################
         # resultado: invalido
 
@@ -103,7 +103,7 @@ class SignUpTestCase(unittest.TestCase):
         # password contem letras: sim
         # password contem digitos: sim
         # numero de caracters no nome: 1 <= t <= 20
-        # numero de caracters no password: t > 15
+        # numero de caracters no password: t > 15 (culpado da invalidez)
         #####################
         # resultado: invalido
 
