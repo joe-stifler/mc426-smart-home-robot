@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(1, str().join(['/' + i for i in __file__.split('/')[1:-3]]))
+
 import unittest
 from security_controler import SecurityController
 
