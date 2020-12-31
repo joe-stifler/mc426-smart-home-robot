@@ -1,5 +1,6 @@
 
 class SecurityController(object):
+    MIN_NAME_SIZE = 1
     MAX_NAME_SIZE = 20
 
     MIN_PASSWORD_SIZE = 8
@@ -8,7 +9,7 @@ class SecurityController(object):
     def sign_in(self): pass
 
     def sign_up(self, name, email, password):
-
+        if len(name) < SecurityController.MIN_NAME_SIZE: return False
         if len(name) > SecurityController.MAX_NAME_SIZE: return False
 
         if len(password) < SecurityController.MIN_PASSWORD_SIZE: return False
