@@ -1,3 +1,5 @@
+import jwt
+import datetime
 from database import Database
 
 class SecurityController(object):
@@ -6,6 +8,8 @@ class SecurityController(object):
 
     MIN_PASSWORD_SIZE = 8
     MAX_PASSWORD_SIZE = 15
+
+    SECRET_KEY = "hunter_x_hunter_2020"
 
     def __init__(self):
         self.mydb = Database()
@@ -60,6 +64,14 @@ class SecurityController(object):
 
         return True
 
-    def valid_token(self, token):
+    def generate_token(self, email):
+        return jwt.encode({'user' : email, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, SecurityController.SECRET_KEY)
 
-        return False
+    def valid_token(self, token):
+        try:
+            data = jwt.decode(token, SecurityController.SECRET_KEY, algorithms=["HS256"])
+
+            return True
+        except:
+            # "Token is invalid!"
+            return False

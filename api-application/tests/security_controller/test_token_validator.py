@@ -16,7 +16,8 @@ class TokenValidatorTestCase(unittest.TestCase):
         #####################
         # usuario autenticado: sim
 
-        token = ""
+        email = "joe@gmail.com"
+        token = self.controller.generate_token(email)
 
         self.assertTrue(self.controller.valid_token(token))
 
@@ -28,7 +29,7 @@ class TokenValidatorTestCase(unittest.TestCase):
         #####################
         # usuario autenticado: nao
 
-        token = ""
+        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoidGVzdGVAdGVzdGUuY29tLmJyIiwiZXhwIjoxNjA2NjAwOTgyfQ.EVpPpzji2Lp6CIo6INlxZi1u0V4feQ-VXBW8muI72c4"
 
         self.assertFalse(self.controller.valid_token(token))
 
@@ -39,7 +40,7 @@ class TokenValidatorTestCase(unittest.TestCase):
         #####################
         # usuario autenticado: nao
 
-        token = ""
+        token = "123abacate"
 
         self.assertFalse(self.controller.valid_token(token))
     
@@ -49,7 +50,7 @@ class TokenValidatorTestCase(unittest.TestCase):
         #####################
         # usuario autenticado: nao
 
-        token = ""
+        token = None
 
         self.assertFalse(self.controller.valid_token(token))
 
