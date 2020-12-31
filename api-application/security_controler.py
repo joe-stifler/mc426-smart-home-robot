@@ -1,3 +1,4 @@
+from database import Database
 
 class SecurityController(object):
     MIN_NAME_SIZE = 1
@@ -6,7 +7,13 @@ class SecurityController(object):
     MIN_PASSWORD_SIZE = 8
     MAX_PASSWORD_SIZE = 15
 
+    def __init__(self):
+        self.mydb = Database()
+
     def sign_in(self): pass
+
+    def remove_user(self, email):
+        self.mydb.update({}, email)
 
     def sign_up(self, name, email, password):
         if not any(c.isalpha() for c in password): return False
@@ -17,5 +24,14 @@ class SecurityController(object):
 
         if len(password) < SecurityController.MIN_PASSWORD_SIZE: return False
         if len(password) > SecurityController.MAX_PASSWORD_SIZE: return False
+
+        # Verifies if a user with the same email already exists
+        cursor = self.mydb.find(email)
+
+        for document in cursor: return False   
+
+        data = {"name": name, "email": email, "password": password} 
+
+        self.mydb.insert(data)
 
         return True

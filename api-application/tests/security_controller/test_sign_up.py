@@ -22,6 +22,8 @@ class SignUpTestCase(unittest.TestCase):
         email = "joe@gmail.com"
         password = "abc123abc"
 
+        self.controller.remove_user(email)
+
         self.assertTrue(self.controller.sign_up(name, email, password))
 
     def test_sign_up_2(self):
@@ -120,7 +122,7 @@ class SignUpTestCase(unittest.TestCase):
 
         self.assertFalse(self.controller.sign_up(name, email, password))
 
-    def test_sign_up_7(self):
+    def test_sign_up_8(self):
         #####################
         # password contem letras: sim
         # password contem digitos: sim
@@ -134,8 +136,10 @@ class SignUpTestCase(unittest.TestCase):
         email = "joe@gmail.com"
         password = "abc123abc"
 
+        # insert user once
         self.controller.sign_up(name, email, password)
 
+        # try to insert user again
         self.assertFalse(self.controller.sign_up(name, email, password))
 
 if __name__ == '__main__':
