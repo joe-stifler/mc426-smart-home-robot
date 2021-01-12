@@ -16,7 +16,13 @@ class TokenValidatorTestCase(unittest.TestCase):
         #####################
         # usuario autenticado: sim
 
+        name = "joe"
         email = "joe@gmail.com"
+        password = "abc123abc"
+
+        self.controller.remove_user(email)
+        self.controller.sign_up(name, email, password)
+
         token = self.controller.generate_token(email)
 
         self.assertTrue(self.controller.valid_token(token))
