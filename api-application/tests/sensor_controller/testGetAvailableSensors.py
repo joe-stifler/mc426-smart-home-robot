@@ -44,6 +44,3 @@ class TestGetAvailableSensors(unittest.TestCase):
 
         self.assertEqual(len(list_sensors), 0)
         
-if __name__ == '__main__':
-    unittest.main()
-

@@ -26,13 +26,21 @@ class FacadeAPI(object):
 
     # sensor module
 
-    def getAvailableSensor(self):
-        sensor_list = self.sensor.getAvailableSensor()
+    def getAvailableSensor(self, num_sensors):
+        sensor_list = self.sensor.getAvailableSensor(num_sensors)
 
         return self.sensor.process_sensor_list(sensor_list)
 
     def setSensorStatus(self, name, status):
-        return self.sensor.setSensorStatus(name, status)
+        if self.sensor.setSensorStatus(name, status):
+            return self.getSensorStatus(name)    
+
+        return None
 
     def getSensorStatus(self, name):
-        return str(self.sensor.getSensorStatus(name)['status'])
+        sensor = self.sensor.getSensorStatus(name)
+
+        if sensor == None:
+            return None
+            
+        return str(sensor['status'])

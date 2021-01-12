@@ -1,7 +1,7 @@
 stages:
   - build
   - test
-  - api test
+  - flask api test
 
 image: python:latest
 
@@ -51,8 +51,8 @@ test-security:
 
     
 test-api:
-  stage: api test
+  stage: flask api test
   script:
     - echo "RUNNING THE TEST API"
-    - cd api-application/tests/
-    - python test_api.py
+    - python api-application/routes.py &
+    - python -m unittest discover -s ./api-application/tests/test_api.py

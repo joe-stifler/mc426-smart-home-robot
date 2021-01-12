@@ -6,7 +6,7 @@ class SensorController:
 
        self.add_sensor('luz1', '1')
        self.add_sensor('luz2', '0')
-       self.add_sensor('energy', '100', t='float')
+       self.add_sensor('energy', '100')
        self.add_sensor('air', '0')
        self.add_sensor('camera', '1')
        self.add_sensor('presence', '0')
@@ -31,7 +31,7 @@ class SensorController:
         cursor = self.mydb.find_all_sensors()
 
         for document in cursor:
-            if counter >= num_sensors:
+            if num_sensors >= 0 and counter >= num_sensors:
                 break
 
             counter += 1

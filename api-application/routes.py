@@ -107,7 +107,9 @@ def sensorAvailable():
     if not body:
         return generateResponse(403, "Body is missing!")
 
-    sensors = "luz1" + "&" + "luz2" + "&" + "energia"
+    sensors = facade.getAvailableSensor(-1)
+
+    print(sensors)
 
     return  generateResponse(200, "Returning all sensors!", sensors)
 
@@ -123,7 +125,10 @@ def sensorGetStatus():
     if ("name" not in body):
         return generateResponse(403, "The `name` field is mandatory")
 
-    status = "123"
+    status = facade.getSensorStatus(body['name'])
+
+    if status == None:
+        return  generateResponse(404, "Invalid sensor name. Sensor not found!")
 
     return  generateResponse(200, "Returning sensor status!", status)
 
@@ -142,9 +147,12 @@ def sensorSetStatus():
     if ("status" not in body):
         return generateResponse(403, "The `status` field is mandatory")
 
-    status = "123"
+    status = facade.setSensorStatus(body['name'], body['status'])
 
-    return  generateResponse(200, "New value setted for the sensor!", status)
+    if status != None:
+        return  generateResponse(200, "New value setted for the sensor!", status)
+    
+    return  generateResponse(404, "Invalid sensor name or status type. New value for sensor not setted!")
 
 
 def generateResponse(status, message, content = False):

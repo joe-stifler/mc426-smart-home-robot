@@ -59,6 +59,3 @@ class TokenValidatorTestCase(unittest.TestCase):
         token = None
 
         self.assertFalse(self.controller.valid_token(token))
-
-if __name__ == '__main__':
-    unittest.main()

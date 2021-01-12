@@ -2,9 +2,9 @@ import pymongo
 
 class Database(object):
     
-    URI = "mongodb://localhost:27017/"
+    # URI = "mongodb://localhost:27017/"
 
-    # URI = "mongodb+srv://joe:joe123@cluster0.l9x0m.mongodb.net/EngSoftware?retryWrites=true&w=majority"
+    URI = "mongodb+srv://joe:joe123@cluster0.l9x0m.mongodb.net/EngSoftware?retryWrites=true&w=majority"
 
     def __init__(self):
         connect = pymongo.MongoClient(self.URI)
