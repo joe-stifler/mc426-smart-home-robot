@@ -2,14 +2,14 @@ import pymongo
 
 class Database(object):
     
-    URI = "mongodb://localhost:27017/"
+    # URI = "mongodb://localhost:27017/"
 
-    # URI = "mongodb+srv://gabriel:bussunda123@cluster0.ltmtq.mongodb.net/EngSof?retryWrites=true&w=majority"
+    URI = "mongodb+srv://joe:joe123@cluster0.l9x0m.mongodb.net/EngSoftware?retryWrites=true&w=majority"
 
     def __init__(self):
         connect = pymongo.MongoClient(self.URI)
 
-        self.db = connect.EngSof
+        self.db = connect.EngSoftware
         
     def insert(self, data):
         self.db.users.insert_one(data)
