@@ -1,12 +1,16 @@
+from database import Database
+
 class SensorController:
-  
     def __init__(self):
        self.lamp = -1
        self.energy = -1
        self.air = -1
        self.camera = -1
        self.presence = -1
-       self.temperature = -1     
+       self.temperature = -1
+
+       self.mydb = Database()
+        
        return None
   
     def getAvailableSensor(self, listSensors):
@@ -25,13 +29,16 @@ class SensorController:
           if listSensors[0] == "presence":
              self.presence = 1 
           if listSensors[0] == "temperature":
-             self.temperature = 1              
+             self.temperature = 1    
+
           return listSensors[0]   
         
        if len(listSensors) > 1:
           sensors = ""
+
           for x in listSensors: 
              sensors = sensors + x + "&" 
+
              if x == "lamp":
                 self.lamp = 1
              if x == "energy":
@@ -44,7 +51,9 @@ class SensorController:
                 self.presence = 1 
              if x == "temperature":
                 self.temperature = 1 
+          
           sensors = sensors[:-1]
+
        return sensors
     
     def setSensorStatus(self, name, status):
@@ -56,7 +65,8 @@ class SensorController:
              else:
                 return 400    
           else:
-             return 400   
+             return 400
+
        if name == "energy":
           if self.energy != -1:
              if type(status) == int:
@@ -66,6 +76,7 @@ class SensorController:
                 return 400   
           else:
              return 400 
+
        if name == "air":
           if self.air != -1:
              if type(status) == float:
@@ -75,6 +86,7 @@ class SensorController:
                 return 400   
           else:
              return 400 
+
        if name == "camera":
           if self.camera != -1:
              if type(status) == bool:
@@ -83,7 +95,8 @@ class SensorController:
              else:
                 return 400   
           else:
-             return 400 
+             return 400
+
        if name == "presence":
           if self.presence != -1:
              if type(status) == bool:
@@ -92,14 +105,15 @@ class SensorController:
              else:
                 return 400   
           else:
-             return 400 
+             return 400
+
        if name == "temperature":
           if self.temperature != -1:
              if type(status) == float:
                 self.temperature = status
                 return status
              else:
-                return 400   
+                return 400
           else:
              return 400       
        return status  
@@ -113,6 +127,7 @@ class SensorController:
                 return 400   
           else:
              return 400   
+
        if name == "energy":
           if self.energy != -1:
              if type(self.energy) == int:
@@ -121,6 +136,7 @@ class SensorController:
                 return 400   
           else:
              return 400 
+
        if name == "air":
           if self.air != -1:
              if type(self.air) == float:
@@ -129,6 +145,7 @@ class SensorController:
                 return 400   
           else:
              return 400 
+
        if name == "camera":
           if self.camera != -1:
              if type(self.camera) == bool:
@@ -137,6 +154,7 @@ class SensorController:
                 return 400   
           else:
              return 400 
+
        if name == "presence":
           if self.presence != -1:
              if type(self.lamp) == bool:
@@ -145,6 +163,7 @@ class SensorController:
                 return 400   
           else:
              return 400 
+
        if name == "temperature":
           if self.temperature != -1:
              if type(self.lamp) == float:
