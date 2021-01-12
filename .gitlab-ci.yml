@@ -50,4 +50,4 @@ test-api:
   script:
     - echo "RUNNING THE TEST API"
     - python api-application/routes.py &
-    - python -m unittest discover -s ./api-application/tests/test_api.py
+    - python -m unittest discover -s ./api-application/tests/
