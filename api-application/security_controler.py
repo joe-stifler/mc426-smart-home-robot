@@ -9,6 +9,7 @@ class SecurityController(object):
     MIN_PASSWORD_SIZE = 8
     MAX_PASSWORD_SIZE = 15
 
+    HEADER  = { 'alg': 'HS256' }
     SECRET_KEY = "hunter_x_hunter_2020"
 
     def __init__(self):

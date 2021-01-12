@@ -1,5 +1,8 @@
+import sys
+sys.path.insert(1, str().join(['/' + i for i in __file__.split('/')[1:-3]]))
+
 import unittest
-from sensor_controller import SensorController
+from sensor_controller import *
 
 class TestGetetSensor(unittest.TestCase):
 
