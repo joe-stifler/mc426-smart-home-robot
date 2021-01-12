@@ -8,8 +8,6 @@ class SecurityController(object):
 
     MIN_PASSWORD_SIZE = 8
     MAX_PASSWORD_SIZE = 15
-
-    HEADER  = { 'alg': 'HS256' }
     SECRET_KEY = "hunter_x_hunter_2020"
 
     def __init__(self):
@@ -19,7 +17,7 @@ class SecurityController(object):
         user = None
 
         # Verifies if a user with the same email already exists
-        cursor = self.mydb.find(email)
+        cursor = self.mydb.find_user(email)
 
         for document in cursor:
             user = document
@@ -32,7 +30,7 @@ class SecurityController(object):
 
     def reset_pass(self, email):
         # Verifies if a user with the same email already exists
-        cursor = self.mydb.find(email)
+        cursor = self.mydb.find_user(email)
 
         for document in cursor:
             # Here we send a reset email password to the client
@@ -42,7 +40,7 @@ class SecurityController(object):
         return False
 
     def remove_user(self, email):
-        self.mydb.update({}, email)
+        self.mydb.update_user({}, email)
 
     def sign_up(self, name, email, password):
         if not any(c.isalpha() for c in password): return False
@@ -55,13 +53,13 @@ class SecurityController(object):
         if len(password) > SecurityController.MAX_PASSWORD_SIZE: return False
 
         # Verifies if a user with the same email already exists
-        cursor = self.mydb.find(email)
+        cursor = self.mydb.find_user(email)
 
         for document in cursor: return False
 
         data = {"name": name, "email": email, "password": password} 
 
-        self.mydb.insert(data)
+        self.mydb.insert_user(data)
 
         return True
 

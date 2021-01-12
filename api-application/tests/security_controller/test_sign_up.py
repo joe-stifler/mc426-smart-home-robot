@@ -141,6 +141,3 @@ class SignUpTestCase(unittest.TestCase):
 
         # try to insert user again
         self.assertFalse(self.controller.sign_up(name, email, password))
-
-if __name__ == '__main__':
-    unittest.main()

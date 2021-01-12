@@ -35,6 +35,3 @@ class PassResetTestCase(unittest.TestCase):
         self.controller.remove_user(email)
 
         self.assertFalse(self.controller.reset_pass(email))
-
-if __name__ == '__main__':
-    unittest.main()

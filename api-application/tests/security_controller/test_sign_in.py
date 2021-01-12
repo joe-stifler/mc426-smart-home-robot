@@ -55,6 +55,3 @@ class SignInTestCase(unittest.TestCase):
 
         self.assertFalse(self.controller.sign_in(email, password))
          
-
-if __name__ == '__main__':
-    unittest.main()
