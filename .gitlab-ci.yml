@@ -8,14 +8,9 @@ image: python:latest
 services:
   - mongo
 
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
-
 cache:
   paths:
     - api-application/tests/*
-    - .cache/pip
     - venv/
 
 
@@ -40,7 +35,7 @@ test-sensor:
   stage: test
   script:
     - echo "TESTING SOME SENSOR TESTS"
-    - python -m unittest discover -s ./api-application/tests/sensor_controller/
+    - python -m unittest discover -s ./api-application/tests/sensors_controller/
 
 
 test-security:
