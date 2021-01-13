@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include <mainwindow.h>
+#include "signindialog.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -15,6 +16,15 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     connect(ui->openGLWidget, SIGNAL(ClickPlot(float, float)), this, SLOT(addSmartDevice(float, float)));
 
+    signIn();
+}
+
+MainWindow::~MainWindow() {
+    delete ui;
+}
+
+void MainWindow::signIn()
+{
     int status;
     std::string requestMessage;
 
@@ -25,15 +35,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     APIAccessPoint::instance().signIn(email, password, requestMessage, status);
 }
 
-MainWindow::~MainWindow() {
-    delete ui;
-}
-
-void MainWindow::signIn()
-{
-
-}
-
 void MainWindow::signOut()
 {
 
@@ -41,7 +42,33 @@ void MainWindow::signOut()
 
 void MainWindow::signUp()
 {
+    bool valid = true;
+    std::string email, name, password;
 
+    while (valid) {
+        std::unique_ptr<SignInDialog> dialog(new SignInDialog(nullptr, name, email, password));
+
+        if (dialog->exec()) {
+            int status;
+            std::string requestMessage;
+
+            name = dialog->name;
+            email = dialog->email;
+            password = dialog->password;
+
+            APIAccessPoint::instance().signUp(name, email, password, requestMessage, status);
+
+            QMessageBox msgBox;
+            msgBox.setText(QString::fromStdString(requestMessage));
+            msgBox.exec();
+
+            if (status == 200) {
+                valid = false;
+            }
+        } else return;
+    }
+
+    signIn();
 }
 
 void MainWindow::resetPassword()
