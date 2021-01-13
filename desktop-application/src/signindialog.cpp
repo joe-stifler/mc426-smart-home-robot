@@ -10,6 +10,8 @@ SignInDialog::SignInDialog(QWidget *parent, std::string _email, std::string _pas
     ui->edit_email->setText(QString::fromStdString(_email));
 
     ui->edit_password->setText(QString::fromStdString(_password));
+
+    setWindowTitle("Sign-In Dialog");
 }
 
 SignInDialog::~SignInDialog()

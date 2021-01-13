@@ -34,6 +34,8 @@ GetSensorsDialog::GetSensorsDialog(QWidget *parent, std::vector<std::string> _se
 
         sensorsWidgets.push_back(std::make_pair(checkBox, comboBox));
     }
+
+    setWindowTitle("Sensors Available Dialog");
 }
 
 GetSensorsDialog::~GetSensorsDialog()

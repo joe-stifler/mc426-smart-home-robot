@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include <mainwindow.h>
+#include <sensorinfodialog.h>
 #include <signindialog.h>
 #include <signupdialog.h>
 #include "ui_mainwindow.h"
@@ -143,7 +144,9 @@ void MainWindow::addSmartDevice(float x, float y) {
 
 void MainWindow::showSmartDeviceInfo(std::string name)
 {
-    QMessageBox msgBox;
-    msgBox.setText(QString::fromStdString(name));
-    msgBox.exec();
+    std::unique_ptr<SensorInfoDialog> dialog(new SensorInfoDialog(nullptr, name));
+
+    dialog->exec();
+
+    dialog->destroyThread();
 }
