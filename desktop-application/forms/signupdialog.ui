@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SignInDialog</class>
- <widget class="QDialog" name="SignInDialog">
+ <class>SignUpDialog</class>
+ <widget class="QDialog" name="SignUpDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,32 +14,42 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
+   <item row="1" column="1">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>Email:</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="edit_password"/>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Password</string>
+       </property>
+      </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="edit_email"/>
-     </item>
-     <item row="1" column="0">
+     <item row="0" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Password:</string>
+        <string>Name:</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QLineEdit" name="edit_password"/>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="edit_name"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="edit_email"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QPushButton" name="pushButton_2">
        <property name="text">
-        <string>Sign In</string>
+        <string>Sign Up</string>
        </property>
       </widget>
      </item>
@@ -48,9 +58,10 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>edit_name</tabstop>
   <tabstop>edit_email</tabstop>
   <tabstop>edit_password</tabstop>
-  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
  </tabstops>
  <resources/>
  <connections/>
