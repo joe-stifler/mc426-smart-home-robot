@@ -24,7 +24,8 @@ SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
     src/openglclass.cpp \
-    src/signindialog.cpp
+    src/signindialog.cpp \
+    src/signupdialog.cpp
 
 HEADERS += \
     include/HTTPRequest.h \
@@ -35,11 +36,13 @@ HEADERS += \
     include/apiaccesspoint.h \
     include/getsensorsdialog.h \
     include/apirequest.h \
+    include/signupdialog.h \
     include/signindialog.h
 
 FORMS += \
     forms/mainwindow.ui \
     forms/getsensorsdialog.ui \
+    forms/signupdialog.ui \
     forms/signindialog.ui
 
 INCLUDEPATH += include/

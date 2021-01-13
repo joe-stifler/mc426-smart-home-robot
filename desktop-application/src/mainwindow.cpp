@@ -1,6 +1,7 @@
 #include <QMessageBox>
 #include <mainwindow.h>
-#include "signindialog.h"
+#include <signindialog.h>
+#include <signupdialog.h>
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -25,14 +26,28 @@ MainWindow::~MainWindow() {
 
 void MainWindow::signIn()
 {
-    int status;
-    std::string requestMessage;
+    bool valid = true;
+    std::string email, password;
 
-    std::string name = "joe";
-    std::string email = "joe@joe.com";
-    std::string password = "password123";
+    while (valid) {
+        std::unique_ptr<SignInDialog> dialog(new SignInDialog(nullptr, email, password));
 
-    APIAccessPoint::instance().signIn(email, password, requestMessage, status);
+        if (dialog->exec()) {
+            int status;
+            std::string requestMessage;
+
+            email = dialog->email;
+            password = dialog->password;
+
+            APIAccessPoint::instance().signIn(email, password, requestMessage, status);
+
+            QMessageBox msgBox;
+            msgBox.setText(QString::fromStdString(requestMessage));
+            msgBox.exec();
+
+            if (status == 200) return;
+        } else return;
+    }
 }
 
 void MainWindow::signOut()
@@ -46,7 +61,7 @@ void MainWindow::signUp()
     std::string email, name, password;
 
     while (valid) {
-        std::unique_ptr<SignInDialog> dialog(new SignInDialog(nullptr, name, email, password));
+        std::unique_ptr<SignUpDialog> dialog(new SignUpDialog(nullptr, name, email, password));
 
         if (dialog->exec()) {
             int status;
