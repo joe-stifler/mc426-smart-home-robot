@@ -46,6 +46,7 @@ public:
 
 signals:
     void ClickPlot(float x, float y);
+    void ClickSensor(std::string sensorName);
 
 protected:
 

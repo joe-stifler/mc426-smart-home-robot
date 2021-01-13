@@ -17,16 +17,18 @@ class SmartDevice {
     float y;
     float dx;
     float dy;
+    std::string name;
     std::string path;
 
 public:
     SmartDevice() {}
 
-    SmartDevice(float _x, float _y, float _dx, float _dy, std::string _path) {
+    SmartDevice(float _x, float _y, float _dx, float _dy, std::string _path, std::string _name) {
         x = _x;
         y = _y;
         dx = _dx;
         dy = _dy;
+        name = _name;
         path = _path;
     }
 
@@ -39,6 +41,8 @@ public:
     float getDy() {return dy;}
 
     std::string getPath() {return path;}
+
+    std::string getName() {return name;}
 
     void setX(float _x) {x = _x;}
 
@@ -62,28 +66,28 @@ public:
         return INSTANCE;
     }
 
-    SmartDevice *getSmartDevice(float x, float y, SmartDeviceType deviceType) {
+    SmartDevice getSmartDevice(float x, float y, SmartDeviceType deviceType, std::string name) {
         switch(deviceType) {
             case SmartDeviceType::SmartLamp:
-                return new SmartDevice(x, y, 0.07, 0.1, "icons/light.png");
+                return SmartDevice(x, y, 0.07, 0.1, "icons/light.png", name);
 
             case SmartDeviceType::SmartEnergy:
-                return new SmartDevice(x, y, 0.07, 0.1, "icons/energy.png");
+                return SmartDevice(x, y, 0.07, 0.1, "icons/energy.png", name);
 
             case SmartDeviceType::SmartAir:
-                return new SmartDevice(x, y, 0.07, 0.1, "icons/air.png");
+                return SmartDevice(x, y, 0.07, 0.1, "icons/air.png", name);
 
             case SmartDeviceType::SmartCamera:
-                return new SmartDevice(x, y, 0.07, 0.1, "icons/camera.png");
+                return SmartDevice(x, y, 0.07, 0.1, "icons/camera.png", name);
 
             case SmartDeviceType::SmartPresence:
-                return new SmartDevice(x, y, 0.07, 0.1, "icons/presence.png");
+                return SmartDevice(x, y, 0.07, 0.1, "icons/presence.png", name);
 
             case SmartDeviceType::SmartTemperature:
-                return new SmartDevice(x, y, 0.07, 0.1, "icons/temperature.png");
+                return SmartDevice(x, y, 0.07, 0.1, "icons/temperature.png", name);
         }
 
-        return new SmartDevice(x, y, 0, 0, "");
+        return SmartDevice(x, y, 0, 0, "", name);
     }
 };
 
