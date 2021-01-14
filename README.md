@@ -241,5 +241,5 @@ After compiling, you can run your program directly from Qt Creator using the 'Ct
 # <a name="demo-vide-desktop"></a>Demo Video Desktop Application
 
 <a name="video1"></a>
-[![Watch the video](readme-images/demo-desktop-application.png)](readme-images/demo-desktop-application.mp4)
+[![Watch the video](readme-images/demo-desktop-application.png)](https://youtu.be/cBo_8ZL0coU)
 <center>Video 1 - Demo Desktop Application</center>

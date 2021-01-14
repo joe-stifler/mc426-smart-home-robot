@@ -30,7 +30,7 @@ MainWindow::~MainWindow() {
 void MainWindow::signIn()
 {
     bool valid = true;
-    std::string email = "joao@gmail.com", password = "password123";
+    std::string email = "", password = "";
 
     while (valid) {
         std::unique_ptr<SignInDialog> dialog(new SignInDialog(nullptr, email, password));
