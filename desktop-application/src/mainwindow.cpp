@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include <mainwindow.h>
+#include <sensorinfodialog.h>
 #include <signindialog.h>
 #include <signupdialog.h>
 #include "ui_mainwindow.h"
@@ -17,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     connect(ui->openGLWidget, SIGNAL(ClickPlot(float, float)), this, SLOT(addSmartDevice(float, float)));
 
+    connect(ui->openGLWidget, SIGNAL(ClickSensor(std::string)), this, SLOT(showSmartDeviceInfo(std::string)));
+
     signIn();
 }
 
@@ -27,7 +30,7 @@ MainWindow::~MainWindow() {
 void MainWindow::signIn()
 {
     bool valid = true;
-    std::string email, password;
+    std::string email = "", password = "";
 
     while (valid) {
         std::unique_ptr<SignInDialog> dialog(new SignInDialog(nullptr, email, password));
@@ -112,15 +115,38 @@ void MainWindow::plotData(std::string flooplanFile) {
 }
 
 void MainWindow::addSmartDevice(float x, float y) {
-    std::unique_ptr<GetSensorsDialog> dialog(new GetSensorsDialog());
+    int status;
+    std::string requestMessage;
 
-    if (dialog->exec()) {
-        for (auto &smartDevice : dialog->selectedSensors) {
-            smartDevices.push_back(std::unique_ptr<SmartDevice>());
+    auto sensors = APIAccessPoint::instance().sensorAvailable(requestMessage, status);
 
-            smartDevices[smartDevices.size() - 1].reset(SmartDeviceFactory::instance().getSmartDevice(x, y, smartDevice));
+    if (status == 200) {
+        std::unique_ptr<GetSensorsDialog> dialog(new GetSensorsDialog(nullptr, sensors, x, y));
 
-            ui->openGLWidget->addSmartDevice(smartDevices[smartDevices.size() - 1].get());
+        if (dialog->exec()) {
+            for (auto &smartDevice : dialog->selectedSensors) {
+                smartDevices.push_back(std::unique_ptr<SmartDevice>());
+
+                SmartDevice *_smartDev = new SmartDevice();
+                *_smartDev = smartDevice;
+
+                smartDevices[smartDevices.size() - 1].reset(_smartDev);
+
+                ui->openGLWidget->addSmartDevice(smartDevices[smartDevices.size() - 1].get());
+            }
         }
+    } else {
+        QMessageBox msgBox;
+        msgBox.setText(QString::fromStdString(requestMessage));
+        msgBox.exec();
     }
+}
+
+void MainWindow::showSmartDeviceInfo(std::string name)
+{
+    std::unique_ptr<SensorInfoDialog> dialog(new SensorInfoDialog(nullptr, name));
+
+    dialog->exec();
+
+    dialog->destroyThread();
 }
