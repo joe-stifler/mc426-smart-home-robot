@@ -1,6 +1,8 @@
 #include "getsensorsdialog.h"
 #include "ui_getsensorsdialog.h"
 
+#include <QMessageBox>
+
 QComboBox *getComboBoxSensor() {
     QComboBox *comboBox = new QComboBox();
 
@@ -14,18 +16,16 @@ QComboBox *getComboBoxSensor() {
     return comboBox;
 }
 
-GetSensorsDialog::GetSensorsDialog(QWidget *parent) :
+GetSensorsDialog::GetSensorsDialog(QWidget *parent, std::vector<std::string> _sensors, float _x, float _y) :
     QDialog(parent),
     ui(new Ui::GetSensorsDialog)
 {
+    x = _x;
+    y = _y;
+
     ui->setupUi(this);
 
-    int status;
-    std::string requestMessage;
-
-    auto sensors = APIAccessPoint::instance().sensorAvailable(requestMessage, status);
-
-    for (auto &s : sensors) {
+    for (auto &s : _sensors) {
         QComboBox *comboBox = getComboBoxSensor();
         QCheckBox *checkBox = new QCheckBox(s.c_str());
 
@@ -34,6 +34,8 @@ GetSensorsDialog::GetSensorsDialog(QWidget *parent) :
 
         sensorsWidgets.push_back(std::make_pair(checkBox, comboBox));
     }
+
+    setWindowTitle("Sensors Available Dialog");
 }
 
 GetSensorsDialog::~GetSensorsDialog()
@@ -52,22 +54,22 @@ void GetSensorsDialog::on_pushButton_2_clicked()
         if (p.first->isChecked()) {
             switch (p.second->currentIndex()) {
                 case 0:
-                    selectedSensors.push_back(SmartLamp);
+                    selectedSensors.push_back(SmartDeviceFactory::instance().getSmartDevice(x, y, SmartLamp, p.first->text().toStdString()));
                     break;
                 case 1:
-                    selectedSensors.push_back(SmartEnergy);
+                    selectedSensors.push_back(SmartDeviceFactory::instance().getSmartDevice(x, y, SmartEnergy, p.first->text().toStdString()));
                     break;
                 case 2:
-                    selectedSensors.push_back(SmartAir);
+                    selectedSensors.push_back(SmartDeviceFactory::instance().getSmartDevice(x, y, SmartAir, p.first->text().toStdString()));
                     break;
                 case 3:
-                    selectedSensors.push_back(SmartCamera);
+                    selectedSensors.push_back(SmartDeviceFactory::instance().getSmartDevice(x, y, SmartCamera, p.first->text().toStdString()));
                     break;
                 case 4:
-                    selectedSensors.push_back(SmartPresence);
+                    selectedSensors.push_back(SmartDeviceFactory::instance().getSmartDevice(x, y, SmartPresence, p.first->text().toStdString()));
                     break;
                 case 5:
-                    selectedSensors.push_back(SmartTemperature);
+                    selectedSensors.push_back(SmartDeviceFactory::instance().getSmartDevice(x, y, SmartTemperature, p.first->text().toStdString()));
                     break;
             }
         }

@@ -1,5 +1,8 @@
 #include <QMessageBox>
 #include <mainwindow.h>
+#include <sensorinfodialog.h>
+#include <signindialog.h>
+#include <signupdialog.h>
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -15,14 +18,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     connect(ui->openGLWidget, SIGNAL(ClickPlot(float, float)), this, SLOT(addSmartDevice(float, float)));
 
-    int status;
-    std::string requestMessage;
+    connect(ui->openGLWidget, SIGNAL(ClickSensor(std::string)), this, SLOT(showSmartDeviceInfo(std::string)));
 
-    std::string name = "joe";
-    std::string email = "joe@joe.com";
-    std::string password = "password123";
-
-    APIAccessPoint::instance().signIn(email, password, requestMessage, status);
+    signIn();
 }
 
 MainWindow::~MainWindow() {
@@ -31,7 +29,28 @@ MainWindow::~MainWindow() {
 
 void MainWindow::signIn()
 {
+    bool valid = true;
+    std::string email = "", password = "";
 
+    while (valid) {
+        std::unique_ptr<SignInDialog> dialog(new SignInDialog(nullptr, email, password));
+
+        if (dialog->exec()) {
+            int status;
+            std::string requestMessage;
+
+            email = dialog->email;
+            password = dialog->password;
+
+            APIAccessPoint::instance().signIn(email, password, requestMessage, status);
+
+            QMessageBox msgBox;
+            msgBox.setText(QString::fromStdString(requestMessage));
+            msgBox.exec();
+
+            if (status == 200) return;
+        } else return;
+    }
 }
 
 void MainWindow::signOut()
@@ -41,7 +60,33 @@ void MainWindow::signOut()
 
 void MainWindow::signUp()
 {
+    bool valid = true;
+    std::string email, name, password;
 
+    while (valid) {
+        std::unique_ptr<SignUpDialog> dialog(new SignUpDialog(nullptr, name, email, password));
+
+        if (dialog->exec()) {
+            int status;
+            std::string requestMessage;
+
+            name = dialog->name;
+            email = dialog->email;
+            password = dialog->password;
+
+            APIAccessPoint::instance().signUp(name, email, password, requestMessage, status);
+
+            QMessageBox msgBox;
+            msgBox.setText(QString::fromStdString(requestMessage));
+            msgBox.exec();
+
+            if (status == 200) {
+                valid = false;
+            }
+        } else return;
+    }
+
+    signIn();
 }
 
 void MainWindow::resetPassword()
@@ -70,15 +115,38 @@ void MainWindow::plotData(std::string flooplanFile) {
 }
 
 void MainWindow::addSmartDevice(float x, float y) {
-    std::unique_ptr<GetSensorsDialog> dialog(new GetSensorsDialog());
+    int status;
+    std::string requestMessage;
 
-    if (dialog->exec()) {
-        for (auto &smartDevice : dialog->selectedSensors) {
-            smartDevices.push_back(std::unique_ptr<SmartDevice>());
+    auto sensors = APIAccessPoint::instance().sensorAvailable(requestMessage, status);
 
-            smartDevices[smartDevices.size() - 1].reset(SmartDeviceFactory::instance().getSmartDevice(x, y, smartDevice));
+    if (status == 200) {
+        std::unique_ptr<GetSensorsDialog> dialog(new GetSensorsDialog(nullptr, sensors, x, y));
 
-            ui->openGLWidget->addSmartDevice(smartDevices[smartDevices.size() - 1].get());
+        if (dialog->exec()) {
+            for (auto &smartDevice : dialog->selectedSensors) {
+                smartDevices.push_back(std::unique_ptr<SmartDevice>());
+
+                SmartDevice *_smartDev = new SmartDevice();
+                *_smartDev = smartDevice;
+
+                smartDevices[smartDevices.size() - 1].reset(_smartDev);
+
+                ui->openGLWidget->addSmartDevice(smartDevices[smartDevices.size() - 1].get());
+            }
         }
+    } else {
+        QMessageBox msgBox;
+        msgBox.setText(QString::fromStdString(requestMessage));
+        msgBox.exec();
     }
+}
+
+void MainWindow::showSmartDeviceInfo(std::string name)
+{
+    std::unique_ptr<SensorInfoDialog> dialog(new SensorInfoDialog(nullptr, name));
+
+    dialog->exec();
+
+    dialog->destroyThread();
 }

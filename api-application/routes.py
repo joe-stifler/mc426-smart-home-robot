@@ -1,11 +1,10 @@
-import jwt
 import datetime
 from functools import wraps
+from facade_api import FacadeAPI
 from flask import  Flask, request
 
+facade = FacadeAPI()
 app = Flask("RESTAPISmartHouse")
-
-app.config['SECRET_KEY'] = "hunter_x_hunter_2020"
 
 def getBody():
     body = request.get_json()
@@ -15,7 +14,6 @@ def getBody():
 
     return body
 
-    
 
 def token_required(f):
     @wraps(f)
@@ -28,12 +26,8 @@ def token_required(f):
         if 'token' not in body:
             return generateResponse(403, "Token is missing!")
 
-        token = body.get('token')
-
-        try:
-            data = jwt.decode(token, app.config['SECRET_KEY'])
-        except:
-            return generateResponse(403, "Token is invalid!")
+        if facade.valid_token(body.get('token')) == False:
+            return generateResponse(401, "Token is invalid!")
 
         return f(*args, **kwargs)
 
@@ -54,14 +48,14 @@ def userSignIn():
         return generateResponse(403, "Body is missing!")
 
     if ("email" not in body):
-        return generateResponse(400, "The `email` field is mandatory")
+        return generateResponse(403, "The `email` field is mandatory")
 
     if ("password" not in body):
-        return generateResponse(400, "The `password` field is mandatory")
+        return generateResponse(403, "The `password` field is mandatory")
 
-    if body['password'] == "password123":
-        token = jwt.encode({'user' : body['email'], 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-    
+    if facade.sign_in(body['email'], body['password']):
+        token = facade.generate_token(body['email'])
+        
         return generateResponse(200, "User authenticated!", token.decode("utf-8"))
     else:
         return generateResponse(401, "Could not verify user authentication!")
@@ -75,15 +69,18 @@ def userSignUp():
         return generateResponse(403, "Body is missing!")
 
     if ("name" not in body):
-        return generateResponse(400, "The `name` field is mandatory")
+        return generateResponse(403, "The `name` field is mandatory")
 
     if ("email" not in body):
-        return generateResponse(400, "The `email` field is mandatory")
+        return generateResponse(403, "The `email` field is mandatory")
 
     if ("password" not in body):
-        return generateResponse(400, "The `password` field is mandatory")
+        return generateResponse(403, "The `password` field is mandatory")
 
-    return  generateResponse(200, "User created successfully!")
+    if facade.sign_up(body['name'], body['email'], body['password']):
+        return  generateResponse(200, "User created successfully!")
+    else:
+        return  generateResponse(401, "Could not create user. Already exists!")
 
 
 @app.route("/auth/reset", methods=["PUT"])
@@ -94,9 +91,12 @@ def userPasswordReset():
         return generateResponse(403, "Body is missing!")
 
     if ("email" not in body):
-        return generateResponse(400, "The `email` field is mandatory")
+        return generateResponse(403, "The `email` field is mandatory")
 
-    return  generateResponse(200, "An e-mail was sent to the user!")
+    if facade.reset_pass(body['email']):
+        return  generateResponse(200, "An e-mail was sent to the user!")
+    else:
+        return  generateResponse(400, "Could not reset password. Email not found!")
 
 
 @app.route("/sensors/available-sensors", methods=["GET"])
@@ -107,7 +107,9 @@ def sensorAvailable():
     if not body:
         return generateResponse(403, "Body is missing!")
 
-    sensors = "luz1" + "&" + "luz2" + "&" + "energia"
+    sensors = facade.getAvailableSensor(-1)
+
+    print(sensors)
 
     return  generateResponse(200, "Returning all sensors!", sensors)
 
@@ -121,9 +123,12 @@ def sensorGetStatus():
         return generateResponse(403, "Body is missing!")
 
     if ("name" not in body):
-        return generateResponse(400, "The `name` field is mandatory")
+        return generateResponse(403, "The `name` field is mandatory")
 
-    status = "123"
+    status = facade.getSensorStatus(body['name'])
+
+    if status == None:
+        return  generateResponse(404, "Invalid sensor name. Sensor not found!")
 
     return  generateResponse(200, "Returning sensor status!", status)
 
@@ -137,14 +142,17 @@ def sensorSetStatus():
         return generateResponse(403, "Body is missing!")
 
     if ("name" not in body):
-        return generateResponse(400, "The `name` field is mandatory")
+        return generateResponse(403, "The `name` field is mandatory")
 
     if ("status" not in body):
-        return generateResponse(400, "The `status` field is mandatory")
+        return generateResponse(403, "The `status` field is mandatory")
 
-    status = "123"
+    status = facade.setSensorStatus(body['name'], body['status'])
 
-    return  generateResponse(200, "New value setted for the sensor!", status)
+    if status != None:
+        return  generateResponse(200, "New value setted for the sensor!", status)
+    
+    return  generateResponse(404, "Invalid sensor name or status type. New value for sensor not setted!")
 
 
 def generateResponse(status, message, content = False):

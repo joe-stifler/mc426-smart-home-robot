@@ -1,21 +1,16 @@
 stages:
   - build
   - test
-  - api test
+  - flask api test
 
 image: python:latest
 
 services:
   - mongo
 
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
-
 cache:
   paths:
     - api-application/tests/*
-    - .cache/pip
     - venv/
 
 
@@ -40,7 +35,7 @@ test-sensor:
   stage: test
   script:
     - echo "TESTING SOME SENSOR TESTS"
-    - python -m unittest discover -s ./api-application/tests/sensor_controller/
+    - python -m unittest discover -s ./api-application/tests/sensors_controller/
 
 
 test-security:
@@ -51,8 +46,8 @@ test-security:
 
     
 test-api:
-  stage: api test
+  stage: flask api test
   script:
     - echo "RUNNING THE TEST API"
-    - cd api-application/tests/
-    - python test_api.py
+    - python api-application/routes.py &
+    - python -m unittest discover -s ./api-application/tests/

@@ -1,157 +1,73 @@
-class SensorController:
-  
-    def __init__(self):
-       self.lamp = -1
-       self.energy = -1
-       self.air = -1
-       self.camera = -1
-       self.presence = -1
-       self.temperature = -1     
-       return None
-  
-    def getAvailableSensor(self, listSensors):
-       if listSensors == "":
-          return ""
-      
-       if len(listSensors) == 1:
-          if listSensors[0] == "lamp":
-             self.lamp = 1
-          if listSensors[0] == "energy":
-             self.energy = 1
-          if listSensors[0] == "air":
-             self.air = 1
-          if listSensors[0] == "camera":
-             self.camera = 1
-          if listSensors[0] == "presence":
-             self.presence = 1 
-          if listSensors[0] == "temperature":
-             self.temperature = 1              
-          return listSensors[0]   
-        
-       if len(listSensors) > 1:
-          sensors = ""
-          for x in listSensors: 
-             sensors = sensors + x + "&" 
-             if x == "lamp":
-                self.lamp = 1
-             if x == "energy":
-                self.energy = 1
-             if x == "air":
-                self.air = 1
-             if x == "camera":
-                self.camera = 1
-             if x == "presence":
-                self.presence = 1 
-             if x == "temperature":
-                self.temperature = 1 
-          sensors = sensors[:-1]
-       return sensors
-    
-    def setSensorStatus(self, name, status):
-       if name == "lamp":
-          if self.lamp != -1:
-             if type(status) == bool:
-                self.lamp = status
-                return status
-             else:
-                return 400    
-          else:
-             return 400   
-       if name == "energy":
-          if self.energy != -1:
-             if type(status) == int:
-                self.energy = status
-                return status
-             else:
-                return 400   
-          else:
-             return 400 
-       if name == "air":
-          if self.air != -1:
-             if type(status) == float:
-                self.air = status
-                return status
-             else:
-                return 400   
-          else:
-             return 400 
-       if name == "camera":
-          if self.camera != -1:
-             if type(status) == bool:
-                self.camera = status
-                return status
-             else:
-                return 400   
-          else:
-             return 400 
-       if name == "presence":
-          if self.presence != -1:
-             if type(status) == bool:
-                self.presence = status
-                return status
-             else:
-                return 400   
-          else:
-             return 400 
-       if name == "temperature":
-          if self.temperature != -1:
-             if type(status) == float:
-                self.temperature = status
-                return status
-             else:
-                return 400   
-          else:
-             return 400       
-       return status  
-      
-    def getSensorStatus(self, name):
-       if name == "lamp":
-          if self.lamp != -1:
-             if type(self.lamp) == bool:
-                return self.lamp
-             else:
-                return 400   
-          else:
-             return 400   
-       if name == "energy":
-          if self.energy != -1:
-             if type(self.energy) == int:
-                return self.energy
-             else:
-                return 400   
-          else:
-             return 400 
-       if name == "air":
-          if self.air != -1:
-             if type(self.air) == float:
-                return self.air
-             else:
-                return 400   
-          else:
-             return 400 
-       if name == "camera":
-          if self.camera != -1:
-             if type(self.camera) == bool:
-                return self.camera
-             else:
-                return 400   
-          else:
-             return 400 
-       if name == "presence":
-          if self.presence != -1:
-             if type(self.lamp) == bool:
-                return self.presence
-             else:
-                return 400   
-          else:
-             return 400 
-       if name == "temperature":
-          if self.temperature != -1:
-             if type(self.lamp) == float:
-                return self.temperature
-             else:
-                return 400   
-          else:
-             return 400
-     
+from database import Database
 
+class SensorController:
+    def __init__(self):
+       self.mydb = Database()
+
+       self.add_sensor('luz1', '1')
+       self.add_sensor('luz2', '0')
+       self.add_sensor('energy', '100')
+       self.add_sensor('air', '0')
+       self.add_sensor('camera', '1')
+       self.add_sensor('presence', '0')
+       self.add_sensor('temperature', '24')
+
+    def clear_sensors(self):
+        self.mydb.drop_sensor_collection()
+
+    def add_sensor(self, name, status, t='str'):
+        if t == 'int':
+            self.mydb.update_sensor({'name' : name, 'status': int(status)})
+        elif t == 'bool':
+            self.mydb.update_sensor({'name' : name, 'status': bool(status)})
+        elif t == 'str':
+            self.mydb.update_sensor({'name' : name, 'status': str(status)})
+        elif t == 'float':
+            self.mydb.update_sensor({'name' : name, 'status': float(status)})
+
+    def getAvailableSensor(self, num_sensors):
+        counter = 0
+        list_sensors = []
+        cursor = self.mydb.find_all_sensors()
+
+        for document in cursor:
+            if num_sensors >= 0 and counter >= num_sensors:
+                break
+
+            counter += 1
+
+            list_sensors.append(document['name'])
+
+        return list_sensors
+
+    def process_sensor_list(self, sensor_list):
+        counter = 0
+        sensor_str = ""
+
+        for s in sensor_list:
+            if counter != 0:
+                sensor_str = sensor_str + "&"
+            
+            counter += 1
+
+            sensor_str = sensor_str + s
+
+        return sensor_str
+    
+    def setSensorStatus(self, name, status, t='str'):
+        sensor = self.getSensorStatus(name)
+
+        if sensor and type(sensor['status']).__name__ == t:
+            self.add_sensor(name, status, t=t)
+
+            return True
+        
+        return False
+
+    def getSensorStatus(self, name):
+        cursor = self.mydb.find_sensor(name)
+
+        for document in cursor:
+            return document
+
+        return None
