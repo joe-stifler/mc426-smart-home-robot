@@ -37,6 +37,13 @@ SensorInfoDialog::SensorInfoDialog(QWidget *parent, std::string _name, SmartDevi
         case SmartDeviceType::SmartCamera:
             break;
     }
+
+    QDateTime dateTime = QDateTime::currentDateTime();
+
+    ui->timeEdit->setTime(dateTime.time());
+    ui->calendarWidget->setSelectedDate(dateTime.date());
+
+    updateRoutines();
 }
 
 void SensorInfoDialog::destroyThread() {
@@ -58,16 +65,74 @@ SensorInfoDialog::~SensorInfoDialog()
     delete ui;
 }
 
+void SensorInfoDialog::updateRoutines() {
+    int counter = 0;
+
+    routines = routine::RoutineAccessPoint::instance().getRoutines();
+
+    ui->cbRoutines_2->clear();
+
+    for (auto &r : routines) {
+        if (r.sensorName == ui->edit_sensor_name->text().toStdString()) {
+            switch (r.routineType) {
+                case routine::NoRepeat:
+                    if (!r.checked)
+                        ui->cbRoutines_2->addItem(QString::number(counter));
+
+                    break;
+
+                case routine::Daily:
+                    ui->cbRoutines_2->addItem(QString::number(counter));
+
+                    break;
+
+                case routine::Weekly:
+                    ui->cbRoutines_2->addItem(QString::number(counter));
+
+                    break;
+                case routine::Monthly:
+                    ui->cbRoutines_2->addItem(QString::number(counter));
+
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        counter++;
+    }
+}
+
 void SensorInfoDialog::on_pushButton_clicked()
 {
-    int statusRequest;
-    std::string requestMessage;
+    QTime time = ui->timeEdit->time();
+    QDate date = ui->calendarWidget->selectedDate();
 
-    APIAccessPoint::instance().setSensorStatus(ui->edit_sensor_name->text().toStdString(), ui->edit_new_value->text().toStdString(), requestMessage, statusRequest);
+    routine::RoutineType routineType;
 
-    QMessageBox msgBox;
-    msgBox.setText(QString::fromStdString(requestMessage));
-    msgBox.exec();
+    switch (ui->cbFrequency->currentIndex()) {
+        case 0:
+            routineType = routine::RoutineType::NoRepeat;
+            break;
+        case 1:
+            routineType = routine::RoutineType::Daily;
+            break;
+        case 2:
+            routineType = routine::RoutineType::Weekly;
+            break;
+        case 3:
+            routineType = routine::RoutineType::Monthly;
+            break;
+        default:
+            routineType = routine::RoutineType::NoRepeat;
+    }
+
+    routine::RoutineAccessPoint::instance().addRountine(ui->edit_sensor_name->text().toStdString(), ui->edit_new_value->text().toStdString(), QDateTime(date, time), routineType);
+
+    ui->edit_new_value->setText("");
+
+    updateRoutines();
 }
 
 void SensorInfoDialog::on_pushButton_2_clicked()
@@ -185,4 +250,38 @@ void SensorInfoDialog::setLampInfo(std::vector<HistoryData> history)
     ui->label_consumption->setText(QString::number(consumption) + " kWh");
     ui->label_time_on->setText(QString::number(seconds_on) + "s");
     ui->label_time_off->setText(QString::number(seconds_off) + "s");
+}
+
+void SensorInfoDialog::on_cbRoutines_2_currentIndexChanged(const QString &arg1)
+{
+    int index = atoi(arg1.toStdString().c_str());
+    if (index < routines.size()) {
+        auto r = routines[index];
+
+        ui->dateTimeRoutine->setDateTime(r.dateTime);
+
+        switch (r.routineType) {
+            case routine::NoRepeat:
+                ui->routineType->setText("Doesn't repeat");
+
+                break;
+
+            case routine::Daily:
+                ui->routineType->setText("Daily");
+
+                break;
+
+            case routine::Weekly:
+                ui->routineType->setText("Weekly");
+
+                break;
+            case routine::Monthly:
+                ui->routineType->setText("Monthly");
+
+                break;
+
+            default:
+                break;
+        }
+    }
 }

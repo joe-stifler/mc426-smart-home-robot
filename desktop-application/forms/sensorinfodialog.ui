@@ -6,74 +6,39 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>637</width>
-    <height>367</height>
+    <width>704</width>
+    <height>695</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
+   <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>History:</string>
+     <item row="8" column="2">
+      <widget class="Line" name="line_6">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
       </widget>
      </item>
-     <item row="3" column="2">
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLineEdit" name="edit_new_value">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Set New Value</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Sensor Name:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLineEdit" name="edit_sensor_name">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0" colspan="3">
-      <widget class="Line" name="line">
+     <item row="5" column="0" colspan="4">
+      <widget class="Line" name="line_5">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Current Value:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="2">
+     <item row="8" column="3">
       <layout class="QGridLayout" name="gridLayout_4">
+       <item row="10" column="0" colspan="3">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>Get History</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_one">
          <property name="text">
@@ -88,27 +53,10 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="0" colspan="3">
-        <widget class="QPushButton" name="pushButton_2">
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>Get History</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1" colspan="2">
-        <widget class="QComboBox" name="cb_values"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_consumption_2">
-         <property name="text">
-          <string>Total Consumption:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1" colspan="2">
-        <widget class="QLabel" name="label_time_off">
-         <property name="text">
-          <string/>
+          <string>Power Consumption:</string>
          </property>
         </widget>
        </item>
@@ -119,22 +67,29 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Power Consumption:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1" colspan="2">
-        <widget class="QLabel" name="label_time_on">
+       <item row="4" column="1" colspan="2">
+        <widget class="QLabel" name="label_consumption">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="4" column="1" colspan="2">
-        <widget class="QLabel" name="label_consumption">
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Period:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_consumption_2">
+         <property name="text">
+          <string>Total Consumption:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QLabel" name="label_time_off">
          <property name="text">
           <string/>
          </property>
@@ -184,10 +139,10 @@
          </item>
         </widget>
        </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_8">
+       <item row="2" column="1" colspan="2">
+        <widget class="QLabel" name="label_time_on">
          <property name="text">
-          <string>Period:</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -200,13 +155,31 @@
        </item>
        <item row="5" column="1">
         <widget class="QDoubleSpinBox" name="cb_bulb_type">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="maximum">
           <double>999999.989999999990687</double>
          </property>
+         <property name="value">
+          <double>100.000000000000000</double>
+         </property>
         </widget>
+       </item>
+       <item row="6" column="1" colspan="2">
+        <widget class="QComboBox" name="cb_values"/>
        </item>
        <item row="5" column="2">
         <widget class="QLabel" name="label_7">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string>W</string>
          </property>
@@ -214,31 +187,204 @@
        </item>
       </layout>
      </item>
-     <item row="1" column="2">
-      <widget class="QLineEdit" name="edit_current_value">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Current Value:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="Line" name="line_8">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3" colspan="2">
+      <widget class="QLineEdit" name="edit_sensor_name">
        <property name="enabled">
         <bool>false</bool>
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>New Value:</string>
+     <item row="19" column="0" colspan="5">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
-     <item row="2" column="0" colspan="3">
+     <item row="8" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>History:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="18" column="0" colspan="4">
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Added Routines:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Sensor Name:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="5">
       <widget class="Line" name="line_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
+     <item row="4" column="1">
+      <widget class="Line" name="line_7">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="15" column="0" colspan="4">
+      <widget class="Line" name="line_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3" colspan="2">
+      <widget class="QLineEdit" name="edit_current_value">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Routine:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="3">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="3" column="1">
+        <widget class="QComboBox" name="cbFrequency">
+         <item>
+          <property name="text">
+           <string>Doesn't repeat</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Daily</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Weekly</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Montly</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QTimeEdit" name="timeEdit"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCalendarWidget" name="calendarWidget"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Frequency:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>Hour:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Date:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Set New Value</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="edit_new_value"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>New Value:</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="7" column="0" colspan="4">
+      <widget class="Line" name="line_9">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="3">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QDateTimeEdit" name="dateTimeRoutine"/>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="routineType"/>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cbRoutines_2"/>
+       </item>
+      </layout>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>edit_sensor_name</tabstop>
+  <tabstop>edit_current_value</tabstop>
+  <tabstop>cb_bulb_type</tabstop>
+  <tabstop>cb_values</tabstop>
+  <tabstop>cb_period</tabstop>
+  <tabstop>pushButton_2</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

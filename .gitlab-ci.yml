@@ -23,10 +23,6 @@ before_script:
 
 build-code-job:
   stage: build
-
-  only:
-    - develop
-
   script:
     - echo "Check the python version, then build some Python project files:"
     - apt-get -qq update && apt-get -qq install -y python
@@ -36,10 +32,6 @@ build-code-job:
 
 test-sensor:
   stage: test
-  
-  only:
-    - develop
-
   script:
     - echo "TESTING SOME SENSOR TESTS"
     - python -m unittest discover -s ./api-application/tests/sensors_controller/
@@ -47,22 +39,6 @@ test-sensor:
 
 test-security:
   stage: test
-
-  only:
-    - develop
-
   script:
     - echo "TESTING SOME SECURITY TESTS"
     - python -m unittest discover -s ./api-application/tests/security_controller/
-
-    
-test-api:
-  stage: flask api test
-
-  only:
-    - develop
-
-  script:
-    - echo "RUNNING THE TEST API"
-    - python api-application/routes.py &
-    - python -m unittest discover -s ./api-application/tests/api_controller/

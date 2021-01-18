@@ -25,7 +25,7 @@ private:
 
             currentValue->setText(QString::fromStdString(value));
 
-            while (QTime::currentTime() < dieTime)
+            while (QTime::currentTime() < dieTime && status)
                 QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
         }
 

@@ -64,7 +64,7 @@ class SecurityController(object):
         return True
 
     def generate_token(self, email):
-        return jwt.encode({'user' : email, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, SecurityController.SECRET_KEY)
+        return jwt.encode({'user' : email, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(hours=3, minutes=30)}, SecurityController.SECRET_KEY)
 
     def valid_token(self, token):
         try:
