@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     connect(ui->openGLWidget, SIGNAL(ClickPlot(float, float)), this, SLOT(addSmartDevice(float, float)));
 
-    connect(ui->openGLWidget, SIGNAL(ClickSensor(std::string)), this, SLOT(showSmartDeviceInfo(std::string)));
+    connect(ui->openGLWidget, SIGNAL(ClickSensor(SmartDevice *)), this, SLOT(showSmartDeviceInfo(SmartDevice *)));
 
     signIn();
 }
@@ -142,9 +142,9 @@ void MainWindow::addSmartDevice(float x, float y) {
     }
 }
 
-void MainWindow::showSmartDeviceInfo(std::string name)
+void MainWindow::showSmartDeviceInfo(SmartDevice *smartDev)
 {
-    std::unique_ptr<SensorInfoDialog> dialog(new SensorInfoDialog(nullptr, name));
+    std::unique_ptr<SensorInfoDialog> dialog(new SensorInfoDialog(nullptr, smartDev->getName(), smartDev->getType()));
 
     dialog->exec();
 

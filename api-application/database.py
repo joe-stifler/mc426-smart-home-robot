@@ -3,9 +3,9 @@ import datetime
 
 class Database(object):
     
-    URI = "mongodb://localhost:27017/"
+    # URI = "mongodb://localhost:27017/"
 
-    # URI = "mongodb+srv://joe:joe123@cluster0.l9x0m.mongodb.net/EngSoftware?retryWrites=true&w=majority"
+    URI = "mongodb+srv://joe:joe123@cluster0.l9x0m.mongodb.net/EngSoftware?retryWrites=true&w=majority"
 
     def __init__(self):
         connect = pymongo.MongoClient(self.URI)
@@ -28,9 +28,9 @@ class Database(object):
     def insert_sensor(self, data):
         self.db.sensors.insert_one(data)
 
-        self.insert_history(data['name'])
+        self.insert_history(data['name'], data['status'])
 
-    def insert_history(self, name):
+    def insert_history(self, name, status):
         now = datetime.datetime.now()
         year = '{:02d}'.format(now.year)
         month = '{:02d}'.format(now.month)
@@ -38,7 +38,7 @@ class Database(object):
         hour = '{:02d}'.format(now.hour)
         minute = '{:02d}'.format(now.minute)
         second = '{:02d}'.format(now.second)
-        day_month_year = '{}-{}-{}-{}-{}-{}'.format(year, month, day, hour, minute, second)
+        day_month_year = '{}-{}-{}-{}-{}-{}-{}'.format(year, month, day, hour, minute, second, status)
 
         self.db.history_sensor.insert_one({'name' : name, 'date' : day_month_year})
 
@@ -64,6 +64,6 @@ class Database(object):
             self.db.sensors.replace_one({"name": data['name']}, data)
 
             if data['status'] != sensor_found['status']:
-                self.insert_history(data['name'])
+                self.insert_history(data['name'], data['status'])
         else:
             self.insert_sensor(data)

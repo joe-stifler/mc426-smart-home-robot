@@ -41,7 +41,8 @@ HEADERS += \
     include/signupdialog.h \
     include/signindialog.h \
     include/sensorinfodialog.h \
-    include/updatesensorinfothread.h
+    include/updatesensorinfothread.h \
+    include/HistoryData.h
 
 FORMS += \
     forms/mainwindow.ui \

@@ -40,7 +40,7 @@ private slots:
     void closeWindow();
     void openFloorplanButton();
     void addSmartDevice(float x, float y);
-    void showSmartDeviceInfo(std::string name);
+    void showSmartDeviceInfo(SmartDevice *);
 
 private:
     Ui::MainWindow *ui;
