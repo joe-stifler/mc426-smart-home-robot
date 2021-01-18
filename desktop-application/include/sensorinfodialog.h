@@ -4,6 +4,7 @@
 #include <string>
 #include <QDialog>
 #include <iostream>
+#include <algorithm>
 #include <updatesensorinfothread.h>
 
 #include <SmartDevice.h>
@@ -29,6 +30,8 @@ private slots:
     void on_pushButton_2_clicked();
 
     void on_cbRoutines_2_currentIndexChanged(const QString &arg1);
+
+    void on_toolButton_clicked();
 
 private:
     std::vector<routine::Routine> routines;

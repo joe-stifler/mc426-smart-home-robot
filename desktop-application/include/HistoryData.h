@@ -39,7 +39,7 @@ class HistoryData {
         value_ = elements[6];
     }
 
-    QDateTime toQDateTime() {
+    QDateTime toQDateTime() const {
         return QDateTime(QDate(atoi(year_.c_str()), atoi(month_.c_str()), atoi(day_.c_str())),
                          QTime(atoi(hour_.c_str()), atoi(minute_.c_str()), atoi(second_.c_str()), 0));
     }

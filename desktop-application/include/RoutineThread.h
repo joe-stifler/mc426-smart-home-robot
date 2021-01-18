@@ -98,10 +98,16 @@ namespace routine {
             status = false;
         }
 
-        void addRountine(std::string sensorName, std::string status, QDateTime dateTime, RoutineType _routineType) {
+        void addRoutine(std::string sensorName, std::string status, QDateTime dateTime, RoutineType _routineType) {
             QWriteLocker locker(&lock);
 
             routines.push_back(Routine(sensorName, status, dateTime, _routineType));
+        }
+
+        void addRoutine(std::vector<Routine> &_routines) {
+            QWriteLocker locker(&lock);
+
+            routines = _routines;
         }
 
         std::vector<Routine> getRoutines() {
@@ -112,13 +118,13 @@ namespace routine {
 
     class RoutineAccessPoint {
     private:
-        std::unique_ptr<RoutineThread> rountineThread;
+        std::unique_ptr<RoutineThread> routineThread;
 
         RoutineAccessPoint() {
             std::ifstream routineFile;
             routineFile.open(ROUNTINES_FILE);
 
-            rountineThread.reset(new RoutineThread());
+            routineThread.reset(new RoutineThread());
 
             if (routineFile.good()) {
                 std::string routineType;
@@ -152,25 +158,25 @@ namespace routine {
 
                     if (atoi(routineType.c_str()) == NoRepeat) {
                         if (dateTime > QDateTime::currentDateTime()) {
-                            rountineThread->addRountine(sensorName, status, dateTime, RoutineType(atoi(routineType.c_str())));
+                            routineThread->addRoutine(sensorName, status, dateTime, RoutineType(atoi(routineType.c_str())));
                         }
                     } else {
-                        rountineThread->addRountine(sensorName, status, dateTime, RoutineType(atoi(routineType.c_str())));
+                        routineThread->addRoutine(sensorName, status, dateTime, RoutineType(atoi(routineType.c_str())));
                     }
                 }
             }
 
-            rountineThread->start();
+            routineThread->start();
         }
 
         ~RoutineAccessPoint() {
             try {
-                if (rountineThread) {
-                    rountineThread->stop();
+                if (routineThread) {
+                    routineThread->stop();
 
-                    while (rountineThread->isRunning());
+                    while (routineThread->isRunning());
 
-                    rountineThread.release();
+                    routineThread.release();
                 }
             } catch (std::exception& e) { }
         }
@@ -186,8 +192,8 @@ namespace routine {
             return INSTANCE;
         }
 
-        void addRountine(std::string sensorName, std::string status, QDateTime dateTime, RoutineType _routineType) {
-            rountineThread->addRountine(sensorName, status, dateTime, _routineType);
+        void addRoutine(std::string sensorName, std::string status, QDateTime dateTime, RoutineType _routineType) {
+            routineThread->addRoutine(sensorName, status, dateTime, _routineType);
 
             std::ofstream out;
             out.open(ROUNTINES_FILE, std::ios::app);
@@ -207,10 +213,41 @@ namespace routine {
             }
         }
 
+        void removeRoutine(Routine rRemove) {
+            std::ofstream out;
+            out.open(ROUNTINES_FILE);
+
+            if (out.good()) {
+                std::vector<Routine> routines;
+                auto routinesAux = routineThread->getRoutines();
+                for (auto &r : routinesAux) {
+                    if (r.sensorName != rRemove.sensorName ||
+                            r.status != rRemove.status ||
+                                r.dateTime != rRemove.dateTime) {
+                        out << r.sensorName << "\n"
+                            << r.status << "\n"
+                            << std::to_string(r.dateTime.date().day()) << "\n"
+                            << std::to_string(r.dateTime.date().month()) << "\n"
+                            << std::to_string(r.dateTime.date().year()) << "\n"
+                            << std::to_string(r.dateTime.time().second()) << "\n"
+                            << std::to_string(r.dateTime.time().minute()) << "\n"
+                            << std::to_string(r.dateTime.time().hour()) << "\n"
+                            << std::to_string(char(r.routineType)) << "\n";
+
+                        routines.push_back(r);
+                    }
+                }
+
+                routineThread->addRoutine(routines);
+
+                out.close();
+            }
+        }
+
         void start() {}
 
         std::vector<Routine> getRoutines() {
-            return rountineThread->getRoutines();
+            return routineThread->getRoutines();
         }
     };
 }
