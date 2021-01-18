@@ -68,16 +68,18 @@ SensorInfoDialog::~SensorInfoDialog()
 void SensorInfoDialog::updateRoutines() {
     int counter = 0;
 
-    routines = routine::RoutineAccessPoint::instance().getRoutines();
+    routines = std::vector<routine::Routine>();
+    auto routinesAux = routine::RoutineAccessPoint::instance().getRoutines();
 
     ui->cbRoutines_2->clear();
 
-    for (auto &r : routines) {
-        if (r.sensorName == ui->edit_sensor_name->text().toStdString()) {
+    for (auto &r : routinesAux) {
+        if (r.sensorName == ui->edit_sensor_name->text().toStdString() && r.checked == false) {
+            routines.push_back(r);
+
             switch (r.routineType) {
                 case routine::NoRepeat:
-                    if (!r.checked)
-                        ui->cbRoutines_2->addItem(QString::number(counter));
+                    ui->cbRoutines_2->addItem(QString::number(counter));
 
                     break;
 
@@ -106,33 +108,35 @@ void SensorInfoDialog::updateRoutines() {
 
 void SensorInfoDialog::on_pushButton_clicked()
 {
-    QTime time = ui->timeEdit->time();
-    QDate date = ui->calendarWidget->selectedDate();
+    if (ui->edit_new_value->text().toStdString() != "") {
+        QTime time = ui->timeEdit->time();
+        QDate date = ui->calendarWidget->selectedDate();
 
-    routine::RoutineType routineType;
+        routine::RoutineType routineType;
 
-    switch (ui->cbFrequency->currentIndex()) {
-        case 0:
-            routineType = routine::RoutineType::NoRepeat;
-            break;
-        case 1:
-            routineType = routine::RoutineType::Daily;
-            break;
-        case 2:
-            routineType = routine::RoutineType::Weekly;
-            break;
-        case 3:
-            routineType = routine::RoutineType::Monthly;
-            break;
-        default:
-            routineType = routine::RoutineType::NoRepeat;
+        switch (ui->cbFrequency->currentIndex()) {
+            case 0:
+                routineType = routine::RoutineType::NoRepeat;
+                break;
+            case 1:
+                routineType = routine::RoutineType::Daily;
+                break;
+            case 2:
+                routineType = routine::RoutineType::Weekly;
+                break;
+            case 3:
+                routineType = routine::RoutineType::Monthly;
+                break;
+            default:
+                routineType = routine::RoutineType::NoRepeat;
+        }
+
+        routine::RoutineAccessPoint::instance().addRoutine(ui->edit_sensor_name->text().toStdString(), ui->edit_new_value->text().toStdString(), QDateTime(date, time), routineType);
+
+        ui->edit_new_value->setText("");
+
+        updateRoutines();
     }
-
-    routine::RoutineAccessPoint::instance().addRountine(ui->edit_sensor_name->text().toStdString(), ui->edit_new_value->text().toStdString(), QDateTime(date, time), routineType);
-
-    ui->edit_new_value->setText("");
-
-    updateRoutines();
 }
 
 void SensorInfoDialog::on_pushButton_2_clicked()
@@ -190,6 +194,11 @@ void SensorInfoDialog::on_pushButton_2_clicked()
     }
 
     ui->cb_values->clear();
+
+    std::sort(history.begin(), history.end(), [ ]( const HistoryData& lhs, const HistoryData& rhs )
+    {
+       return lhs.toQDateTime() <= rhs.toQDateTime();
+    });
 
     for (auto &h : history) {
         std::string line = "[" + h.month() + "/" + h.day() + "/" + h.year() + " "
@@ -255,6 +264,7 @@ void SensorInfoDialog::setLampInfo(std::vector<HistoryData> history)
 void SensorInfoDialog::on_cbRoutines_2_currentIndexChanged(const QString &arg1)
 {
     int index = atoi(arg1.toStdString().c_str());
+
     if (index < routines.size()) {
         auto r = routines[index];
 
@@ -283,5 +293,16 @@ void SensorInfoDialog::on_cbRoutines_2_currentIndexChanged(const QString &arg1)
             default:
                 break;
         }
+    }
+}
+
+void SensorInfoDialog::on_toolButton_clicked()
+{
+    int selected = atoi(ui->cbRoutines_2->currentText().toStdString().c_str());
+
+    if (selected < routines.size()) {
+        routine::RoutineAccessPoint::instance().removeRoutine(routines[selected]);
+
+        updateRoutines();
     }
 }
