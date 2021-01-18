@@ -85,3 +85,25 @@ void APIAccessPoint::setSensorStatus(std::string sensorName, std::string newStat
 
     checkBody(requestMessage, statusRequest, body);
 }
+
+std::vector<HistoryData> APIAccessPoint::sensorHistory(std::string sensorName, std::string &requestMessage, int &statusRequest)
+{
+    std::map<std::string, std::string> parameters = {{"token", token}, {"name", sensorName}};
+
+    auto body = apiRequest.get("sensors/get-sensor-history", parameters);
+
+    if (checkBody(requestMessage, statusRequest, body))
+        if (body.find("content") != body.end()) {
+            auto rawVector = util::split(body["content"], "&");
+
+            std::vector<HistoryData> history;
+
+            for (auto &r : rawVector) {
+                history.push_back(HistoryData(r));
+            }
+
+            return history;
+        }
+
+    return std::vector<HistoryData>();
+}

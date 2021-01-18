@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 
+#include "HistoryData.h"
 #include <apirequest.h>
 
 class APIAccessPoint {
@@ -42,6 +43,8 @@ public:
     std::string getSensorStatus(std::string sensorName, std::string &requestMessage, int &statusRequest);
 
     void setSensorStatus(std::string sensorName, std::string newStatus, std::string &requestMessage, int &statusRequest);
+
+    std::vector<HistoryData> sensorHistory(std::string sensorName, std::string &requestMessage, int &statusRequest);
 };
 
 #endif // APIACCESSPOINT_H

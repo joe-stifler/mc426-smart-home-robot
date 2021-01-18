@@ -11,7 +11,6 @@ class TestGetAvailableSensors(unittest.TestCase):
         self.controller = SensorController()                  
         
     def test_available_1(self):
-    
         # 1 unico nome retorna o mesmo
         num_sensors = 1
 

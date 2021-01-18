@@ -269,7 +269,7 @@ void OpenGLClass::mousePressEvent(QMouseEvent *event)
             }
 
             if (pickedDevice2 == nullptr) emit ClickPlot(x, y);
-            else emit ClickSensor(pickedDevice2->getName());
+            else emit ClickSensor(pickedDevice2);
         } else if (event->buttons() == Qt::RightButton) {
             for (auto &textureDevice : textureDevices) {
                 if (textureDevice.second) {
