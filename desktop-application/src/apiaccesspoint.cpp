@@ -2,6 +2,18 @@
 
 APIAccessPoint::APIAccessPoint() {
     apiRequest = APIRequest("http://127.0.0.1", "5000");
+
+    std::ifstream tokenFile;
+
+     // std::ios::app is the open mode "append" meaning
+     // new data will be written to the end of the file.
+     tokenFile.open(TOKEN_FILE);
+
+     if (tokenFile.good()) {
+         tokenFile >> token;
+
+         tokenFile.close();
+     }
 }
 
 APIAccessPoint::~APIAccessPoint() {}
@@ -26,8 +38,9 @@ void APIAccessPoint::logOut(std::string &requestMessage, int &statusRequest) {
 
     auto body = apiRequest.get("auth/logout", parameters);
 
-    if (checkBody(requestMessage, statusRequest, body))
-        if (body.find("content") != body.end()) token = "";
+    token = "";
+
+    remove(TOKEN_FILE);
 }
 
 void APIAccessPoint::signIn(std::string email, std::string password, std::string &requestMessage, int &statusRequest) {
@@ -36,7 +49,23 @@ void APIAccessPoint::signIn(std::string email, std::string password, std::string
     auto body = apiRequest.get("auth/login", parameters);
 
     if (checkBody(requestMessage, statusRequest, body))
-        if (body.find("content") != body.end()) token = body["content"];
+        if (body.find("content") != body.end()) {
+            token = body["content"];
+
+            std::ofstream tokenFile;
+
+            remove(TOKEN_FILE);
+
+            // std::ios::app is the open mode "append" meaning
+            // new data will be written to the end of the file.
+            tokenFile.open(".token.txt", std::ios::app);
+
+            if (tokenFile.good()) {
+                tokenFile << token;
+
+                tokenFile.close();
+            }
+        }
 }
 
 void APIAccessPoint::signUp(std::string name, std::string email, std::string password, std::string &requestMessage, int &statusRequest) {

@@ -1,12 +1,16 @@
 #ifndef APIACCESSPOINT_H
 #define APIACCESSPOINT_H
 
+#include <fstream>
 #include <vector>
 #include <string>
 #include <iostream>
 
 #include "HistoryData.h"
 #include <apirequest.h>
+
+#define TOKEN_FILE ".token.txt"
+#define ROUNTINES_FILE ".routines.txt"
 
 class APIAccessPoint {
 private:

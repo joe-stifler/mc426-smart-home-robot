@@ -60,14 +60,22 @@ SensorInfoDialog::~SensorInfoDialog()
 
 void SensorInfoDialog::on_pushButton_clicked()
 {
-    int statusRequest;
-    std::string requestMessage;
+    std::ofstream out;
 
-    APIAccessPoint::instance().setSensorStatus(ui->edit_sensor_name->text().toStdString(), ui->edit_new_value->text().toStdString(), requestMessage, statusRequest);
+    // std::ios::app is the open mode "append" meaning
+    // new data will be written to the end of the file.
+//    out.open(ROUNTINES_FILE, std::ios::app);
 
-    QMessageBox msgBox;
-    msgBox.setText(QString::fromStdString(requestMessage));
-    msgBox.exec();
+
+
+//    int statusRequest;
+//    std::string requestMessage;
+
+//    APIAccessPoint::instance().setSensorStatus(ui->edit_sensor_name->text().toStdString(), ui->edit_new_value->text().toStdString(), requestMessage, statusRequest);
+
+//    QMessageBox msgBox;
+//    msgBox.setText(QString::fromStdString(requestMessage));
+//    msgBox.exec();
 }
 
 void SensorInfoDialog::on_pushButton_2_clicked()

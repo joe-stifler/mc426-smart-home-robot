@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     connect(ui->openGLWidget, SIGNAL(ClickSensor(SmartDevice *)), this, SLOT(showSmartDeviceInfo(SmartDevice *)));
 
-    signIn();
+//    signIn();
 }
 
 MainWindow::~MainWindow() {
@@ -55,7 +55,10 @@ void MainWindow::signIn()
 
 void MainWindow::signOut()
 {
+    int status;
+    std::string requestMessage;
 
+    APIAccessPoint::instance().logOut(requestMessage, status);
 }
 
 void MainWindow::signUp()
