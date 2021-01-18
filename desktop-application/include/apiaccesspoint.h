@@ -15,7 +15,7 @@
 class APIAccessPoint {
 private:
     std::string token = "";
-    APIRequest apiRequest;
+    std::unique_ptr<APIRequest> apiRequest;
 
     APIAccessPoint();
 

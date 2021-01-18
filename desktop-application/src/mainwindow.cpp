@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->openGLWidget, SIGNAL(ClickSensor(SmartDevice *)), this, SLOT(showSmartDeviceInfo(SmartDevice *)));
 
 //    signIn();
+
+    routine::RoutineAccessPoint::instance().start();
 }
 
 MainWindow::~MainWindow() {
