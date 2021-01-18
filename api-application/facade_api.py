@@ -44,3 +44,8 @@ class FacadeAPI(object):
             return None
             
         return str(sensor['status'])
+
+    def getSensorHistory(self, name):
+        history = self.sensor.getSensorHistory(name)
+ 
+        return self.sensor.process_sensor_list(history)
