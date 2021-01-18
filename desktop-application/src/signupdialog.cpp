@@ -29,3 +29,18 @@ void SignUpDialog::on_pushButton_2_clicked()
 
     done(1);
 }
+
+std::string SignUpDialog::getName()
+{
+    return name;
+}
+
+std::string SignUpDialog::getEmail()
+{
+    return email;
+}
+
+std::string SignUpDialog::getPassword()
+{
+    return password;
+}

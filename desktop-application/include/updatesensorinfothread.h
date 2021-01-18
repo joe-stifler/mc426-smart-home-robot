@@ -16,7 +16,7 @@ class UpdateSensorInfoThread : public QThread
 private:
     void run() {
         while (status) {
-            QTime dieTime= QTime::currentTime().addMSecs(1000);
+            QTime dieTime = QTime::currentTime().addMSecs(3000);
 
             int statusRequest;
             std::string requestMessage;

@@ -1,6 +1,16 @@
 #include "signindialog.h"
 #include "ui_signindialog.h"
 
+std::string SignInDialog::getEmail()
+{
+    return email;
+}
+
+std::string SignInDialog::getPassword()
+{
+    return password;
+}
+
 SignInDialog::SignInDialog(QWidget *parent, std::string _email, std::string _password) :
     QDialog(parent),
     ui(new Ui::SignInDialog)

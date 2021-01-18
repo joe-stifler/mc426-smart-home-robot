@@ -30,7 +30,7 @@ MainWindow::~MainWindow() {
 void MainWindow::signIn()
 {
     bool valid = true;
-    std::string email = "", password = "";
+    std::string email = "josias@gmail.com", password = "password123";
 
     while (valid) {
         std::unique_ptr<SignInDialog> dialog(new SignInDialog(nullptr, email, password));
@@ -39,8 +39,8 @@ void MainWindow::signIn()
             int status;
             std::string requestMessage;
 
-            email = dialog->email;
-            password = dialog->password;
+            email = dialog->getEmail();
+            password = dialog->getPassword();
 
             APIAccessPoint::instance().signIn(email, password, requestMessage, status);
 
@@ -70,9 +70,9 @@ void MainWindow::signUp()
             int status;
             std::string requestMessage;
 
-            name = dialog->name;
-            email = dialog->email;
-            password = dialog->password;
+            name = dialog->getName();
+            email = dialog->getEmail();
+            password = dialog->getPassword();
 
             APIAccessPoint::instance().signUp(name, email, password, requestMessage, status);
 
@@ -124,7 +124,7 @@ void MainWindow::addSmartDevice(float x, float y) {
         std::unique_ptr<GetSensorsDialog> dialog(new GetSensorsDialog(nullptr, sensors, x, y));
 
         if (dialog->exec()) {
-            for (auto &smartDevice : dialog->selectedSensors) {
+            for (auto &smartDevice : dialog->getSelectedDevices()) {
                 smartDevices.push_back(std::unique_ptr<SmartDevice>());
 
                 SmartDevice *_smartDev = new SmartDevice();
