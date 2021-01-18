@@ -68,14 +68,14 @@ SensorInfoDialog::~SensorInfoDialog()
 void SensorInfoDialog::updateRoutines() {
     int counter = 0;
 
-    routines = std::vector<routine::Routine>();
+    routines.clear();
     auto routinesAux = routine::RoutineAccessPoint::instance().getRoutines();
 
     ui->cbRoutines_2->clear();
 
     for (auto &r : routinesAux) {
         if (r.sensorName == ui->edit_sensor_name->text().toStdString() && r.checked == false) {
-            routines.push_back(r);
+            routines.insert(std::make_pair(counter, r));
 
             switch (r.routineType) {
                 case routine::NoRepeat:
@@ -265,28 +265,36 @@ void SensorInfoDialog::on_cbRoutines_2_currentIndexChanged(const QString &arg1)
 {
     int index = atoi(arg1.toStdString().c_str());
 
-    if (index < routines.size()) {
-        auto r = routines[index];
+    printf("Index: %d %d\n", index, (int) routines.size());
+
+    auto it = routines.find(index);
+
+    if (it != routines.end()) {
+        routine::Routine r = it->second;
 
         ui->dateTimeRoutine->setDateTime(r.dateTime);
 
         switch (r.routineType) {
             case routine::NoRepeat:
                 ui->routineType->setText("Doesn't repeat");
+                ui->label_value->setText("Value: " + QString::fromStdString(r.status));
 
                 break;
 
             case routine::Daily:
                 ui->routineType->setText("Daily");
+                ui->label_value->setText("Value: " + QString::fromStdString(r.status));
 
                 break;
 
             case routine::Weekly:
                 ui->routineType->setText("Weekly");
+                ui->label_value->setText("Value: " + QString::fromStdString(r.status));
 
                 break;
             case routine::Monthly:
                 ui->routineType->setText("Monthly");
+                ui->label_value->setText("Value: " + QString::fromStdString(r.status));
 
                 break;
 
@@ -300,7 +308,7 @@ void SensorInfoDialog::on_toolButton_clicked()
 {
     int selected = atoi(ui->cbRoutines_2->currentText().toStdString().c_str());
 
-    if (selected < routines.size()) {
+    if (routines.find(selected) != routines.end()) {
         routine::RoutineAccessPoint::instance().removeRoutine(routines[selected]);
 
         updateRoutines();

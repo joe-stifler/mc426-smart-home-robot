@@ -1,6 +1,7 @@
 #ifndef SENSORINFODIALOG_H
 #define SENSORINFODIALOG_H
 
+#include <map>
 #include <string>
 #include <QDialog>
 #include <iostream>
@@ -34,9 +35,9 @@ private slots:
     void on_toolButton_clicked();
 
 private:
-    std::vector<routine::Routine> routines;
-    SmartDeviceType deviceType;
     Ui::SensorInfoDialog *ui;
+    SmartDeviceType deviceType;
+    std::map<int, routine::Routine> routines;
     std::unique_ptr<UpdateSensorInfoThread> sensorThread;
 
     void updateRoutines();
