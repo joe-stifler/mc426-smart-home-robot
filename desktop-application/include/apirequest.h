@@ -8,9 +8,11 @@
 
 #include <Util.h>
 #include <HTTPRequest.h>
+#include <QReadWriteLock>
 
 class APIRequest {
 private:
+    QReadWriteLock lock;
     std::string apiServerIP;
     std::vector<std::string> headers;
     std::map<std::string, std::string> getBody(std::string bodyStr);

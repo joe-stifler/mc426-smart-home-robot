@@ -15,6 +15,18 @@ def getBody():
     return body
 
 
+
+def generateResponse(status, message, content = False):
+    response = {}
+    response["status"] = str(status)
+    response["message"] = str(message)
+
+    if (content):
+        response["content"] = str(content)
+
+    return response
+
+
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -109,8 +121,6 @@ def sensorAvailable():
 
     sensors = facade.getAvailableSensor(-1)
 
-    print(sensors)
-
     return  generateResponse(200, "Returning all sensors!", sensors)
 
 
@@ -133,6 +143,22 @@ def sensorGetStatus():
     return  generateResponse(200, "Returning sensor status!", status)
 
 
+@app.route("/sensors/get-sensor-history", methods=["GET"])
+@token_required
+def sensorGetHistory():
+    body = getBody()
+
+    if not body:
+        return generateResponse(403, "Body is missing!")
+
+    if ("name" not in body):
+        return generateResponse(403, "The `name` field is mandatory")
+
+    history = facade.getSensorHistory(body['name'])
+
+    return  generateResponse(200, "Returning sensor history!", history)
+
+
 @app.route("/sensors/set-sensor-status", methods=["PUT"])
 @token_required
 def sensorSetStatus():
@@ -153,17 +179,5 @@ def sensorSetStatus():
         return  generateResponse(200, "New value setted for the sensor!", status)
     
     return  generateResponse(404, "Invalid sensor name or status type. New value for sensor not setted!")
-
-
-def generateResponse(status, message, content = False):
-    response = {}
-    response["status"] = str(status)
-    response["message"] = str(message)
-
-    if (content):
-        response["content"] = str(content)
-
-    return response
-
 
 app.run()

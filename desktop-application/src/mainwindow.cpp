@@ -18,9 +18,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     connect(ui->openGLWidget, SIGNAL(ClickPlot(float, float)), this, SLOT(addSmartDevice(float, float)));
 
-    connect(ui->openGLWidget, SIGNAL(ClickSensor(std::string)), this, SLOT(showSmartDeviceInfo(std::string)));
+    connect(ui->openGLWidget, SIGNAL(ClickSensor(SmartDevice *)), this, SLOT(showSmartDeviceInfo(SmartDevice *)));
 
-    signIn();
+//    signIn();
+
+    routine::RoutineAccessPoint::instance().start();
 }
 
 MainWindow::~MainWindow() {
@@ -30,7 +32,7 @@ MainWindow::~MainWindow() {
 void MainWindow::signIn()
 {
     bool valid = true;
-    std::string email = "", password = "";
+    std::string email = "josias@gmail.com", password = "password123";
 
     while (valid) {
         std::unique_ptr<SignInDialog> dialog(new SignInDialog(nullptr, email, password));
@@ -39,8 +41,8 @@ void MainWindow::signIn()
             int status;
             std::string requestMessage;
 
-            email = dialog->email;
-            password = dialog->password;
+            email = dialog->getEmail();
+            password = dialog->getPassword();
 
             APIAccessPoint::instance().signIn(email, password, requestMessage, status);
 
@@ -55,7 +57,10 @@ void MainWindow::signIn()
 
 void MainWindow::signOut()
 {
+    int status;
+    std::string requestMessage;
 
+    APIAccessPoint::instance().logOut(requestMessage, status);
 }
 
 void MainWindow::signUp()
@@ -70,9 +75,9 @@ void MainWindow::signUp()
             int status;
             std::string requestMessage;
 
-            name = dialog->name;
-            email = dialog->email;
-            password = dialog->password;
+            name = dialog->getName();
+            email = dialog->getEmail();
+            password = dialog->getPassword();
 
             APIAccessPoint::instance().signUp(name, email, password, requestMessage, status);
 
@@ -124,7 +129,7 @@ void MainWindow::addSmartDevice(float x, float y) {
         std::unique_ptr<GetSensorsDialog> dialog(new GetSensorsDialog(nullptr, sensors, x, y));
 
         if (dialog->exec()) {
-            for (auto &smartDevice : dialog->selectedSensors) {
+            for (auto &smartDevice : dialog->getSelectedDevices()) {
                 smartDevices.push_back(std::unique_ptr<SmartDevice>());
 
                 SmartDevice *_smartDev = new SmartDevice();
@@ -142,9 +147,9 @@ void MainWindow::addSmartDevice(float x, float y) {
     }
 }
 
-void MainWindow::showSmartDeviceInfo(std::string name)
+void MainWindow::showSmartDeviceInfo(SmartDevice *smartDev)
 {
-    std::unique_ptr<SensorInfoDialog> dialog(new SensorInfoDialog(nullptr, name));
+    std::unique_ptr<SensorInfoDialog> dialog(new SensorInfoDialog(nullptr, smartDev->getName(), smartDev->getType()));
 
     dialog->exec();
 

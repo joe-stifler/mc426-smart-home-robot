@@ -1,16 +1,21 @@
 #ifndef APIACCESSPOINT_H
 #define APIACCESSPOINT_H
 
+#include <fstream>
 #include <vector>
 #include <string>
 #include <iostream>
 
+#include "HistoryData.h"
 #include <apirequest.h>
+
+#define TOKEN_FILE ".token.txt"
+#define ROUNTINES_FILE ".routines.txt"
 
 class APIAccessPoint {
 private:
     std::string token = "";
-    APIRequest apiRequest;
+    std::unique_ptr<APIRequest> apiRequest;
 
     APIAccessPoint();
 
@@ -42,6 +47,8 @@ public:
     std::string getSensorStatus(std::string sensorName, std::string &requestMessage, int &statusRequest);
 
     void setSensorStatus(std::string sensorName, std::string newStatus, std::string &requestMessage, int &statusRequest);
+
+    std::vector<HistoryData> sensorHistory(std::string sensorName, std::string &requestMessage, int &statusRequest);
 };
 
 #endif // APIACCESSPOINT_H

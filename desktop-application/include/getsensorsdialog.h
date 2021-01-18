@@ -18,7 +18,7 @@ class GetSensorsDialog : public QDialog
     Q_OBJECT
 
 public:
-    std::vector<SmartDevice> selectedSensors;
+    std::vector<SmartDevice> getSelectedDevices();
 
     explicit GetSensorsDialog(QWidget *parent = nullptr, std::vector<std::string> _sensors = std::vector<std::string>(), float _x = 0, float _y = 0);
     ~GetSensorsDialog();
@@ -31,8 +31,7 @@ private slots:
 private:
     float x, y;
     Ui::GetSensorsDialog *ui;
-
-
+    std::vector<SmartDevice> selectedSensors;
     std::vector<std::pair<QCheckBox *, QComboBox *>> sensorsWidgets;
 };
 

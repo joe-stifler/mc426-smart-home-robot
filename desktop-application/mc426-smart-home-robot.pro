@@ -26,11 +26,11 @@ SOURCES += \
     src/openglclass.cpp \
     src/sensorinfodialog.cpp \
     src/signindialog.cpp \
-    src/signupdialog.cpp \
-    src/updatesensorinfothread.cpp
+    src/signupdialog.cpp
 
 HEADERS += \
     include/HTTPRequest.h \
+    include/RoutineThread.h \
     include/SmartDevice.h \
     include/Util.h \
     include/mainwindow.h \
@@ -41,7 +41,8 @@ HEADERS += \
     include/signupdialog.h \
     include/signindialog.h \
     include/sensorinfodialog.h \
-    include/updatesensorinfothread.h
+    include/updatesensorinfothread.h \
+    include/HistoryData.h
 
 FORMS += \
     forms/mainwindow.ui \

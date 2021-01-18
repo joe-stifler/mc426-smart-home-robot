@@ -16,6 +16,11 @@ QComboBox *getComboBoxSensor() {
     return comboBox;
 }
 
+std::vector<SmartDevice> GetSensorsDialog::getSelectedDevices()
+{
+    return selectedSensors;
+}
+
 GetSensorsDialog::GetSensorsDialog(QWidget *parent, std::vector<std::string> _sensors, float _x, float _y) :
     QDialog(parent),
     ui(new Ui::GetSensorsDialog)

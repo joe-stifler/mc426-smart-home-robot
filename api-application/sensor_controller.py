@@ -2,15 +2,17 @@ from database import Database
 
 class SensorController:
     def __init__(self):
-       self.mydb = Database()
+        self.mydb = Database()
 
-       self.add_sensor('luz1', '1')
-       self.add_sensor('luz2', '0')
-       self.add_sensor('energy', '100')
-       self.add_sensor('air', '0')
-       self.add_sensor('camera', '1')
-       self.add_sensor('presence', '0')
-       self.add_sensor('temperature', '24')
+        # self.clear_sensors()
+
+        self.add_sensor('luz1', '1')
+        self.add_sensor('luz2', '0')
+        self.add_sensor('energy', '100')
+        self.add_sensor('air', '0')
+        self.add_sensor('camera', '1')
+        self.add_sensor('presence', '0')
+        self.add_sensor('temperature', '24')
 
     def clear_sensors(self):
         self.mydb.drop_sensor_collection()
@@ -71,3 +73,12 @@ class SensorController:
             return document
 
         return None
+
+    def getSensorHistory(self, name):
+        history = []
+        cursor = self.mydb.get_history(name)
+
+        for document in cursor:
+            history.append(document['date'])
+
+        return history

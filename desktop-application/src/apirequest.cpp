@@ -26,6 +26,7 @@ std::map<std::string, std::string> APIRequest::getBody(std::string bodyStr) {
 }
 
 std::map<std::string, std::string> APIRequest::makeRequest(std::string requestType, const std::string &method, const std::map<std::string, std::string> &parameters) {
+    QWriteLocker locker(&lock);
     std::map<std::string, std::string> body;
 
     try {

@@ -144,3 +144,32 @@ class TestFlaskAPI(unittest.TestCase):
 
         self.assertEqual(int(response.json()['status']), 200)
         
+
+    def test_get_sensor_history(self):
+        content = {
+            "name" : "Teste",
+            "email" : "teste@teste.com.br",
+            "password" : "password123",
+            # "token" : real_token
+        }
+
+        url = 'http://127.0.0.1:5000/auth/register'
+
+        response = requests.post(url, json = content)
+
+        url = 'http://127.0.0.1:5000/auth/login'
+
+        response = requests.get(url, json = content)
+
+        content = {
+            "name" : "luz1",
+            "token" : response.json()['content']
+        }
+
+        url = 'http://127.0.0.1:5000/sensors/get-sensor-history'
+
+        response = requests.get(url, json = content)
+
+        print(response.json()['content'])
+
+        self.assertEqual(int(response.json()['status']), 200)
