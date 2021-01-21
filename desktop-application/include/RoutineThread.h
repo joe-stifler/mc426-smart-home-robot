@@ -24,6 +24,7 @@ namespace routine {
         std::string sensorName;
         RoutineType routineType;
 
+        Routine() {}
         Routine(std::string _sensorName, std::string _status, QDateTime _dateTime, RoutineType _routineType) {
             sensorName = _sensorName;
             status = _status;
