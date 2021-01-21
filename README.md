@@ -1,3 +1,7 @@
+# Original project link:
+
+The original host of this project is in Gitlab: https://gitlab.com/joe-stifler/mc426-smart-home-robot. Here, you can see all issues, epics, user histories, and merge requests.
+
 # MC426 - Smart House
 
 We will design software that updates in real time the status of the users smart devices (light bulb, water flow sensor, temperature sensor, etc). To facilitate the visualization, a 2D interface representing the house floorplant will be shown. In addition, pertinent information about the smart devices will be shown on the house plan (such as presence sensors, smart lights, etc.). The goal will be to offer a global view of the status of smart devices in the home as well as allowing the user to control them.
