@@ -1,3 +1,18 @@
+# Discipline Info:
+
+This is a simple, but practical, project developed for the discipline MC426 - Software Engineering, taught by professor Breno Bernard Nicolau De Franca. The discipline was divided into 7 evaluations, which at the end should produce the final project presented below. The evaluations were:
+
+* **1st evaluation:** Introduction (Software Development Principles, Sociotechnical vision). **Grade: 10 / 10**
+* **2nd evaluation:** Software Processes (Agiel Methods, BizDev and DevOps, Lean Principles). **Grade 10 / 10**
+* **3rt evaluation:** Configuration Management (Scrum, Sprint, kanban, Git, Gitflow, branches, Issues, Labels, Assignments, Pair Review). **Grade 10 / 10**
+* **4th evaluation:** Requirements Engineering (Brainstorming). **Grade 10 / 10**
+* **5.1th evaluation:** Architectural Design ([C4 Diagrams](https://c4model.com/), [Design Patterns](https://refactoring.guru/design-patterns)). **Grade 10 / 10**
+* **5.2th evaluation:** Architectural Design ([Code Smells and Refactoring](https://refactoring.guru/refactoring/catalog), such as [Bloaters](https://refactoring.guru/refactoring/smells/bloaters), [Change Preventers](https://refactoring.guru/refactoring/smells/change-preventers), [Dispensables](https://refactoring.guru/refactoring/smells/dispensables), [Couplers](https://refactoring.guru/refactoring/smells/couplers)). **Grade 10 / 10**
+* **6th evaluation:** Software Testing (TDD, Partitioning in equivalence classes, Cause-Effect Graph, Pairwise). **Grade 10 / 10**
+* **7th evaluation:** Continuous Integration and Release (Build and Automated Tests using Gitlab Pipeline). **Grade 10 / 10**
+
+**Final Grade: 10 / 10**. Greatest final Grade in the class out of 60 students.
+
 # Original project link:
 
 The original host of this project is in Gitlab: https://gitlab.com/joe-stifler/mc426-smart-home-robot. Here, you can see all issues, epics, user histories, and merge requests.
