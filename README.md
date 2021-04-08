@@ -257,5 +257,3 @@ After compiling, you can run your program directly from Qt Creator using the 'Ct
 </p>
 <center>Figure 5 - Desktop Application Screenshot: Main Window</center>
 
-# <a name="demo-vide-desktop"></a>Demo Video Desktop Application
-
